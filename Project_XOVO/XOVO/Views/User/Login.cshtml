@@ -1,7 +1,32 @@
-﻿
+﻿@model XOVO.Models.User
 @{
     ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/Layout_login_registration.cshtml";
 }
 
-<h2>Login</h2>
+@using (Html.BeginForm())
+{
+   <h3>XOVO - stay together</h3>
+<div class="card">
+    <div class="card-content">
+        <div>
+        <span class="card-title">Login</span>
+        <form>
+            <div class="input-field">
+                <input type="text" id="usrname" />
+                <label for="usrname">Benutzername</label>
+            </div>
+            <div class="input-field">
+                <input type="password" id="pwd" />
+                <label for="pwd">Passwort</label>
+            </div>
+        </form>
+    </div>
+        <p>Wenn sie noch kein Konto haben, klicken sie hier um sich zu registrieren!</p>
+    <div class="card-action">
+        <a class="btn-floating btn-large pulse"><i class="material-icons">send</i></a>
+    </div>
+    </div>
+</div>
 
+}

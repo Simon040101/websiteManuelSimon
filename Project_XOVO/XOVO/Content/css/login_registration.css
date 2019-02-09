@@ -1,0 +1,14 @@
+﻿body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    background-image: url("/Content/img/background_login_registration.jpg")
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+#main_wrapper {
+    height: 100vh;
+}     
