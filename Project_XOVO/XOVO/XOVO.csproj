@@ -142,6 +142,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -150,6 +151,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\css\homepage.css" />
     <Content Include="Content\css\login_registration.css" />
     <Content Include="Content\css\materialize.css" />
     <Content Include="Content\css\materialize.min.css" />
@@ -236,6 +238,7 @@
     <Content Include="Content\sass\components\forms\_select.scss" />
     <Content Include="Content\sass\components\forms\_switches.scss" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\homepage.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -260,6 +263,7 @@
     <Content Include="Views\User\Login.cshtml" />
     <Content Include="Views\Shared\Layout_login_registration.cshtml" />
     <Content Include="Views\User\Registration.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
