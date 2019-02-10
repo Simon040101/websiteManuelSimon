@@ -264,6 +264,8 @@
     <Content Include="Views\Shared\Layout_login_registration.cshtml" />
     <Content Include="Views\User\Registration.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Shared\Navigation.cshtml" />
+    <Content Include="Views\Shared\Footer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -28,58 +28,41 @@
         <li><a href="#!">Profil verwalten</a></li>
     </ul>
 <nav>
-
-    <div class="nav-wrapper red darken-1">
-        <div class="container">
-            <a href="#"class="brand-logo left" style="padding-left: 30px">XOVOO</a>
-            <ul id="nav-mobile" class="right hide-on-med-and-down">
-                <li><a href="index.cshtml">Mein Feed</a></li>
-                <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">Profil<i class="material-icons right">arrow_drop_down</i></a></li>
-            </ul>
-            <form class=" center hide-on-med-and-down" style="padding-left: 400px" id="form1">
-                <div class="input-field" style="max-width: 400pt;">
-                    <input id="search" type="search">
-                    <label class="label-icon" for="search"><i class="material-icons">search</i></label>
-                    <i class="material-icons">close</i>
-                    <div id="searchResults"></div>
-                </div>
-            </form>
-        </div>
-    </div>
+    @Html.Partial("Navigation");
 </nav>
 
-<div class="container">
-    @RenderBody()
-    <hr/>
-</div>
+<aside>
+    <nav class="nav-extended sidenav-fixed indigo darken-4">
+        <div class="nav-content">
+              <ul class="tabs tabs-transparent">
+                     <li class="tab"><a href="#friends">Freunde</a></li>
+                     <li class="tab"><a href="#notifications">Benachrichtigungen</a></li>
+              </ul>
+        </div>
+    </nav>
+        
+</aside>
 
-<footer class="page-footer red darken-1" style="padding-top: 10px; padding-bottom: 0px;">
+<section>
     <div class="container">
-        <div class="row">
-            <div class="col l6 s12">
-                <h5 class="white-text">Footer Content</h5>
-            </div>
-            <div class="col l4 offset-l2 s12">
-                <h5 class="white-text">Links</h5>
-            </div>
-        </div>
+        @RenderBody()
+        <hr />
     </div>
-    <div class="footer-copyright">
-        <div class="container">
-            © 2019 - Copyright by XOVOO GmbH
-        </div>
-    </div>
+</section>
+
+<footer class="page-footer indigo darken-4" style="padding-top: 10px; padding-bottom: 0px;">
+    @Html.Partial("Footer")
 </footer>
 
+    
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/bootstrap.min.js"></script>
 
 <script language="javascript">
-    if((document).ready(dropdown))
-    {
+    $(document).ready(function() {
         $(".dropdown-trigger").dropdown();
-    }
+    });
 </script>
 
 </body>
