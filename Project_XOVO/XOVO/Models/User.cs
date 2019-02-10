@@ -25,6 +25,7 @@ namespace XOVO.Models
         public string Username { get; set; }
         public string Password { get; set; }
 
+
         public User() : this("", "", 0, "", "") { }
         public User(string firstname, string lastname, int age, string username, string password)
         {

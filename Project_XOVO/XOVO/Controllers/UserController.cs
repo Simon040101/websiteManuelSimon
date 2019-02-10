@@ -18,5 +18,10 @@ namespace XOVO.Controllers
         {
             return View();
         }
+        [HttpGet]
+        public ActionResult Registration()
+        {
+            return View();
+        }
     }
 }
