@@ -1,5 +1,12 @@
 ﻿
 @{
+<<<<<<< HEAD
+    ViewBag.Title = "Index";
+}
+
+<h2>Hier soll in Kürze die Hauptseite entstehen</h2>
+
+=======
     ViewBag.Title = "Feed";
 }
 <head>
@@ -48,10 +55,4 @@
     Das wird der Feed
 </p>
 </body>
-
-@{
-    ViewBag.Title = "Index";
-}
-
-<h2>Hier soll in Kürze die Hauptseite entstehen</h2>
-
+>>>>>>> f596288fc428601e60eee5ab4e86ac77c45608cb

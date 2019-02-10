@@ -264,8 +264,11 @@
     <Content Include="Views\Shared\Layout_login_registration.cshtml" />
     <Content Include="Views\User\Registration.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+<<<<<<< HEAD
+=======
     <Content Include="Views\Shared\Navigation.cshtml" />
     <Content Include="Views\Shared\Footer.cshtml" />
+>>>>>>> f596288fc428601e60eee5ab4e86ac77c45608cb
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
