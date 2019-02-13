@@ -20,16 +20,37 @@
 </head>
 
 <body>
+    
+<script>
+    $(document).ready(function(){
+        $('.sidenav').sidenav();
+    });﻿
 
-    <ul id="dropdown1" class="dropdown-content">
+    $(document).ready(function() {
+        $(".dropdown-trigger").dropdown();
+    });
+</script>
+    
+
+<ul id="dropdown1" class="dropdown-content">
         <li><a href="#!">Profilseite</a></li>
         <li><a href="#!">Freunde</a></li>
         <li class="divider"></li>
         <li><a href="#!">Profil verwalten</a></li>
     </ul>
 <nav>
+    <a href="#" class="sidenav-trigger" data-target="mobile-nav">
+        <i class="material-icons">menu</i>
+    </a>
     @Html.Partial("Navigation");
 </nav>
+    
+<ul class="sidenav" id="mobile-nav">
+    <li><a href="#">Mein Feed</a></li>
+    <li><a class="dropdown-trigger" href="#" data-target="dropdown1">Profil<i class="material-icons right">arrow_drop_down</i></a></li>
+    <li><a href="#">Logout <i class="material-icons right">highlight_off</i></a></li>
+</ul>
+
 
 <aside>
     <nav class="nav-extended sidenav-fixed indigo darken-4">
@@ -59,11 +80,7 @@
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/bootstrap.min.js"></script>
 
-<script language="javascript">
-    $(document).ready(function() {
-        $(".dropdown-trigger").dropdown();
-    });
-</script>
+
 
 </body>
 
