@@ -11,6 +11,6 @@ namespace XOVO.Models.db
         void Close();
 
         bool Insert(User userToAdd);
-        User Authenticate(string emailOrUsername, string Passwort);
+        bool Authenticate(string emailOrUsername, string Passwort);
     }
 }

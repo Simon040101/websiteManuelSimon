@@ -21,12 +21,24 @@ namespace XOVO.Controllers
          [HttpGet]
          public ActionResult Login()
         {
-            return View();
+            return View(new Login());
         }
         [HttpPost]
-        public ActionResult Login(User user)
+        public ActionResult Login(Login user)
         {
-            return View();
+            usersRepository = new UserRepositiory();
+            usersRepository.Open();
+            bool log = usersRepository.Authenticate(user.UsernameOrEmail, user.Password);
+            if(log == true)
+            {
+                return View("Message_Registrierung", new Message("Login", "", "Sie wurden erfolgreich angemeldet", ""));
+            }
+            else if(log == false)
+            {
+                return View("Message_Registrierung", new Message("Login", "", "Es ist während der Anmeldung zu einem Fehler gekommen :(", "Versuchen Sie es später erneut"));
+            }
+
+            return View("Message_Regisrierung", new Message("Fuck", "", "", ""));
         }
         [HttpGet]
         public ActionResult Registration()
@@ -52,17 +64,17 @@ namespace XOVO.Controllers
 
                     if (usersRepository.Insert(user))
                     {
-                        return View("Message", new Message("Registrierung", "", "Sie wurden erfolgreich registriert!", ""));
+                        return View("Message_Registrierung", new Message("Registrierung", "", "Sie wurden erfolgreich registriert!", ""));
                     }
                     else
                     {
-                        return View("Message", new Message("Registrierung", "", "Sie konnten nicht registriert werden!", "Versuchen Sie es später erneut."));
+                        return View("Message_Registrierung", new Message("Registrierung", "", "Sie konnten nicht registriert werden!", "Versuchen Sie es später erneut."));
                     }
 
                 }
                 catch (MySqlException)
                 {
-                    return View("Message", new Message("Datenbankfehler", "", "Probleme mit der Datenbankverbindung!", "Versuchen Sie es später erneut."));
+                    return View("Message_Registrierung", new Message("Datenbankfehler", "", "Probleme mit der Datenbankverbindung!", "Versuchen Sie es später erneut."));
                 }
                 finally
                 {
@@ -75,17 +87,17 @@ namespace XOVO.Controllers
 
         private void ValidateRegistrationForm(User userToValidate)
         {
-            if (userToValidate.Lastname == null)
+            if ((userToValidate.Firstname == null) || (userToValidate.Firstname.Trim().Length < 1))
             {
-                ModelState.AddModelError("Lastname", "Bitte geben Sie einen Nachnamen ein");
+                ModelState.AddModelError("Firstname", "Bitte geben Sie einen sinnvollen Vornamen ein");
             }
-            if(userToValidate.Lastname.Trim().Length < 1)
+            if ((userToValidate.Lastname == null) || (userToValidate.Lastname.Trim().Length < 1))
             {
                 ModelState.AddModelError("Lastname", "Bitte geben Sie einen sinnvollen Nachnamen ein");
             }
-            if (userToValidate.Email == null)
+            if ((userToValidate.Email == null) || (!userToValidate.Email.Contains("@")))
             {
-                ModelState.AddModelError("EMail", "Bitte geben Sie Ihre gültige Email ein");
+                
             }
             if (userToValidate.Birthdate >= DateTime.Now)
             {

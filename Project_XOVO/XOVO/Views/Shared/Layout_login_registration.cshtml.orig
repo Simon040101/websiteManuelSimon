@@ -1,0 +1,71 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <title>XOVO - @ViewBag.Title</title>
+    <meta charset="utf-8" />
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          rel="stylesheet">
+    <link href="~/Content/css/materialize.min.css" rel="stylesheet"
+          type="text/css" />
+    <link href="~/Content/css/homepage.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript"
+            src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="~/Content/js/materialize.min.js"></script>
+    @Styles.Render("~/css/")
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body>
+<<<<<<< HEAD
+    <div class="navbar-fixed">
+        <nav class="transparent z-depth-0">
+            <div class="nav-wrapper">
+                <div class="row">
+                    <div class="col s12">
+                        <a href="#" class="brand-logo center">XOVO - stay together</a>
+                        <ul id="nav-mobile" class="right hide-on-med-and-down">
+                            <li><a href="#">Über uns</a></li>
+                            <li><a href="#">AGB</a></li>
+                            <li><a href="#">Kontakt</a></li>
+                            <li><a href="#">Kundenbewertungen</a></li>
+                        </ul>
+                    </div>
+=======
+
+<script>
+    $(document).ready(function(){
+        $('.sidenav').sidenav();
+    });﻿
+
+</script>
+
+<div class="navbar-fixed">
+    <nav class="transparent z-depth-0">
+        <div class="nav-wrapper">
+            <div class="row">
+                <div class="col s12">
+                    <a href="#" class="brand-logo center">XOVO - stay together</a>
+                    <ul id="nav-mobile" class="right hide-on-med-and-down">
+                        <li><a href="sass.html">Über uns</a></li>
+                        <li><a href="badges.html">Kontakt</a></li>
+                        <li><a href="collapsible.html">Kundenbewertungen</a></li>
+                    </ul>
+                    <a href="#" class="sidenav-trigger" data-target="nav-mobile">
+                        <i class="material-icons">menu</i>
+                    </a>
+>>>>>>> 5195baad351dd6b05b1de682f68a16ebb68c5c22
+                </div>
+            </div>
+        </div>
+    </nav>
+</div>
+<div class="container">
+    @RenderBody()
+</div>
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/materialize")
+</body>
+</html>

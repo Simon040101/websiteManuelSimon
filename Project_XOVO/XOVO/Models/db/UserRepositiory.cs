@@ -54,9 +54,32 @@ namespace XOVO.Models.db
             }
         }
 
-        public User Authenticate(string emailOrUsername, string Passwort)
+        public bool Authenticate(string emailOrUsername, string Passwort)
         {
-            throw new NotImplementedException();
+            try
+            {
+                MySqlCommand cmdAut = this._connection.CreateCommand();
+                cmdAut.CommandText = "Select * from users where ((username = @usernameOrEMail) AND (passwrd = sha2(@password, 256)) OR ((email = @usernameOrEMail) AND (passwrd = sha2(@password, 256))))";
+                cmdAut.Parameters.AddWithValue("usernameOrEMail", emailOrUsername);
+                cmdAut.Parameters.AddWithValue("password", Passwort);
+
+                using(MySqlDataReader reader = cmdAut.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
 

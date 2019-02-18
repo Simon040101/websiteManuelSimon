@@ -9,6 +9,7 @@
     <div class="card">
         <div class="card-content">
             <div>
+                @Html.ValidationSummary()
                 <span class="card-title">Registrierung</span>
                 <form>
                     <div class="input-field">
@@ -28,7 +29,7 @@
                         <label for="Username">Benutzername</label>
                     </div>
                     <div class="input-field">
-                        <input type="password" id="Password" name="Password"/>
+                        <input type="password" id="Password" name="Password" />
                         <label for="Password">Passwort</label>
                     </div>
                         <p>
