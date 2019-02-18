@@ -1,58 +1,53 @@
 ﻿
 @{
-<<<<<<< HEAD
-    ViewBag.Title = "Index";
+    ViewBag.Title = "XOVO";
 }
-
-<h2>Hier soll in Kürze die Hauptseite entstehen</h2>
-
-=======
-    ViewBag.Title = "Feed";
-}
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,
-    initial-scale=1.0">
-    <title>@ViewBag.Title - XOVOO </title>
-    @Styles.Render("~/Content/css/")
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/materialize")
-
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-          rel="stylesheet">
-    <link href="~/Content/css/materialize.min.css" rel="stylesheet"
-          type="text/css" />
-    <link href="~/Content/css/homepage.css" rel="stylesheet" type="text/css" />
-    <script type="text/javascript"
-            src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script src="~/Content/js/materialize.min.js"></script>
-</head>
 
 <body>
-<form action="#" id="submitbox">
-    <div class="file-field input-field">
-        <div class="btn indigo darken-4">
-            <span>Datei</span>
-            <input type="file" multiple>
-        </div>
-        <div class="file-path-wrapper">
-            <input class="file-path validate" type="text" placeholder="Hochladen von Dateien">
-        </div>
-    </div>
-    <div class="row">
-        <div class="input-field col s12">
-            <textarea id="textarea2" class="materialize-textarea" data-length="120"></textarea>
-            <label for="textarea2">Text</label>
-        </div>
-    </div>
-    <button class="btn waves-effect waves-light indigo darken-4 right" type="submit" name="action">
-        posten
-        <i class="material-icons right">send</i>
-    </button>
-</form>
 
-<p id="feed">
-    Das wird der Feed
+
+<div class="card hoverable center-align right">
+    <div class="card-content">
+        <div>
+            <span class="card-title">Beitrag posten</span>
+            <form action="#" class="card col s5 right">
+                <div class="file-field input-field">
+                    <div class="btn red lighten-1">
+                        <span>Datei</span>
+                        <input type="file" multiple>
+                    </div>
+                    <div class="file-path-wrapper">
+                        <input class="file-path validate" type="text" placeholder="Hochladen von Dateien">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s7">
+                        <textarea class="materialize-textarea" data-length="120"></textarea>
+                        <label for="textarea2">Beitrag</label>
+                    </div>
+                </div>
+                
+            </form>
+        </div>
+        <div class="card-action">
+            <button class="btn waves-effect waves-light red lighten-1 right" type="submit" name="action">
+                posten
+                <i class="material-icons right">send</i>
+            </button>
+        </div>
+    </div>
+</div>
+
+
+<p class="card hoverable col center">
+    Hier entsteht der Feed
 </p>
+<<<<<<< HEAD
+=======
+
+
 </body>
->>>>>>> f596288fc428601e60eee5ab4e86ac77c45608cb
+>>>>>>> be9f665a157f535caa7369d6b0a8b723e3fed552
+
+</body>
+
