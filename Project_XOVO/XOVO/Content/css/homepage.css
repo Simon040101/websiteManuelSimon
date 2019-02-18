@@ -59,19 +59,18 @@ section {
     float: right;
     position: fixed;
     right: 5px;
-    top: 70px;
-    bottom: auto;
-    bottom: 100px;
+    top: 125px;
+    bottom: 300px;
 }
 #feed {
     padding: 10px 500px 250px;
     border: 2px solid blue;
     border-radius: 5px;
-    position: fixed;
+    position: -ms-device-fixed;
     width: auto;
     left: 350px;
     right: 1200px;
-    top: 70px;
+    top: 100px;
     bottom: auto;
     font-size: 30px;
 }
