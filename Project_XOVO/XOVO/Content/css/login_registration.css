@@ -15,12 +15,16 @@ main {
 }    
 .navbar-fixed {position: absolute;z-index:999999999;} 
 .container{
-	margin-left: auto;
-	margin-right: auto;
+    margin-left: auto;
+    margin-right:auto;
     margin-top: auto;
     margin-bottom: auto;
-    width:auto;
-    height: auto;
+    width:25%;
+    height: 30%;
     
 
+}
+.card{
+    height: auto;
+    width: auto;
 }

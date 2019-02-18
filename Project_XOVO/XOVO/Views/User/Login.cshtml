@@ -1,4 +1,4 @@
-﻿@model XOVO.Models.User
+﻿@model XOVO.Models.Login
 @{
     ViewBag.Title = "Login";
     Layout = "~/Views/Shared/Layout_login_registration.cshtml";
@@ -12,16 +12,15 @@
         <span class="card-title">Login</span>
         <form>
             <div class="input-field">
-                <input type="text" id="usrname" />
-                <label for="usrname">Benutzername</label>
+                <input type="text" id="UsernameOrEmail" name="UsernameOrEmail" />
+                <label for="UsernameOrEmail">Benutzername oder Email</label>
             </div>
             <div class="input-field">
-                <input type="password" id="pwd" />
+                <input type="password" id="pwd" name="Password"/>
                 <label for="pwd">Passwort</label>
             </div>
         </form>
     </div>
-        <p>Wenn sie noch kein Konto haben, klicken sie hier um sich zu registrieren!</p>
     <div class="card-action">
         <button class="btn waves-effect waves-light" type="submit" name="action">
             Login
