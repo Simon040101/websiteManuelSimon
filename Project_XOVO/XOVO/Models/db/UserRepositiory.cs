@@ -82,6 +82,32 @@ namespace XOVO.Models.db
             }
         }
 
+        public bool CheckDoubleUsername(User user)
+        {
+            try
+            {
+                MySqlCommand cmdCheck = this._connection.CreateCommand();
+                cmdCheck.CommandText = "Select * from users where username = @username";
+                cmdCheck.Parameters.AddWithValue("username", user.Username);
+
+                using (MySqlDataReader reader = cmdCheck.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
 
     }
 }

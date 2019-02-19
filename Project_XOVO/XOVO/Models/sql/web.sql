@@ -11,7 +11,7 @@ create table users(
     gender tinyint null,
     username varchar(100) null, 
     email varchar(100) not null unique, 
-    passwrd varchar(40) not null,
+    passwrd varchar(100) not null,
     
     constraint id_PK primary key(id)
 
@@ -22,3 +22,5 @@ create table users(
 insert into users values (1, "Simon", "Raass", null, null, "simon", "simon@gmail.com", "123456");
 
 select * from users;
+
+alter table users auto_increment = 1;

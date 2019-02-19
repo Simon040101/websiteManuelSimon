@@ -38,7 +38,7 @@ namespace XOVO.Controllers
                 return View("Message_Registrierung", new Message("Login", "", "Es ist während der Anmeldung zu einem Fehler gekommen :(", "Versuchen Sie es später erneut"));
             }
 
-            return View("Message_Regisrierung", new Message("Fuck", "", "", ""));
+            return View("Message_Regisrierung", new Message("Allgemeiner Fehler", "", "Es ist zu einem Fehler gekommen", "Probieren Sie es später erneut!"));
         }
         [HttpGet]
         public ActionResult Registration()
@@ -87,6 +87,11 @@ namespace XOVO.Controllers
 
         private void ValidateRegistrationForm(User userToValidate)
         {
+            UserRepositiory ur = new UserRepositiory();
+
+            ur.Open();
+            
+
             if ((userToValidate.Firstname == null) || (userToValidate.Firstname.Trim().Length < 1))
             {
                 ModelState.AddModelError("Firstname", "Bitte geben Sie einen sinnvollen Vornamen ein");
@@ -97,11 +102,15 @@ namespace XOVO.Controllers
             }
             if ((userToValidate.Email == null) || (!userToValidate.Email.Contains("@")))
             {
-                
+                ModelState.AddModelError("Email", "Bitte geben Sie eine gültige Email an");
             }
             if (userToValidate.Birthdate >= DateTime.Now)
             {
                 ModelState.AddModelError("Birthdate", "Kommen Sie aus der Zukunft????");
+            }
+            if (ur.CheckDoubleUsername(userToValidate) == false)
+            {
+                ModelState.AddModelError("Username", "Der Benutzername ist leider schon vergeben");
             }
             if (userToValidate.Username == null)
             {
@@ -112,6 +121,8 @@ namespace XOVO.Controllers
                 ModelState.AddModelError("Password", "Das Passwort muss mindestens 8 Zeichen beinhalten");
             }
         }
+
+
 
     }
 }
