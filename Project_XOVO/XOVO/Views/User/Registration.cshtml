@@ -13,24 +13,40 @@
                 <span class="card-title">Registrierung</span>
                 <form>
                     <div class="input-field">
+                        <select class="icons" name="Gender">
+                            <option value="" disabled selected>Wählen Sie Ihr Geschlecht</option>
+                            <option value="male" data-icon="" class="left">Herr</option>
+                            <option value="female" data-icon="" class="left">Frau</option>
+                            <option value="notSpecified" data-icon="" class="left">sonstiges</option>
+                        </select>
+                    </div>
+                    <div class="input-field">
                         <input type="text" id="firstname" name="Firstname"/>
-                        <label for="firstname">Vorname</label>
+                        <label for="firstname">Vorname *</label>
                     </div>
                     <div class="input-field">
                         <input type="text" id="Lastname" name="Lastname"/>
-                        <label for="Lastname">Nachname</label>
+                        <label for="Lastname">Nachname *</label>
+                    </div>
+                    <div class="input-field">
+                        <input type="text" id="birthdate" name="Birthdate" class="datepicker">
+                        <label for="birthdate">Geburtstdatum</label>
                     </div>
                     <div class="input-field">
                         <input type="text" id="Email" name="Email" />
-                        <label for="Email">Email</label>
+                        <label for="Email">Email *</label>
                     </div>
                     <div class="input-field">
                         <input type="text" id="Username" name="Username"/>
-                        <label for="Username">Benutzername</label>
+                        <label for="Username">Benutzername *</label>
                     </div>
                     <div class="input-field">
                         <input type="password" id="Password" name="Password" />
-                        <label for="Password">Passwort</label>
+                        <label for="Password">Passwort *</label>
+                    </div>
+                    <div class="input-field">
+                        <input type="password" id="PasswordWH" name="PasswordWH" />
+                        <label for="Password">Passwort erneut eingeben *</label>
                     </div>
                         <p>
                            <label>
@@ -49,5 +65,15 @@
             </div>
         </div>
     </div>
+
+    <script>
+        $(document).ready(function () {
+            $('.datepicker').datepicker();
+        });
+
+        $(document).ready(function () {
+            $('select').formSelect();
+        });
+    </script>
 
 }

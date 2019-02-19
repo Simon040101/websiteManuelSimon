@@ -43,7 +43,8 @@ namespace XOVO.Controllers
         [HttpGet]
         public ActionResult Registration()
         {
-            return View();
+            User u = new Models.User();
+            return View(u);
         }
         [HttpPost]
         public ActionResult Registration(User user)
@@ -104,7 +105,7 @@ namespace XOVO.Controllers
             {
                 ModelState.AddModelError("Email", "Bitte geben Sie eine gültige Email an");
             }
-            if (userToValidate.Birthdate >= DateTime.Now)
+            if (userToValidate.Birthdate >= (DateTime.Now))
             {
                 ModelState.AddModelError("Birthdate", "Kommen Sie aus der Zukunft????");
             }
@@ -119,6 +120,10 @@ namespace XOVO.Controllers
             if ((userToValidate.Password == null) || (userToValidate.Password.Length < 8))
             {
                 ModelState.AddModelError("Password", "Das Passwort muss mindestens 8 Zeichen beinhalten");
+            }
+            if(userToValidate.Password != userToValidate.PasswordWH)
+            {
+                ModelState.AddModelError("PasswordWH", "Die Passwörter stimmen nicht überein!");
             }
         }
 

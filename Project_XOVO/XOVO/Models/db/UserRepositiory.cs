@@ -38,17 +38,20 @@ namespace XOVO.Models.db
             }
             try
             {
+                string dateToInsert = userToAdd.Birthdate.ToString("yyyy-M-d");
                 MySqlCommand cmdInsert = this._connection.CreateCommand();
-                cmdInsert.CommandText = "INSERT INTO users VALUES(null, @firstname, @lastname, null, null, @username, @email, sha2(@pwd, 256))";
+                cmdInsert.CommandText = "INSERT INTO users VALUES(null, @firstname, @lastname, @birthdate, @gender, @username, @email, sha2(@pwd, 256))";
                 cmdInsert.Parameters.AddWithValue("firstname", userToAdd.Firstname);
                 cmdInsert.Parameters.AddWithValue("lastname", userToAdd.Lastname);
+                cmdInsert.Parameters.AddWithValue("birthdate", dateToInsert);
+                cmdInsert.Parameters.AddWithValue("gender", userToAdd.Gender);
                 cmdInsert.Parameters.AddWithValue("email", userToAdd.Email);
                 cmdInsert.Parameters.AddWithValue("username", userToAdd.Username);
                 cmdInsert.Parameters.AddWithValue("pwd", userToAdd.Password);
 
                 return cmdInsert.ExecuteNonQuery() == 1;
             }
-            catch (MySqlException)
+            catch (MySqlException ex)
             {
                 throw;
             }
