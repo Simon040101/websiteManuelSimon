@@ -1,0 +1,39 @@
+﻿@model List<XOVO.Models.User>
+@using XOVO.Models
+@{
+    ViewBag.Title = "UserManagement";
+}
+
+<h2>Benutzerverwaltung</h2>
+<p>Achtung: Nur für Admins gedacht!!</p>
+
+@if(Model != null) { 
+
+    <table class="striped center responsive-table">
+        <thead>
+            <tr>
+                <th>Vorname</th>
+                <th>Nachname</th>
+                <th>Geburtsdatum</th>
+                <th>Geschlecht</th>
+                <th>Benutzername</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+
+        <tbody>
+           @foreach (User a in Model)
+           {
+            <tr>
+                <td>@a.Firstname</td>
+                <td>@a.Lastname</td>
+                <td>@(a.Birthdate.ToLongDateString())</td>
+                <td>@a.Gender</td>
+                <td>@a.Username</td>
+                <td>@a.Email</td>
+                
+            </tr>
+           }
+        </tbody>
+    </table>
+}

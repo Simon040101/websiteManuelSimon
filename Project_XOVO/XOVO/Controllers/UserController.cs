@@ -18,6 +18,14 @@ namespace XOVO.Controllers
         {
             return View();
         }
+
+        [HttpGet]
+        public ActionResult UserManagement()
+        {
+            List<User> users = LoadUsers();
+
+            return View(users);
+        }
          [HttpGet]
          public ActionResult Login()
         {
@@ -84,6 +92,16 @@ namespace XOVO.Controllers
             }
 
             return View(user);
+        }
+
+        private List<User> LoadUsers()
+        {
+            UserRepositiory ur = new UserRepositiory();
+            ur.Open();
+
+            List<User> aUser = new List<User>();
+
+            return aUser = ur.GetAllUser();
         }
 
         private void ValidateRegistrationForm(User userToValidate)

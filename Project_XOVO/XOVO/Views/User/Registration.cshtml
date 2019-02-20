@@ -6,7 +6,7 @@
 
 @using (Html.BeginForm())
 {
-    <div class="card">
+    <div class="card hoverable">
         <div class="card-content">
             <div>
                 @Html.ValidationSummary()
@@ -21,30 +21,37 @@
                         </select>
                     </div>
                     <div class="input-field">
+                        <i class="material-icons prefix">person_pin</i>
                         <input type="text" id="firstname" name="Firstname"/>
                         <label for="firstname">Vorname *</label>
                     </div>
                     <div class="input-field">
+                        <i class="material-icons prefix">person_pin</i>
                         <input type="text" id="Lastname" name="Lastname"/>
                         <label for="Lastname">Nachname *</label>
                     </div>
                     <div class="input-field">
+                        <i class="material-icons prefix">insert_invitation</i>
                         <input type="text" id="birthdate" name="Birthdate" class="datepicker">
                         <label for="birthdate">Geburtstdatum</label>
                     </div>
                     <div class="input-field">
+                        <i class="material-icons prefix">email</i>
                         <input type="text" id="Email" name="Email" />
                         <label for="Email">Email *</label>
                     </div>
                     <div class="input-field">
+                        <i class="material-icons prefix">mood</i>
                         <input type="text" id="Username" name="Username"/>
                         <label for="Username">Benutzername *</label>
                     </div>
                     <div class="input-field">
+                        <i class="material-icons prefix">lock</i>
                         <input type="password" id="Password" name="Password" />
                         <label for="Password">Passwort *</label>
                     </div>
                     <div class="input-field">
+                        <i class="material-icons prefix">lock</i>
                         <input type="password" id="PasswordWH" name="PasswordWH" />
                         <label for="Password">Passwort erneut eingeben *</label>
                     </div>
