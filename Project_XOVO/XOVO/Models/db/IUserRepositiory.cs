@@ -13,5 +13,6 @@ namespace XOVO.Models.db
         bool Insert(User userToAdd);
         bool Authenticate(string emailOrUsername, string Passwort);
         bool CheckDoubleUsername(User user);
+        List<User> GetAllUser();
     }
 }

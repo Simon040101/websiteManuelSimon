@@ -1,7 +1,7 @@
 ﻿using System;
 using MySql.Data.MySqlClient;
 using System.Data;
-
+using System.Collections.Generic;
 
 namespace XOVO.Models.db
 {
@@ -111,6 +111,45 @@ namespace XOVO.Models.db
             }
         }
 
+        public List<User> GetAllUser()
+        {
+            List<User> allUsers = new List<User>();
 
+            try
+            {
+                MySqlCommand cmdGetAllUsers = this._connection.CreateCommand();
+                cmdGetAllUsers.CommandText = "Select * from users";
+
+                using (MySqlDataReader reader = cmdGetAllUsers.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            allUsers.Add(new User
+                            {
+                                Firstname = Convert.ToString(reader["firstname"]),
+                                Lastname = Convert.ToString(reader["lastname"]),
+                                Birthdate = Convert.ToDateTime(reader["birthdate"]),
+                                Gender = (Gender)Convert.ToInt32(reader["gender"]),
+                                Username = Convert.ToString(reader["username"]),
+                                Email = Convert.ToString(reader["email"])
+
+
+                            }
+
+                            );
+                        }
+                    }
+                }
+
+                return allUsers.Count > 0 ? allUsers : null;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }
