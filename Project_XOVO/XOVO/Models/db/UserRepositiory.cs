@@ -7,7 +7,7 @@ namespace XOVO.Models.db
 {
     public class UserRepositiory : IUserRepositiory
     {
-        private string _connenctionString = "Server=localhost;Database=XOVO;Uid=root;SslMode=none";
+        private string _connenctionString = "Server=localhost;Database=XOVO;Uid=root;Pwd=alpine;SslMode=none";
         private MySqlConnection _connection;
 
         public void Open()
@@ -40,7 +40,7 @@ namespace XOVO.Models.db
             {
                 string dateToInsert = userToAdd.Birthdate.ToString("yyyy-M-d");
                 MySqlCommand cmdInsert = this._connection.CreateCommand();
-                cmdInsert.CommandText = "INSERT INTO users VALUES(null, @firstname, @lastname, @birthdate, @gender, @username, @email, sha2(@pwd, 256))";
+                cmdInsert.CommandText = "INSERT INTO users VALUES(null, @firstname, @lastname, @birthdate, @gender, @username, @email, sha2(@pwd, 256), 0)";
                 cmdInsert.Parameters.AddWithValue("firstname", userToAdd.Firstname);
                 cmdInsert.Parameters.AddWithValue("lastname", userToAdd.Lastname);
                 cmdInsert.Parameters.AddWithValue("birthdate", dateToInsert);
@@ -57,26 +57,37 @@ namespace XOVO.Models.db
             }
         }
 
-        public bool Authenticate(string emailOrUsername, string Passwort)
+        public UserRole Authenticate(string emailOrUsername, string passwort)
         {
             try
             {
                 MySqlCommand cmdAut = this._connection.CreateCommand();
-                cmdAut.CommandText = "Select * from users where ((username = @usernameOrEMail) AND (passwrd = sha2(@password, 256)) OR ((email = @usernameOrEMail) AND (passwrd = sha2(@password, 256))))";
+                cmdAut.CommandText = "SELECT isAdmin FROM users WHERE ((username = @usernameOrEMail) AND (passwrd = sha1(@password)) OR ((email = @usernameOrEMail) AND (passwrd = sha1(@password))))";
                 cmdAut.Parameters.AddWithValue("usernameOrEMail", emailOrUsername);
-                cmdAut.Parameters.AddWithValue("password", Passwort);
+                cmdAut.Parameters.AddWithValue("password", passwort);
 
                 using(MySqlDataReader reader = cmdAut.ExecuteReader())
                 {
                     if (reader.HasRows)
                     {
-                        return true;
+                        reader.Read();
+                        if (Convert.ToInt32(reader["isAdmin"]) == 1)
+                        {
+                            return UserRole.Administrator;
+                        }
+
+                        else
+                        {
+                        return UserRole.RegisteredUser;
+                        }
                     }
+
                     else
                     {
-                        return false;
+                    return UserRole.NoUser;
                     }
                 }
+
             }
             catch (Exception)
             {
@@ -126,19 +137,23 @@ namespace XOVO.Models.db
                     {
                         while (reader.Read())
                         {
-                            allUsers.Add(new User
+                            if (Convert.ToInt32(reader["isAdmin"]) == 0)
                             {
-                                Firstname = Convert.ToString(reader["firstname"]),
-                                Lastname = Convert.ToString(reader["lastname"]),
-                                Birthdate = Convert.ToDateTime(reader["birthdate"]),
-                                Gender = (Gender)Convert.ToInt32(reader["gender"]),
-                                Username = Convert.ToString(reader["username"]),
-                                Email = Convert.ToString(reader["email"])
+                                
+                            
+                                allUsers.Add(new User
+                                {
+                                    Firstname = Convert.ToString(reader["firstname"]),
+                                    Lastname = Convert.ToString(reader["lastname"]),
+                                    Birthdate = Convert.ToDateTime(reader["birthdate"]),
+                                    Gender = (Gender)Convert.ToInt32(reader["gender"]),
+                                    Username = Convert.ToString(reader["username"]),
+                                    Email = Convert.ToString(reader["email"])
 
+
+                                } );
 
                             }
-
-                            );
                         }
                     }
                 }

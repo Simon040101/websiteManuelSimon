@@ -20,6 +20,8 @@ create table users(
 )engine = InnoDB;
 
 insert into users values (1, "Simon", "Raass", null, null, "simon", "simon@gmail.com", "123456");
+insert into users values (2, "Manuel", "Reismann", null, null, "manuel", "manuel@gmx.at", "hallo123", 0);
+insert into users values (3, "admin", "admin", null, null, "admin", "admin@swp.at", sha1("Admin1!"), 0);
 
 select * from users;
 

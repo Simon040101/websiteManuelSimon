@@ -34,19 +34,36 @@ namespace XOVO.Controllers
         [HttpPost]
         public ActionResult Login(Login user)
         {
-            usersRepository = new UserRepositiory();
-            usersRepository.Open();
-            bool log = usersRepository.Authenticate(user.UsernameOrEmail, user.Password);
-            if(log == true)
-            {
-                return View("Message_Registrierung", new Message("Login", "", "Sie wurden erfolgreich angemeldet", ""));
+            try
+            { 
+                usersRepository = new UserRepositiory();
+                usersRepository.Open();
+                UserRole log = usersRepository.Authenticate(user.UsernameOrEmail, user.Password);
+                if(log == UserRole.Administrator)
+                {
+                    Session["isAdmin"] = true;
+                    return View("Message_Registrierung", new Message("Login", "", "Sie wurden erfolgreich angemeldet", ""));
+                }
+                else if(log == UserRole.RegisteredUser)
+                {
+                    Session["isRegistered"] = true;
+                    return View("Message_Registrierung", new Message("Login", "", "Sie wurden erfolgreich angemeldet", ""));
+                }
+                else
+                {
+                    return View("Message_Registrierung", new Message("Login", "", "Es ist während der Anmeldung zu einem Fehler gekommen :(", "Versuchen Sie es später erneut"));
+                }
+                
             }
-            else if(log == false)
+            catch (Exception)
             {
-                return View("Message_Registrierung", new Message("Login", "", "Es ist während der Anmeldung zu einem Fehler gekommen :(", "Versuchen Sie es später erneut"));
+                return View("Message", new Message("Datenbankfehler", "", "Probleme mit der Datenbankverbindung!", "Versuchen Sie es später erneut."));
+            }
+            finally
+            {
+                usersRepository.Close();
             }
 
-            return View("Message_Regisrierung", new Message("Allgemeiner Fehler", "", "Es ist zu einem Fehler gekommen", "Probieren Sie es später erneut!"));
         }
         [HttpGet]
         public ActionResult Registration()
