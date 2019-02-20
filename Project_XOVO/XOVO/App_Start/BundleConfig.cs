@@ -14,6 +14,8 @@ namespace XOVO
 
             bundles.Add(new StyleBundle("~/css/").Include("~/Content/css/materialize.css", "~/Content/css/login_registration.css"));
 
+            bundles.Add(new StyleBundle("~/main/css/").Include("~/Content/css/materialize.css", "~/Content/css/homepage.css"));
+
             bundles.Add(new ScriptBundle("~/bundles/materialize").Include("~/Content/js/materialize.js"));
         }
     }

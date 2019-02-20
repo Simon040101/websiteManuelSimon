@@ -1,6 +1,21 @@
-﻿
-/*footer {
-    bottom: 0;
-    width: 100%;
-    position: absolute;
-}*/
+﻿body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto;
+}
+#searchResults2 {
+    background-color: #666666;
+}
+
+#searchResults {
+    background-color: #666666;
+}
+
+.right li a {
+    padding-right: 2em;
+    text-decoration: none
+}

@@ -2,85 +2,107 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,
-    initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewBag.Title - stay together </title>
-    @Styles.Render("~/Content/css/")
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/materialize")
-
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-          rel="stylesheet">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link href="~/Content/css/materialize.min.css" rel="stylesheet"
-          type="text/css" />
-    <link href="~/Content/css/homepage.css" rel="stylesheet" type="text/css" />
-    <script type="text/javascript"
-            src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script src="~/Content/js/materialize.min.js"></script>
+    @Styles.Render("~/main/css/")
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
 </head>
 
 <body>
-    
+    <!-- Header -->
+    <header>
+        <nav class="transparent cyan darken-2">
+            <div class="container">
+                <div class="nav-wrapper">
+                    <a href="#" class="brand-logo">XOVO</a>
+                    <a href="#" class="sidnav-trigger" data-trigger="mobile-nav"><i class="material-icons">menu</i></a>
+                    <ul class="right hide-on-med-and-down">
+                        <li><a class="active-link" href="">Mein Feed</a></li>
+                        <li><a class="dropdown-trigger" href="#" data-target="dropdown1">Profil<i class="material-icons right">arrow_drop_down</i></a></li>
+                        <li><a href="../User/Login">Logout <i class="material-icons right">highlight_off</i></a></li>
+                        <li>
+                            <div class="switch">
+                                <label style="color:white">
+                                    DE
+                                    <input type="checkbox">
+                                    <span class="lever"></span>
+                                    EN
+                                </label>
+                            </div>
+                        </li>
+                    </ul>
+                    
+                    
+                    
 
+                    <form class=" center hide-on-med-and-down" style="padding-left: 300px; width: 700px; height: 60px" id="form1">
+                        <div class="input-field" style="max-width: 400pt;">
+                            <input id="search" type="search">
+                            <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+                            <i class="material-icons">close</i>
+                            <div id="searchResults"></div>
+                        </div>
+                    </form>
 
-<ul id="dropdown1" class="dropdown-content">
-        <li><a href="#!">Profilseite</a></li>
-        <li><a href="#!">Freunde</a></li>
-        <li class="divider"></li>
-        <li><a href="#!">Profil verwalten</a></li>
-    </ul>
-<nav>
-    <a href="#" class="sidenav-trigger" data-target="mobile-nav">
-        <i class="material-icons">menu</i>
-    </a>
-    @Html.Partial("Navigation");
-</nav>
-    
-<ul class="sidenav" id="mobile-nav">
-    <li><a href="#">Mein Feed</a></li>
-    <li><a class="dropdown-trigger" href="#" data-target="dropdown1">Profil<i class="material-icons right">arrow_drop_down</i></a></li>
-    <li><a href="#">Logout <i class="material-icons right">highlight_off</i></a></li>
-</ul>
+                </div>
+            </div>
 
+            <ul id="dropdown1" class="dropdown-content center">
+                <li><a href="#">Profilseite</a></li>
+                <li><a href="#">Freunde</a></li>
+                <li><a href="#">Einstellungen</a></li>
+            </ul>
 
-<aside>
-    <nav class="nav-extended sidenav-fixed cyan darken-2 col s4">
-        <div class="nav-content">
-              <ul class="tabs tabs-transparent">
-                     <li class="tab"><a href="#friends">Freunde</a></li>
-                     <li class="tab "><a href="#notifications">Benachrichtigungen</a></li>
-              </ul>
+            <div class="row">
+                <div class="row col s12">
+                    <ul class="tabs">
+                        <li class="tab hoverable col s3"><a class="active" href="#test1">Freundesliste</a><i class="material-icons right">profile</i></li>
+                        <li class="tab hoverable col s3"><a href="#test2">Benachrichtigungen</a></li>
+                    </ul>
+                </div>
+            </div>
+
+        </nav>
+        <ul class="sidenav" id="mobile-nav">
+            <li><a class="active" href="">Mein Feed</a></li>
+            <li><a class="dropdown-trigger" href="#" data-target="dropdown1">Profil<i class="material-icons right">arrow_drop_down</i></a></li>
+            <li><a href="../User/Login">Logout <i class="material-icons right">highlight_off</i></a></li>
+        </ul>
+    </header>
+
+    <main>
+        <div class="container">
+            @RenderBody()
         </div>
-    </nav>
-        
-</aside>
+    </main>
 
-<section>
-    <div class="container col s7">
-        @RenderBody()
-        <hr />
-    </div>
-</section>
-
-
+    <!-- Footer -->
     <footer class="page-footer cyan darken-2">
-        @Html.Partial("Footer")
+        <div class="container">
+            <div class="row">
+                <div class="col l6 s12">
+                    <h5 class="white-text">About Us</h5>
+                    <p class="grey-text text-lighten-4">We are Developers in the HTL Anichstraße </p>
+                </div>
+            </div>
+            <div class="footer-copyright cyan darken-3">
+                <div class="container center">
+                    XOVO &copy; 2019
+                </div>
+            </div>
+        </div>
+
     </footer>
-    
 
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
-<script src="~/Scripts/bootstrap.min.js"></script>
-
-<script>
-    $(document).ready(function(){
-        //$(".sidenav").sidenav();
-    
-        $(".dropdown-trigger").dropdown();
-    });
-</script>
-
-
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/materialize")
+    <script>
+        $(document).ready(function () {
+            $('.dropdown-trigger').dropdown();
+            $('.sidenav').sidenav();
+        });
+    </script>
 </body>
-
 </html>
