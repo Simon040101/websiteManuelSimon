@@ -7,7 +7,7 @@ namespace XOVO.Models.db
 {
     public enum UserRole
     {
-        Administrator, RegisteredUser, NoUser
+        Administrator, RegisteredUser, NoUser, IsLocked
     }
 
     public interface IUserRepositiory
@@ -19,5 +19,6 @@ namespace XOVO.Models.db
         UserRole Authenticate(string emailOrUsername, string passwort);
         bool CheckDoubleUsername(User user);
         List<User> GetAllUser();
+        bool LockUser(int id);
     }
 }

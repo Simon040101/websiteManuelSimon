@@ -34,6 +34,7 @@
     <table class="striped center responsive-table">
         <thead>
             <tr>
+                <td>ID</td>
                 <th>Vorname</th>
                 <th>Nachname</th>
                 <th>Geburtsdatum</th>
@@ -47,16 +48,29 @@
            @foreach (User a in Model)
            {
             <tr>
+                <td>@a.ID</td>
                 <td>@a.Firstname</td>
                 <td>@a.Lastname</td>
                 <td>@(a.Birthdate.ToLongDateString())</td>
                 <td>@a.Gender</td>
                 <td>@a.Username</td>
                 <td>@a.Email</td>
+
                 <td><a class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">delete</i></a></td>
-                <td><a class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">lock</i></a></td>
-            </tr>
-            
+                <td><a class="btn-floating btn-large waves-effect waves-light red" href="/user/LockUser/@a.ID">
+                    @if (a.IsLocked)
+                    {
+                        <i class="material-icons">lock_open</i>
+                    }
+                    else
+                    {
+                        <i class="material-icons">lock</i>
+                    }
+                    </a></td>
+
+</tr>
+
+
            }
         </tbody>
     </table>
