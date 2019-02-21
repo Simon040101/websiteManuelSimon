@@ -20,13 +20,12 @@ create table users(
 
 )engine = InnoDB;
 
-insert into users values (1, "Simon", "Raass", null, null, "simon", "simon@gmail.com", "123456");
-insert into users values (2, "Manuel", "Reismann", null, null, "manuel", "manuel@gmx.at", "hallo123", 0);
-insert into users values (1, "admin", "admin", "2019-02-02" , 0, "admin", "admin@swp.at", sha1("Admin1!"), 0);
+
+insert into users values (2, "Christoph", "Zallinger", "2019-02-02" , 0, "Christoph", "Chrissi@swp.at", sha1("123456789"), 3);
 
 select * from users;
 
-delete from users where id="1";
+delete from users where id="4";
 
 alter table users auto_increment = 1;
 

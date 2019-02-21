@@ -13,6 +13,15 @@ namespace XOVO.Controllers
     {
         IUserRepositiory usersRepository;
 
+        public ActionResult LockUser(int id)
+        {
+            
+            UserRepositiory ur = new UserRepositiory();
+            ur.Open();
+            ur.LockUser(id);
+            return Redirect(Request.UrlReferrer.ToString());
+        }
+
         // GET: User
         public ActionResult Index()
         {
@@ -33,12 +42,17 @@ namespace XOVO.Controllers
         }
         [HttpPost]
         public ActionResult Login(Login user)
-        {
+         {
             try
             { 
                 usersRepository = new UserRepositiory();
                 usersRepository.Open();
+
                 UserRole log = usersRepository.Authenticate(user.UsernameOrEmail, user.Password);
+                if(log == UserRole.IsLocked)
+                {
+                    return View("Message_Registrierung", new Message("Login", "Gesperrt", "Sie sind vom Administrator gesperrt worden", "Wenden Sie sich an den Admin"));
+                }
                 if(log == UserRole.Administrator)
                 {
                     Session["isAdmin"] = true;

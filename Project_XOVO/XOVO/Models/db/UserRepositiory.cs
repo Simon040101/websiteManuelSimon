@@ -62,7 +62,7 @@ namespace XOVO.Models.db
             try
             {
                 MySqlCommand cmdAut = this._connection.CreateCommand();
-                cmdAut.CommandText = "SELECT isAdmin FROM users WHERE ((username = @usernameOrEMail) AND (passwrd = sha1(@password)) OR ((email = @usernameOrEMail) AND (passwrd = sha1(@password))))";
+                cmdAut.CommandText = "SELECT isAdmin FROM users WHERE ((username = @usernameOrEMail) AND (passwrd = sha2(@password, 256)) OR ((email = @usernameOrEMail) AND (passwrd = sha2(@password,256))))";
                 cmdAut.Parameters.AddWithValue("usernameOrEMail", emailOrUsername);
                 cmdAut.Parameters.AddWithValue("password", passwort);
 
@@ -71,21 +71,24 @@ namespace XOVO.Models.db
                     if (reader.HasRows)
                     {
                         reader.Read();
-                        if (Convert.ToInt32(reader["isAdmin"]) == 0)
+                        if(Convert.ToInt32(reader["isAdmin"]) == 3)
+                        {
+                            return UserRole.IsLocked;
+                        }
+                        else if (Convert.ToInt32(reader["isAdmin"]) == 0)
                         {
                             return UserRole.Administrator;
                         }
 
-                        else
+                        else if(Convert.ToInt32(reader["isAdmin"]) == 1)
                         {
-                        return UserRole.RegisteredUser;
+                            return UserRole.RegisteredUser;
                         }
                     }
 
-                    else
-                    {
+                   
                     return UserRole.NoUser;
-                    }
+                    
                 }
 
             }
@@ -137,18 +140,19 @@ namespace XOVO.Models.db
                     {
                         while (reader.Read())
                         {
-                            if (Convert.ToInt32(reader["isAdmin"]) == 0)
+
+
+
+                            allUsers.Add(new User
                             {
-                                
-                            
-                                allUsers.Add(new User
-                                {
-                                    Firstname = Convert.ToString(reader["firstname"]),
-                                    Lastname = Convert.ToString(reader["lastname"]),
-                                    Birthdate = Convert.ToDateTime(reader["birthdate"]),
-                                    Gender = (Gender)Convert.ToInt32(reader["gender"]),
-                                    Username = Convert.ToString(reader["username"]),
-                                    Email = Convert.ToString(reader["email"])
+                                ID = Convert.ToInt32(reader["id"]),
+                                Firstname = Convert.ToString(reader["firstname"]),
+                                Lastname = Convert.ToString(reader["lastname"]),
+                                Birthdate = Convert.ToDateTime(reader["birthdate"]),
+                                Gender = (Gender)Convert.ToInt32(reader["gender"]),
+                                Username = Convert.ToString(reader["username"]),
+                                Email = Convert.ToString(reader["email"]),
+                                IsLocked = Convert.ToInt32(reader["isAdmin"]) == 3
 
 
                                 } );
@@ -156,7 +160,7 @@ namespace XOVO.Models.db
                             }
                         }
                     }
-                }
+                
 
                 return allUsers.Count > 0 ? allUsers : null;
             }
@@ -166,5 +170,23 @@ namespace XOVO.Models.db
                 throw;
             }
         }
+
+        public bool LockUser(int id)
+        {
+            try
+            {
+                MySqlCommand cmdLock = this._connection.CreateCommand();
+                cmdLock.CommandText = "Update users set isAdmin = 3 where id = @id";
+                cmdLock.Parameters.AddWithValue("id", id);
+
+                return cmdLock.ExecuteNonQuery() == 1;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
     }
 }

@@ -22,10 +22,13 @@ namespace XOVO.Models
         public string Password { get; set; }
         public string PasswordWH { get; set; }
         public string Email { get; set; }
+        public int ID { get; set; }
+        public bool IsLocked { get; set; }
 
 
-        public User() : this("", "", DateTime.MinValue, Gender.notSpecified, "", "", "", "") { }
-        public User(string firstname, string lastname, DateTime birthdate, Gender gender, string username, string password, string passwordwh, string email)
+
+        public User() : this("", "", DateTime.MinValue, Gender.notSpecified, "", "", "", "", 0, false) { }
+        public User(string firstname, string lastname, DateTime birthdate, Gender gender, string username, string password, string passwordwh, string email, int id, bool isLocked)
         {
             this.Firstname = firstname;
             this.Lastname = lastname;
@@ -35,6 +38,8 @@ namespace XOVO.Models
             this.Password = password;
             this.PasswordWH = passwordwh;
             this.Email = email;
+            this.ID = id;
+            this.IsLocked = isLocked;
         }
 
 
