@@ -1,8 +1,8 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>@ViewBag.Title - stay together </title>
     @Styles.Render("~/main/css/")
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
@@ -11,98 +11,121 @@
 </head>
 
 <body>
-    <!-- Header -->
-    <header>
-        <nav class="transparent cyan darken-2">
-            <div class="container">
-                <div class="nav-wrapper">
-                    <a href="#" class="brand-logo">XOVO</a>
-                    <a href="#" class="sidnav-trigger" data-trigger="mobile-nav"><i class="material-icons">menu</i></a>
-                    <ul class="right hide-on-med-and-down">
-                        <li><a class="active-link" href="">Mein Feed</a></li>
-                        <li><a class="dropdown-trigger" href="#" data-target="dropdown1">Profil<i class="material-icons right">arrow_drop_down</i></a></li>
-                        <li><a href="../User/Login">Logout <i class="material-icons right">highlight_off</i></a></li>
-                        <li>
-                            <div class="switch">
-                                <label style="color:white">
-                                    DE
-                                    <input type="checkbox">
-                                    <span class="lever"></span>
-                                    EN
-                                </label>
-                            </div>
-                        </li>
-                    </ul>
-                    
-                    
-                    
 
-                    <form class=" center hide-on-med-and-down" style="padding-left: 300px; width: 700px; height: 60px" id="form1">
-                        <div class="input-field" style="max-width: 400pt;">
-                            <input id="search" type="search">
-                            <label class="label-icon" for="search"><i class="material-icons">search</i></label>
-                            <i class="material-icons">close</i>
-                            <div id="searchResults"></div>
-                        </div>
-                    </form>
+<header>
+    <ul class="dropdown-content" id="drop_profile">
+        <li>
+            <a href="#">Anzeigen</a>
+        </li>
+        <li>
+            <a href="#">Verwalten</a>
+        </li>
+        <li>
+            <a href="#">Freundesliste</a>
+        </li>
+    </ul>
 
-                </div>
-            </div>
+    <nav class="cyan darken-1">
+        <div class="nav-wrapper">
+            @Html.ActionLink("XOVO", "Index", "Home", null, new {@class = "brand-logo"})
+            <ul class="right hide-on-med-and-down">
+                <li>@Html.ActionLink("Feed", "Index", "Home", null, null)</li>
+                <li>
+                    <a href="#" class="dropdown-trigger" data-target="drop_profile">Profil<i class="material-icons right">arrow_drop_down</i></a>
+                </li>
+                <li>@Html.ActionLink("Logout", "Login", "User", null, null)</li>
+                <li class="switch">
+                    <label class="white-text">
+                        DE
+                        <input type="checkbox">
+                        <span class="lever"></span>
+                        EN
+                    </label>
+                </li>
 
-            <ul id="dropdown1" class="dropdown-content center">
-                <li><a href="#">Profilseite</a></li>
-                <li><a href="#">Freunde</a></li>
-                <li><a href="#">Einstellungen</a></li>
             </ul>
+        </div>
+    </nav>
+</header>
 
-            <div class="row">
-                <div class="row col s12">
-                    <ul class="tabs">
-                        <li class="tab hoverable col s3"><a class="active" href="#test1">Freundesliste</a><i class="material-icons right">profile</i></li>
-                        <li class="tab hoverable col s3"><a href="#test2">Benachrichtigungen</a></li>
+
+<main>
+    <div class="row">
+        <div class="col l3 hide-on-med-and-down">
+            <div class="card medium hoverable">
+                <div class="card-tabs">
+                    <ul class="tabs tabs-fixed-width">
+                        <li class="tab cyan darken-1"><a class="active white-text" href="#friends">Freunde</a></li>
+                        <li class="tab cyan darken-1"><a class="white-text" href="#notify">Benachrichtigungen</a></li>
                     </ul>
                 </div>
+                <div class="card-content grey lighten-5">
+                    <div id="friends">Vorname Nachname</div>
+                    <div id="notify">Text of Notify</div>
+                </div>
             </div>
-
-        </nav>
-        <ul class="sidenav" id="mobile-nav">
-            <li><a class="active" href="">Mein Feed</a></li>
-            <li><a class="dropdown-trigger" href="#" data-target="dropdown1">Profil<i class="material-icons right">arrow_drop_down</i></a></li>
-            <li><a href="../User/Login">Logout <i class="material-icons right">highlight_off</i></a></li>
-        </ul>
-    </header>
-
-    <main>
-        <div class="container">
+        </div>
+        <div class="col s12 l6">
             @RenderBody()
         </div>
-    </main>
-
-    <!-- Footer -->
-    <footer class="page-footer cyan darken-2">
-        <div class="container">
-            <div class="row">
-                <div class="col l6 s12">
-                    <h5 class="white-text">About Us</h5>
-                    <p class="grey-text text-lighten-4">We are Developers in the HTL Anichstraße </p>
+        <div class="col l3 hide-on-med-and-down">
+            <div class="card medium hoverable">
+                <div class="card-content center">
+                    <span class="card-title ">Beitrag teilen</span>
+                    <div class="row">
+                        <form class="col s12" action="#">
+                            <div class="file-field input-field">
+                                <div class="btn cyan darken-1">
+                                    <span>Datei</span>
+                                    <input type="file" multiple>
+                                </div>
+                                <div class="file-path-wrapper">
+                                    <input class="file-path validate" type="text" placeholder="Eine oder mehrere Dateien Hochladen">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12" style="overflow-y: auto; height: 100px;">
+                                    <textarea id="textarea" class="materialize-textarea" data-length="500"></textarea>
+                                    <label for="textarea">Beitrag</label>
+                                </div>
+                            </div>
+                            
+                            <button class="btn cyan darken-1 waves-effect waves-light center" type="submit" name="action">posten
+                                <i class="material-icons right">send</i>
+                            </button>
+                        </form>
+                    </div>
                 </div>
-            </div>
-            <div class="footer-copyright cyan darken-3">
-                <div class="container center">
-                    XOVO &copy; 2019
-                </div>
+                
             </div>
         </div>
+    </div>
 
-    </footer>
+</main>
+<footer class="page-footer cyan darken-1">
+    <div class="footer-copyright">
+        &copy; XOVO GmbH @DateTime.Now.Year
+        <a href="#" class="grey-text text-lighten-4 right">About us</a>
+    </div>
+</footer>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/materialize")
-    <script>
-        $(document).ready(function () {
-            $('.dropdown-trigger').dropdown();
-            $('.sidenav').sidenav();
-        });
-    </script>
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/materialize")
+<script>
+    $(document).ready(function() {
+        $('.dropdown-trigger').dropdown
+        (
+            {
+            coverTrigger: false
+            }
+        );
+
+        $('.sidenav').sidenav();
+        $('.tabs').tabs();
+        $('input#input_text, textarea#textarea').characterCounter();
+
+    });
+</script>
 </body>
 </html>
