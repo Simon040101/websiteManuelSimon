@@ -16,6 +16,7 @@ namespace XOVO.Models.db
         void Close();
 
         bool Insert(User userToAdd);
+        bool Delete(int id);
         UserRole Authenticate(string emailOrUsername, string passwort);
         bool CheckDoubleUsername(User user);
         List<User> GetAllUser();

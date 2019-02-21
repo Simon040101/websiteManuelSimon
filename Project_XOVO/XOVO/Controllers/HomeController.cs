@@ -11,7 +11,16 @@ namespace XOVO.Controllers
         // GET: Home
         public ActionResult Index()
         {
-            return View();
+            if(Session["isAdmin"] != null)
+            {
+                if((Convert.ToInt32(Session["isAdmin"]) == 0 ) || (Convert.ToInt32(Session["isAdmin"]) == 1))
+                {
+                    return View();
+                }
+            }
+
+            return RedirectToAction("login", "user");
+
         }
     }
 }

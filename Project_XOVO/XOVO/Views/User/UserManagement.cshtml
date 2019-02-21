@@ -29,18 +29,20 @@
 </div>
 <a class="waves-effect waves-light btn red">Suchen</a>
 
-@if(Model != null) { 
+@if ((Model != null) && (Model.Count > 0)){
 
     <table class="striped center responsive-table">
         <thead>
             <tr>
-                <td>ID</td>
+                <th>ID</th>
                 <th>Vorname</th>
                 <th>Nachname</th>
                 <th>Geburtsdatum</th>
                 <th>Geschlecht</th>
                 <th>Benutzername</th>
                 <th>Email</th>
+                <th>Löschen</th>
+                <th>Sperren</th>
             </tr>
         </thead>
 
@@ -56,15 +58,15 @@
                 <td>@a.Username</td>
                 <td>@a.Email</td>
 
-                <td><a class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">delete</i></a></td>
-                <td><a class="btn-floating btn-large waves-effect waves-light red" href="/user/LockUser/@a.ID">
+                <td><a class="btn-floating btn-large waves-effect waves-light red" href="/user/delete/@a.ID"><i class="material-icons">delete</i></a></td>
+                <td><a class="btn-floating btn-large waves-effect waves-light red" href="/user/lockuser/@a.ID">
                     @if (a.IsLocked)
                     {
-                        <i class="material-icons">lock_open</i>
+                        <i class="material-icons">lock</i>
                     }
                     else
                     {
-                        <i class="material-icons">lock</i>
+                        <i class="material-icons">lock_open</i>
                     }
                     </a></td>
 
@@ -74,4 +76,8 @@
            }
         </tbody>
     </table>
+}
+else
+{
+    <p>Es sind keine registrierten Benutzer vorhanden</p>
 }

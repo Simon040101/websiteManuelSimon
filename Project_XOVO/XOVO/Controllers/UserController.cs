@@ -13,27 +13,57 @@ namespace XOVO.Controllers
     {
         IUserRepositiory usersRepository;
 
+        public ActionResult Logout()
+        {
+            Session["isAdmin"] = null;
+            return RedirectToAction("login", "user");
+        }
+
         public ActionResult LockUser(int id)
         {
             
+            if ((Session["isAdmin"] != null) && (Convert.ToInt32(Session["isAdmin"]) == 0))
+            {
+                UserRepositiory ur = new UserRepositiory();
+                ur.Open();
+                ur.LockUser(id);
+                return Redirect(Request.UrlReferrer.ToString());
+            }
+            else
+            {
+                return View("Message", new Message("Löschen", "Sie sind nicht berechtigt einen Benutzer zu sperren!!!", "", ""));
+            }
+        }
+
+        public ActionResult Delete(int id)
+        {
             UserRepositiory ur = new UserRepositiory();
             ur.Open();
-            ur.LockUser(id);
+            ur.Delete(id);
             return Redirect(Request.UrlReferrer.ToString());
         }
 
         // GET: User
         public ActionResult Index()
         {
+
             return View();
+
         }
 
         [HttpGet]
         public ActionResult UserManagement()
         {
-            List<User> users = LoadUsers();
+            if ((Session["isAdmin"] != null) && (Convert.ToInt32(Session["isAdmin"]) == 0))
+            {
+                List<User> users = LoadUsers();
 
-            return View(users);
+                return View(users);
+            }
+            else
+            {
+                return View("Message", new Message("Achtung", "fehlende Berechtigung", "Sie sind nicht berechtigt die Seite aufzurufen", ""));
+            }
         }
          [HttpGet]
          public ActionResult Login()
@@ -51,17 +81,23 @@ namespace XOVO.Controllers
                 UserRole log = usersRepository.Authenticate(user.UsernameOrEmail, user.Password);
                 if(log == UserRole.IsLocked)
                 {
-                    return View("Message_Registrierung", new Message("Login", "Gesperrt", "Sie sind vom Administrator gesperrt worden", "Wenden Sie sich an den Admin"));
+                    return View("Message_Registrierung", new Message("Login", "Gesperrt", "Sie sind leider vom Admin gesperrt worden", "Kontaktieren Sie den Admin"));
                 }
                 if(log == UserRole.Administrator)
                 {
                     Session["isAdmin"] = true;
-                    return View("Message_Registrierung", new Message("Login", "", "Sie wurden erfolgreich angemeldet Admin User", ""));
+                    Session["isAdmin"] = 0;
+                    return RedirectToAction("index", "home");
                 }
                 else if(log == UserRole.RegisteredUser)
                 {
-                    Session["isRegistered"] = true;
-                    return View("Message_Registrierung", new Message("Login", "", "Sie wurden erfolgreich angemeldet Registrierter User", ""));
+                    Session["isAdmin"] = true;
+                    return RedirectToAction("index", "home");
+
+                }
+                else if(log == UserRole.NoUser)
+                {
+                    return View("Message_Registrierung", new Message("Login", "Sie sind noch kein Benutzer", "Es tut uns leid wir konnten dich in der Datenbank nicht finden :(", "Registrieren!!!")); 
                 }
                 else
                 {

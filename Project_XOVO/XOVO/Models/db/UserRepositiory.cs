@@ -57,6 +57,23 @@ namespace XOVO.Models.db
             }
         }
 
+        public bool Delete(int id)
+        {
+            try
+            {
+                MySqlCommand cmdDelete = this._connection.CreateCommand();
+                cmdDelete.CommandText = "Delete from users where id = @id";
+                cmdDelete.Parameters.AddWithValue("id", id);
+
+                return cmdDelete.ExecuteNonQuery() == 1;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         public UserRole Authenticate(string emailOrUsername, string passwort)
         {
             try
