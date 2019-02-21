@@ -42,12 +42,12 @@ namespace XOVO.Controllers
                 if(log == UserRole.Administrator)
                 {
                     Session["isAdmin"] = true;
-                    return View("Message_Registrierung", new Message("Login", "", "Sie wurden erfolgreich angemeldet", ""));
+                    return View("Message_Registrierung", new Message("Login", "", "Sie wurden erfolgreich angemeldet Admin User", ""));
                 }
                 else if(log == UserRole.RegisteredUser)
                 {
                     Session["isRegistered"] = true;
-                    return View("Message_Registrierung", new Message("Login", "", "Sie wurden erfolgreich angemeldet", ""));
+                    return View("Message_Registrierung", new Message("Login", "", "Sie wurden erfolgreich angemeldet Registrierter User", ""));
                 }
                 else
                 {

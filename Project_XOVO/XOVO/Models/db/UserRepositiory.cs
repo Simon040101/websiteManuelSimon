@@ -7,7 +7,7 @@ namespace XOVO.Models.db
 {
     public class UserRepositiory : IUserRepositiory
     {
-        private string _connenctionString = "Server=localhost;Database=XOVO;Uid=root;Pwd=alpine;SslMode=none";
+        private string _connenctionString = "Server=localhost;Database=XOVO;Uid=root;SslMode=none";
         private MySqlConnection _connection;
 
         public void Open()
@@ -40,7 +40,7 @@ namespace XOVO.Models.db
             {
                 string dateToInsert = userToAdd.Birthdate.ToString("yyyy-M-d");
                 MySqlCommand cmdInsert = this._connection.CreateCommand();
-                cmdInsert.CommandText = "INSERT INTO users VALUES(null, @firstname, @lastname, @birthdate, @gender, @username, @email, sha2(@pwd, 256), 0)";
+                cmdInsert.CommandText = "INSERT INTO users VALUES(null, @firstname, @lastname, @birthdate, @gender, @username, @email, sha2(@pwd, 256), 1)";
                 cmdInsert.Parameters.AddWithValue("firstname", userToAdd.Firstname);
                 cmdInsert.Parameters.AddWithValue("lastname", userToAdd.Lastname);
                 cmdInsert.Parameters.AddWithValue("birthdate", dateToInsert);
@@ -71,7 +71,7 @@ namespace XOVO.Models.db
                     if (reader.HasRows)
                     {
                         reader.Read();
-                        if (Convert.ToInt32(reader["isAdmin"]) == 1)
+                        if (Convert.ToInt32(reader["isAdmin"]) == 0)
                         {
                             return UserRole.Administrator;
                         }

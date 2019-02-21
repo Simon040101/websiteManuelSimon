@@ -12,6 +12,7 @@ create table users(
     username varchar(100) null, 
     email varchar(100) not null unique, 
     passwrd varchar(100) not null,
+    isAdmin tinyint not null default 0,
     
     constraint id_PK primary key(id)
 
@@ -21,8 +22,12 @@ create table users(
 
 insert into users values (1, "Simon", "Raass", null, null, "simon", "simon@gmail.com", "123456");
 insert into users values (2, "Manuel", "Reismann", null, null, "manuel", "manuel@gmx.at", "hallo123", 0);
-insert into users values (3, "admin", "admin", null, null, "admin", "admin@swp.at", sha1("Admin1!"), 0);
+insert into users values (1, "admin", "admin", "2019-02-02" , 0, "admin", "admin@swp.at", sha1("Admin1!"), 0);
 
 select * from users;
 
+delete from users where id="1";
+
 alter table users auto_increment = 1;
+
+drop table users;
