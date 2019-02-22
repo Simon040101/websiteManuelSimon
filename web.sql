@@ -21,11 +21,11 @@ create table users(
 )engine = InnoDB;
 
 
-insert into users values (2, "Christoph", "Zallinger", "2019-02-02" , 0, "Christoph", "Chrissi@swp.at", sha1("123456789"), 3);
+insert into users values (2, "Christoph", "Zallinger", "2019-02-02" , 0, "Christoph", "Chrissi@swp.at", sha2("123456789", 256), 0);
 
 select * from users;
 
-delete from users where id="4";
+delete from users where id="2";
 
 alter table users auto_increment = 1;
 

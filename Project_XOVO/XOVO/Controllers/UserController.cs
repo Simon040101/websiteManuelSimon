@@ -27,20 +27,27 @@ namespace XOVO.Controllers
                 UserRepositiory ur = new UserRepositiory();
                 ur.Open();
                 ur.LockUser(id);
-                return Redirect(Request.UrlReferrer.ToString());
+                return Request.UrlReferrer == null ? (ActionResult)RedirectToAction("Index", "Home") : Redirect(Request.UrlReferrer.ToString());
             }
             else
             {
-                return View("Message", new Message("Löschen", "Sie sind nicht berechtigt einen Benutzer zu sperren!!!", "", ""));
+                return View("Message", new Message("Sperren", "Sie sind nicht berechtigt einen Benutzer zu sperren!!!", "", ""));
             }
         }
 
         public ActionResult Delete(int id)
         {
-            UserRepositiory ur = new UserRepositiory();
-            ur.Open();
-            ur.Delete(id);
-            return Redirect(Request.UrlReferrer.ToString());
+            if ((Session["isAdmin"] != null) && (Convert.ToInt32(Session["isAdmin"]) == 0))
+            {
+                UserRepositiory ur = new UserRepositiory();
+                ur.Open();
+                ur.Delete(id);
+                return Redirect(Request.UrlReferrer.ToString());
+            }
+            else
+            {
+                return View("Message", new Message("Löschen", "fehlende Berechtigung", "Sie sind nicht berehtigt eine Person zu löschen", ""));
+            }
         }
 
         // GET: User

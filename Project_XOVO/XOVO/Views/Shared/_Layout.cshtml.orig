@@ -1,123 +1,159 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,
-    initial-scale=1.0">
-    <title>@ViewBag.Title - XOVOO </title>
-    @Styles.Render("~/Content/css/")
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/materialize")
-
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-          rel="stylesheet">
-    <link href="~/Content/css/materialize.min.css" rel="stylesheet"
-          type="text/css" />
-    <link href="~/Content/css/homepage.css" rel="stylesheet" type="text/css" />
-    <script type="text/javascript"
-            src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script src="~/Content/js/materialize.min.js"></script>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>@ViewBag.Title - stay together </title>
+    @Styles.Render("~/main/css/")
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
 </head>
 
 <body>
-
-    <ul id="dropdown1" class="dropdown-content">
-        <li><a href="#!">Profilseite</a></li>
-        <li><a href="#!">Freunde</a></li>
-        <li class="divider"></li>
-        <li><a href="#!">Profil verwalten</a></li>
-    </ul>
-<nav>
 <<<<<<< HEAD
-
-    <div class="nav-wrapper red darken-1">
-        <div class="container">
-            <a href="#"class="brand-logo left" style="padding-left: 30px">XOVOO</a>
-            <ul id="nav-mobile" class="right hide-on-med-and-down">
-                <li><a href="index.cshtml">Mein Feed</a></li>
-                <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">Profil<i class="material-icons right">arrow_drop_down</i></a></li>
-            </ul>
-            <form class=" center hide-on-med-and-down" style="padding-left: 400px" id="form1">
-                <div class="input-field" style="max-width: 400pt;">
-                    <input id="search" type="search">
-                    <label class="label-icon" for="search"><i class="material-icons">search</i></label>
-                    <i class="material-icons">close</i>
-                    <div id="searchResults"></div>
-                </div>
-            </form>
-        </div>
-    </div>
-</nav>
-
-<div class="container">
-    @RenderBody()
-    <hr/>
-</div>
-
-<footer class="page-footer red darken-1" style="padding-top: 10px; padding-bottom: 0px;">
-    <div class="container">
-        <div class="row">
-            <div class="col l6 s12">
-                <h5 class="white-text">Footer Content</h5>
-            </div>
-            <div class="col l4 offset-l2 s12">
-                <h5 class="white-text">Links</h5>
-            </div>
-        </div>
-    </div>
-    <div class="footer-copyright">
-        <div class="container">
-            © 2019 - Copyright by XOVOO GmbH
-        </div>
-    </div>
-</footer>
-
+    <!-- Header -->
+    <header>
+        <nav class="transparent cyan darken-2">
+            <div class="container">
+                <div class="nav-wrapper">
+                    <a href="#" class="brand-logo">XOVO</a>
+                    <a href="#" class="sidnav-trigger" data-trigger="mobile-nav"><i class="material-icons">menu</i></a>
+                    <ul class="right hide-on-med-and-down">
+                        <li><a class="active-link" href="">Mein Feed</a></li>
+                        <li><a class="dropdown-trigger" href="#" data-target="dropdown1">Profil<i class="material-icons right">arrow_drop_down</i></a></li>
+                        <li><a class="waves-effect waves-light btn" href="/user/logout"><i class="material-icons right">highlight_off</i>Ausloggen</a></li>
+                        <li>
+                            <div class="switch">
+                                <label style="color:white">
+                                    DE
+                                    <input type="checkbox">
+                                    <span class="lever"></span>
+                                    EN
+                                </label>
+                            </div>
+                        </li>
+                    </ul>
+                    
+                    
+                    
 =======
-    @Html.Partial("Navigation");
-</nav>
+>>>>>>> d5c1da2a155756dc1a762ecf9b9133454328c24d
 
-<aside>
-    <nav class="nav-extended sidenav-fixed indigo darken-4">
-        <div class="nav-content">
-              <ul class="tabs tabs-transparent">
-                     <li class="tab"><a href="#friends">Freunde</a></li>
-                     <li class="tab"><a href="#notifications">Benachrichtigungen</a></li>
-              </ul>
+<header>
+    <ul class="dropdown-content" id="drop_profile">
+        <li>
+            <a href="#">Anzeigen</a>
+        </li>
+        <li>
+            <a href="#">Verwalten</a>
+        </li>
+        <li>
+            <a href="#">Freundesliste</a>
+        </li>
+    </ul>
+
+    <nav class="cyan darken-1">
+        <div class="nav-wrapper">
+            @Html.ActionLink("XOVO", "Index", "Home", null, new {@class = "brand-logo"})
+            <ul class="right hide-on-med-and-down">
+                <li>@Html.ActionLink("Feed", "Index", "Home", null, null)</li>
+                <li>
+                    <a href="#" class="dropdown-trigger" data-target="drop_profile">Profil<i class="material-icons right">arrow_drop_down</i></a>
+                </li>
+                <li>@Html.ActionLink("Logout", "Login", "User", null, null)</li>
+                <li class="switch">
+                    <label class="white-text">
+                        DE
+                        <input type="checkbox">
+                        <span class="lever"></span>
+                        EN
+                    </label>
+                </li>
+
+            </ul>
         </div>
     </nav>
-        
-</aside>
+</header>
 
-<section>
-    <div class="container">
-        @RenderBody()
-        <hr />
+
+<main>
+    <div class="row">
+        <div class="col l3 hide-on-med-and-down">
+            <div class="card medium hoverable">
+                <div class="card-tabs">
+                    <ul class="tabs tabs-fixed-width">
+                        <li class="tab cyan darken-1"><a class="active white-text" href="#friends">Freunde</a></li>
+                        <li class="tab cyan darken-1"><a class="white-text" href="#notify">Benachrichtigungen</a></li>
+                    </ul>
+                </div>
+                <div class="card-content grey lighten-5">
+                    <div id="friends">Vorname Nachname</div>
+                    <div id="notify">Text of Notify</div>
+                </div>
+            </div>
+        </div>
+        <div class="col s12 l6">
+            @RenderBody()
+        </div>
+        <div class="col l3 hide-on-med-and-down">
+            <div class="card medium hoverable">
+                <div class="card-content center">
+                    <span class="card-title ">Beitrag teilen</span>
+                    <div class="row">
+                        <form class="col s12" action="#">
+                            <div class="file-field input-field">
+                                <div class="btn cyan darken-1">
+                                    <span>Datei</span>
+                                    <input type="file" multiple>
+                                </div>
+                                <div class="file-path-wrapper">
+                                    <input class="file-path validate" type="text" placeholder="Eine oder mehrere Dateien Hochladen">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12" style="overflow-y: auto; height: 100px;">
+                                    <textarea id="textarea" class="materialize-textarea" data-length="500"></textarea>
+                                    <label for="textarea">Beitrag</label>
+                                </div>
+                            </div>
+                            
+                            <button class="btn cyan darken-1 waves-effect waves-light center" type="submit" name="action">posten
+                                <i class="material-icons right">send</i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
     </div>
-</section>
 
-<footer class="page-footer indigo darken-4" style="padding-top: 10px; padding-bottom: 0px;">
-    @Html.Partial("Footer")
+</main>
+<footer class="page-footer cyan darken-1">
+    <div class="footer-copyright">
+        &copy; XOVO GmbH @DateTime.Now.Year
+        <a href="#" class="grey-text text-lighten-4 right">About us</a>
+    </div>
 </footer>
 
-    
->>>>>>> f596288fc428601e60eee5ab4e86ac77c45608cb
 
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
-<script src="~/Scripts/bootstrap.min.js"></script>
-
-<script language="javascript">
-<<<<<<< HEAD
-    if((document).ready(dropdown))
-    {
-        $(".dropdown-trigger").dropdown();
-    }
-=======
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/materialize")
+<script>
     $(document).ready(function() {
-        $(".dropdown-trigger").dropdown();
+        $('.dropdown-trigger').dropdown
+        (
+            {
+            coverTrigger: false
+            }
+        );
+
+        $('.sidenav').sidenav();
+        $('.tabs').tabs();
+        $('input#input_text, textarea#textarea').characterCounter();
+
     });
->>>>>>> f596288fc428601e60eee5ab4e86ac77c45608cb
 </script>
-
 </body>
-
 </html>
