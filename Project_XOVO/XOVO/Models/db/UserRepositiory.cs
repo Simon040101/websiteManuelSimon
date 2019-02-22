@@ -188,6 +188,23 @@ namespace XOVO.Models.db
             }
         }
 
+        public bool UnlockUser(int id)
+        {
+            try
+            {
+                MySqlCommand cmdUnLock = this._connection.CreateCommand();
+                cmdUnLock.CommandText = "Update users set isAdmin = 1 where id = @id";
+                cmdUnLock.Parameters.AddWithValue("id", id);
+
+                return cmdUnLock.ExecuteNonQuery() == 1;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         public bool LockUser(int id)
         {
             try

@@ -59,16 +59,21 @@
                 <td>@a.Email</td>
 
                 <td><a class="btn-floating btn-large waves-effect waves-light red" href="/user/delete/@a.ID"><i class="material-icons">delete</i></a></td>
-                <td><a class="btn-floating btn-large waves-effect waves-light red" href="/user/lockuser/@a.ID">
+                <td>
                     @if (a.IsLocked)
                     {
-                        <i class="material-icons">lock</i>
+                        <a class="btn-floating btn-large waves-effect waves-light red" href="/user/unlockuser/@a.ID">
+                            <i class="material-icons">lock</i>
+                        </a>
                     }
                     else
                     {
-                        <i class="material-icons">lock_open</i>
+                        <a class="btn-floating btn-large waves-effect waves-light red" href="/user/lockuser/@a.ID">
+                            <i class="material-icons">lock_open</i>
+                        </a>
                     }
-                    </a></td>
+                            
+</td>
 
 </tr>
 

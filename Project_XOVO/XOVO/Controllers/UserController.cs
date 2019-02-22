@@ -19,6 +19,22 @@ namespace XOVO.Controllers
             return RedirectToAction("login", "user");
         }
 
+        public ActionResult UnlockUser(int id)
+        {
+            if ((Session["isAdmin"] != null) && (Convert.ToInt32(Session["isAdmin"]) == 0))
+            {
+
+                UserRepositiory ur = new UserRepositiory();
+                ur.Open();
+                ur.UnlockUser(id);
+                return Request.UrlReferrer == null ? (ActionResult)RedirectToAction("Index", "Home") : Redirect(Request.UrlReferrer.ToString());
+            }
+            else
+            {
+                return View("Message", new Message("Sperren", "Sie sind nicht berechtigt einen Benutzer zu entsoerren!!!", "", ""));
+            }
+        }
+
         public ActionResult LockUser(int id)
         {
             
