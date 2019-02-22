@@ -62,7 +62,7 @@ namespace XOVO.Models.db
             try
             {
                 MySqlCommand cmdDelete = this._connection.CreateCommand();
-                cmdDelete.CommandText = "Delete from users where id = @id";
+                cmdDelete.CommandText = "Delete from users where id = @id and isAdmin != 0";
                 cmdDelete.Parameters.AddWithValue("id", id);
 
                 return cmdDelete.ExecuteNonQuery() == 1;
@@ -193,7 +193,7 @@ namespace XOVO.Models.db
             try
             {
                 MySqlCommand cmdLock = this._connection.CreateCommand();
-                cmdLock.CommandText = "Update users set isAdmin = 3 where id = @id";
+                cmdLock.CommandText = "Update users set isAdmin = 3 where id = @id and isAdmin != 0";
                 cmdLock.Parameters.AddWithValue("id", id);
 
                 return cmdLock.ExecuteNonQuery() == 1;

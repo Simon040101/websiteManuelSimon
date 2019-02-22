@@ -24,6 +24,7 @@ namespace XOVO.Controllers
             
             if ((Session["isAdmin"] != null) && (Convert.ToInt32(Session["isAdmin"]) == 0))
             {
+                
                 UserRepositiory ur = new UserRepositiory();
                 ur.Open();
                 ur.LockUser(id);
@@ -170,12 +171,14 @@ namespace XOVO.Controllers
 
         private List<User> LoadUsers()
         {
-            UserRepositiory ur = new UserRepositiory();
-            ur.Open();
 
-            List<User> aUser = new List<User>();
+                UserRepositiory ur = new UserRepositiory();
+                ur.Open();
 
-            return aUser = ur.GetAllUser();
+                List<User> aUser = new List<User>();
+
+                return aUser = ur.GetAllUser();
+            
         }
 
         private void ValidateRegistrationForm(User userToValidate)
