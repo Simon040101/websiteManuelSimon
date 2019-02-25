@@ -18,38 +18,66 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
 <body>
-    <div class="navbar-fixed">
-        <nav class="transparent z-depth-0">
-            <div class="nav-wrapper">
-                <div class="row">
-                    <div class="col s12">
-                        <a href="#" class="brand-logo center">XOVO - stay together</a>
-                        <ul id="nav-mobile" class="right hide-on-med-and-down">
-                            <li><a href="#">Über uns</a></li>
-                            <li><a href="#">AGB</a></li>
-                            <li><a href="#">Kontakt</a></li>
-                            <li><a href="#">Kundenbewertungen</a></li>
-                            <li>
-                                <div class="switch">
-                                    <label style="color:white">
-                                        DE
-                                        <input type="checkbox">
-                                        <span class="lever"></span>
-                                        E
-                                    </label>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
+<div class="navbar-fixed">
+    
+    
+    <ul class="sidenav" id="mobile_sidenav">
+        <li><a href="#">Über uns</a></li>
+        <li><a href="#">AGB</a></li>
+        <li><a href="#">Kontakt</a></li>
+        <li><a href="#">Kundenbewertungen</a></li>
+        <li class="center">
+            <div class="switch">
+                <label>
+                    DE
+                    <input type="checkbox">
+                    <span class="lever"></span>
+                    E
+                </label>
+            </div>
+        </li>
+    </ul>
+
+    <nav class="transparent z-depth-0">
+        <div class="nav-wrapper">
+            <div class="row">
+                <div class="col s12">
+                    <a href="#" class="brand-logo center">XOVO - stay together</a>
+                    <a href="#" data-target="mobile_sidenav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+                    <ul id="nav-mobile" class="right hide-on-med-and-down">
+                        <li><a href="#">Über uns</a></li>
+                        <li><a href="#">AGB</a></li>
+                        <li><a href="#">Kontakt</a></li>
+                        <li><a href="#">Kundenbewertungen</a></li>
+                        <li>
+                            <div class="switch">
+                                <label style="color: white">
+                                    DE
+                                    <input type="checkbox">
+                                    <span class="lever"></span>
+                                    E
+                                </label>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
             </div>
-        </nav>
-    </div>
+        </div>
+    </nav>
+</div>
     <div class="container">
         @RenderBody()
     </div>
 
 @Scripts.Render("~/bundles/jquery")
 @Scripts.Render("~/bundles/materialize")
+
+<script>
+    $(document).ready(function() {
+
+        $('.sidenav').sidenav();
+       
+    });
+</script>
 </body>
 </html>

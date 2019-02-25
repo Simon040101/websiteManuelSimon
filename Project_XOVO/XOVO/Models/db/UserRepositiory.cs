@@ -222,5 +222,51 @@ namespace XOVO.Models.db
             }
         }
 
+        public List<User> SearchUser(string firstname, string lastname)
+        {
+            List<User> foundUser = new List<User>();
+            try
+            {
+                MySqlCommand cmdSearchUser = this._connection.CreateCommand();
+                cmdSearchUser.CommandText = "SELECT * FROM users WHERE (firstname = @firstname) AND (lastname = @lastname)";
+                cmdSearchUser.Parameters.AddWithValue("firstname", firstname);
+                cmdSearchUser.Parameters.AddWithValue("lastname", lastname);
+
+                using (MySqlDataReader reader = cmdSearchUser.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+
+                            foundUser.Add(
+                                new User
+                                {
+                                    ID = Convert.ToInt32(reader["id"]),
+                                    Firstname = Convert.ToString(reader["firstname"]),
+                                    Lastname = Convert.ToString(reader["lastname"]),
+                                    Birthdate = Convert.ToDateTime(reader["birthdate"]),
+                                    Gender = (Gender) Convert.ToInt32(reader["gender"]),
+                                    Username = Convert.ToString(reader["username"]),
+                                    Email = Convert.ToString(reader["email"]),
+                                    IsLocked = Convert.ToInt32(reader["isAdmin"]) == 3
+                                });
+                        }
+
+
+                    }
+
+                    return foundUser.Count > 0 ? foundUser : null;
+                }
+            }
+            catch (MySqlException)
+            {
+                throw;
+            }
+
+            return null;
+        }
+
+
     }
 }

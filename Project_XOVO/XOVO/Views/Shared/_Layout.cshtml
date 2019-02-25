@@ -24,10 +24,29 @@
             <a href="#">Freundesliste</a>
         </li>
     </ul>
+    
+    <ul class="sidenav" id="mobile_sidenav">
+        <li>@Html.ActionLink("Feed", "Index", "Home", null, null)</li>
+        <li>
+            <a href="#" class="dropdown-trigger" data-target="drop_profile">Profil<i class="material-icons right">arrow_drop_down</i></a>
+        </li>
+        <li><a href="#">Benachrichtigungen</a></li>
+        <li>@Html.ActionLink("Logout", "Logout", "User", null, null)</li>
+        <li class="switch center">
+            <label>
+                DE
+                <input type="checkbox">
+                <span class="lever"></span>
+                EN
+            </label>
+        </li>
+
+    </ul>
 
     <nav class="cyan darken-1">
         <div class="nav-wrapper">
-            @Html.ActionLink("XOVO", "Index", "Home", null, new {@class = "brand-logo"})
+            @Html.ActionLink("XOVO", "Index", "Home", null, new { @class = "brand-logo" })
+            <a href="#" data-target="mobile_sidenav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
             <ul class="right hide-on-med-and-down">
                 <li>@Html.ActionLink("Feed", "Index", "Home", null, null)</li>
                 <li>

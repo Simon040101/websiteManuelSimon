@@ -21,5 +21,6 @@ namespace XOVO.Models.db
         bool CheckDoubleUsername(User user);
         List<User> GetAllUser();
         bool LockUser(int id);
+        List<User> SearchUser(string firstname, string lastname);
     }
 }
