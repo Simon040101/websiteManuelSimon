@@ -13,6 +13,8 @@ create table users(
     email varchar(100) not null unique, 
     passwrd varchar(100) not null,
     isAdmin tinyint not null default 0,
+    layout_color varchar(100),
+    background_login tinyint not null,
     
     constraint id_PK primary key(id)
 
@@ -21,7 +23,7 @@ create table users(
 )engine = InnoDB;
 
 
-insert into users values (2, "Christoph", "Zallinger", "2019-02-02" , 0, "Christoph", "Chrissi@swp.at", sha2("123456789", 256), 0);
+insert into users values (1, "Simon", "Raass", "2001-04-01" , 0, "Simon", "Simon@swp.at", sha2("123456789", 256), 0, "blue", "0");
 
 select * from users;
 
