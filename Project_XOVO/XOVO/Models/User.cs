@@ -24,11 +24,13 @@ namespace XOVO.Models
         public string Email { get; set; }
         public int ID { get; set; }
         public bool IsLocked { get; set; }
+        public string Layout_color { get; set; }
+        public int Background_login { get; set; }
 
 
 
-        public User() : this("", "", DateTime.MinValue, Gender.notSpecified, "", "", "", "", 0, false) { }
-        public User(string firstname, string lastname, DateTime birthdate, Gender gender, string username, string password, string passwordwh, string email, int id, bool isLocked)
+        public User() : this("", "", DateTime.MinValue, Gender.notSpecified, "", "", "", "", 0, false, "", 0) { }
+        public User(string firstname, string lastname, DateTime birthdate, Gender gender, string username, string password, string passwordwh, string email, int id, bool isLocked, string background, int backgroundLogin)
         {
             this.Firstname = firstname;
             this.Lastname = lastname;
@@ -40,6 +42,8 @@ namespace XOVO.Models
             this.Email = email;
             this.ID = id;
             this.IsLocked = isLocked;
+            this.Layout_color = background;
+            this.Background_login = backgroundLogin;
         }
 
 

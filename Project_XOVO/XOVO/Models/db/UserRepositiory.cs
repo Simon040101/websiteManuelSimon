@@ -30,6 +30,30 @@ namespace XOVO.Models.db
             }
         }
 
+        public bool ChangeData(User user)
+        {
+            try
+            {
+                MySqlCommand cmdChange = this._connection.CreateCommand();
+                cmdChange.CommandText = "Update users set firstname = @firstname, lastname = @lastname, birthdate = @birthdate, gender = @gender, username = @username, email = @email, passwrd = sha2(@passwort, 256) where id = @id";
+                cmdChange.Parameters.AddWithValue("firstname", user.Firstname);
+                cmdChange.Parameters.AddWithValue("lastname", user.Lastname);
+                cmdChange.Parameters.AddWithValue("birthdate", user.Birthdate);
+                cmdChange.Parameters.AddWithValue("gender", user.Gender);
+                cmdChange.Parameters.AddWithValue("username", user.Username);
+                cmdChange.Parameters.AddWithValue("email", user.Email);
+                cmdChange.Parameters.AddWithValue("passwort", user.Password);
+                cmdChange.Parameters.AddWithValue("id", user.ID);
+                
+                return cmdChange.ExecuteNonQuery() == 1;
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+
         public bool Insert(User userToAdd)
         {
             if((this._connection == null)||(this._connection.State != ConnectionState.Open))
@@ -40,7 +64,7 @@ namespace XOVO.Models.db
             {
                 string dateToInsert = userToAdd.Birthdate.ToString("yyyy-M-d");
                 MySqlCommand cmdInsert = this._connection.CreateCommand();
-                cmdInsert.CommandText = "INSERT INTO users VALUES(null, @firstname, @lastname, @birthdate, @gender, @username, @email, sha2(@pwd, 256), 1)";
+                cmdInsert.CommandText = "INSERT INTO users VALUES(null, @firstname, @lastname, @birthdate, @gender, @username, @email, sha2(@pwd, 256), 1, '#f44336', 0)";
                 cmdInsert.Parameters.AddWithValue("firstname", userToAdd.Firstname);
                 cmdInsert.Parameters.AddWithValue("lastname", userToAdd.Lastname);
                 cmdInsert.Parameters.AddWithValue("birthdate", dateToInsert);
@@ -116,6 +140,33 @@ namespace XOVO.Models.db
             }
         }
 
+        public bool CheckDoubleEmail(User user)
+        {
+            try
+            {
+                MySqlCommand cmdCeckEmail = this._connection.CreateCommand();
+                cmdCeckEmail.CommandText = "Select * from users where email = @email";
+                cmdCeckEmail.Parameters.AddWithValue("email", user.Email);
+
+                using (MySqlDataReader reader = cmdCeckEmail.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         public bool CheckDoubleUsername(User user)
         {
             try
@@ -169,7 +220,9 @@ namespace XOVO.Models.db
                                 Gender = (Gender)Convert.ToInt32(reader["gender"]),
                                 Username = Convert.ToString(reader["username"]),
                                 Email = Convert.ToString(reader["email"]),
-                                IsLocked = Convert.ToInt32(reader["isAdmin"]) == 3
+                                IsLocked = Convert.ToInt32(reader["isAdmin"]) == 3,
+                                Layout_color = Convert.ToString(reader["layout_color"]),
+                                Background_login = Convert.ToInt32(reader["background_login"]),
 
 
                                 } );
@@ -222,5 +275,66 @@ namespace XOVO.Models.db
             }
         }
 
+        public User GetUserById(int id)
+        {
+            try
+            {
+                MySqlCommand cmdGetId = this._connection.CreateCommand();
+                cmdGetId.CommandText = "Select * from users where id = @id";
+                cmdGetId.Parameters.AddWithValue("id", id);
+
+                using(MySqlDataReader reader = cmdGetId.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+
+
+
+                             return new User
+                            {
+                                ID = Convert.ToInt32(reader["id"]),
+                                Firstname = Convert.ToString(reader["firstname"]),
+                                Lastname = Convert.ToString(reader["lastname"]),
+                                Birthdate = Convert.ToDateTime(reader["birthdate"]),
+                                Gender = (Gender)Convert.ToInt32(reader["gender"]),
+                                Username = Convert.ToString(reader["username"]),
+                                Email = Convert.ToString(reader["email"]),
+
+
+                            };
+
+                        }
+                    }
+                    
+                }
+                return null;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public bool ChangeLayout(User user)
+        {
+            try
+            {
+                MySqlCommand cmdChangeLayout = this._connection.CreateCommand();
+                cmdChangeLayout.CommandText = "Update users set layout_color = @layout_color where id=@id";
+                cmdChangeLayout.Parameters.AddWithValue("layout_color", user.Layout_color);
+                cmdChangeLayout.Parameters.AddWithValue("id", user.ID);
+
+                return cmdChangeLayout.ExecuteNonQuery() == 1;
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

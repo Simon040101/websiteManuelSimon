@@ -1,0 +1,51 @@
+﻿@model XOVO.Models.User
+@{
+    ViewBag.Title = "Design ändern";
+}
+
+@using (Html.BeginForm())
+{
+    <div class="card hoverable">
+        <div class="card-content">
+            <div>
+                <span class="card-title">Layout ändern</span>
+                <form>
+                    <div class="input-field">
+                        <select class="icons" name="Layout_color">
+                            <option value="" disabled selected>Wählen Sie die Farbe</option>
+                            <option value="#f44336" data-icon="" class="left">Rot</option>
+                            <option value="#4caf50" data-icon="" class="left">Grün</option>
+                            <option value="#03a9f4" data-icon="" class="left">Blau</option>
+                        </select>
+                    </div>
+
+                    <div class="input-field">
+                        <input id="id"name="ID" type="text" class="validate">
+                        <label for="id">ID</label>
+                    </div>
+
+                    <button class="btn waves-effect waves-light" type="submit" name="action">
+                        Speichern
+                        <i class="material-icons right">save</i>
+                    </button>
+
+                    @*<div class="input-field">
+                        <select class="icons" name="Background_login">
+                            <option value="" disabled selected>Wählen Sie Ihren Hintergrund</option>
+                            <option value="" data-icon="/Content/img/background_login_registration.jpg">Hintergrund 1</option>
+                            <option value="" data-icon="/Content/img/background_login_registration2.jpg">Hintergrund 2</option>
+                        </select>
+                        <label>Images in select</label>
+                    </div>*@
+                    </form>
+                <div class="card-action">
+                    
+
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+
+}
