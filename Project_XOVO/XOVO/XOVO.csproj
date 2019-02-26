@@ -285,6 +285,8 @@
     <Content Include="Views\Shared\Message.cshtml" />
     <Content Include="Views\Shared\Message_Registrierung.cshtml" />
     <Content Include="Views\User\UserManagement.cshtml" />
+    <Content Include="Views\User\ChangeData.cshtml" />
+    <Content Include="Views\User\ChangeLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

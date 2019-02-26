@@ -13,10 +13,64 @@ namespace XOVO.Controllers
     {
         IUserRepositiory usersRepository;
 
+        [HttpGet]
+        public ActionResult ChangeLayout()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult ChangeLayout(User user)
+        {
+            UserRepositiory ur = new UserRepositiory();
+            ur.Open();
+
+            bool ChangeLayout = ur.ChangeLayout(user);
+
+            return View(user);
+        }
+
         public ActionResult Logout()
         {
             Session["isAdmin"] = null;
             return RedirectToAction("login", "user");
+        }
+        [HttpGet]
+        public ActionResult ChangeData()
+        {
+            if ((Session["isAdmin"] != null) && (Convert.ToInt32(Session["isAdmin"]) != 3) && (Convert.ToInt32(Session["isAdmin"]) != 2))
+            {
+                return View();
+            }
+            else
+            {
+                return View("Message", new Message("Daten ändern", "Es tut uns leid :( Sie können Ihre Daten nicht ändern", "", "Melden Sie sich an"));
+            }
+
+        }
+        [HttpPost]
+        public ActionResult ChangeData(User user)
+        {
+            if ((Session["isAdmin"] != null) && (Convert.ToInt32(Session["isAdmin"]) != 3) && (Convert.ToInt32(Session["isAdmin"]) != 2))
+            {
+                ValidateRegistrationForm(user);
+
+                if (ModelState.IsValid)
+                {
+                    UserRepositiory ur = new UserRepositiory();
+                    ur.Open();
+
+                    bool ChangeSuccess = ur.ChangeData(user);
+                    return Request.UrlReferrer == null ? (ActionResult)RedirectToAction("Index", "Home") : Redirect(Request.UrlReferrer.ToString());
+                }
+                else
+                {
+                    return View("Message", new Message("Daten ändern", "Fehler", "Ihre Daten konnten nicht verändert werden", ""));
+                }
+            }
+            else
+            {
+                return View("Message", new Message("Daten ändern", "Es tut uns leid :( Sie können Ihre Daten nicht ändern", "", "Melden Sie sich an"));
+            }
         }
 
         public ActionResult UnlockUser(int id)
@@ -31,7 +85,7 @@ namespace XOVO.Controllers
             }
             else
             {
-                return View("Message", new Message("Sperren", "Sie sind nicht berechtigt einen Benutzer zu entsoerren!!!", "", ""));
+                return View("Message", new Message("Sperren", "Sie sind nicht berechtigt einen Benutzer zu entsperren!!!", "", ""));
             }
         }
 
@@ -236,6 +290,10 @@ namespace XOVO.Controllers
             if (ur.CheckDoubleUsername(userToValidate) == false)
             {
                 ModelState.AddModelError("Username", "Der Benutzername ist leider schon vergeben");
+            }
+            if(ur.CheckDoubleEmail(userToValidate) == false)
+            {
+                ModelState.AddModelError("Email", "Es besteht bereits ein Konto mit dieser Email");
             }
             if (userToValidate.Username == null)
             {
