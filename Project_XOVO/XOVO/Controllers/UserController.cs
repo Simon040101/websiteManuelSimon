@@ -81,6 +81,7 @@ namespace XOVO.Controllers
             if ((Session["isAdmin"] != null) && (Convert.ToInt32(Session["isAdmin"]) == 0))
             {
                 List<User> users = LoadUsers();
+                List<User> foundUser = FoundUser();
 
                 return View(users);
             }
@@ -197,7 +198,7 @@ namespace XOVO.Controllers
             
         }
 
-        private List<User> FoundUser()
+        private List<User> FoundUser(string firstname, string lastname)
         {
             UserRepositiory ur = new UserRepositiory();
             ur.Open();
@@ -205,7 +206,7 @@ namespace XOVO.Controllers
             List<User> fUser = new List<User>();
 
             //To do: der Suchfunktion übergeben
-            return null; //fUser = ur.SearchUser();
+            return fUser = ur.SearchUser(firstname, lastname);
 
         }
 
