@@ -190,7 +190,7 @@ namespace XOVO.Controllers
             finally
             {
                 usersRepository.Close();
-            }
+           }
 
         }
         [HttpGet]
@@ -249,6 +249,18 @@ namespace XOVO.Controllers
 
                 return aUser = ur.GetAllUser();
             
+        }
+
+        private List<User> FoundUser()
+        {
+            UserRepositiory ur = new UserRepositiory();
+            ur.Open();
+
+            List<User> fUser = new List<User>();
+
+            //To do: der Suchfunktion übergeben
+            return null; //fUser = ur.SearchUser();
+
         }
 
         private void ValidateRegistrationForm(User userToValidate)
