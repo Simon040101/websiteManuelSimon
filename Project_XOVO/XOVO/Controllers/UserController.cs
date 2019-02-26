@@ -136,7 +136,7 @@ namespace XOVO.Controllers
             finally
             {
                 usersRepository.Close();
-            }
+           }
 
         }
         [HttpGet]

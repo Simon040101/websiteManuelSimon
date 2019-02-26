@@ -228,7 +228,7 @@ namespace XOVO.Models.db
             try
             {
                 MySqlCommand cmdSearchUser = this._connection.CreateCommand();
-                cmdSearchUser.CommandText = "SELECT * FROM users WHERE (firstname = @firstname) AND (lastname = @lastname)";
+                cmdSearchUser.CommandText = "SELECT * FROM users WHERE (firstname = @firstname) OR (lastname = @lastname)";
                 cmdSearchUser.Parameters.AddWithValue("firstname", firstname);
                 cmdSearchUser.Parameters.AddWithValue("lastname", lastname);
 
