@@ -19,16 +19,18 @@
     </div>
 </div>
 
-<div class="input-field col s6">
-    <input id="lastname" type="text" class="validate">
-    <label for="lastname">Nachname</label>
-</div>
-<div class="input-field col s6">
-    <input id="firstname" type="text" class="validate">
-    <label for="firstname">Vorname</label>
-</div>
-<a class="waves-effect waves-light btn red" href="/user/searchuser/">Suchen</a>
-
+@using (Html.BeginForm("UserManagement", "User", FormMethod.Get))
+{
+    <div class="input-field col s6">
+        <input id="lastname" name="lastname" type="text" class="validate">
+        <label for="lastname">Nachname</label>
+    </div>
+    <div class="input-field col s6">
+        <input id="firstname" name="firstname" type="text" class="validate">
+        <label for="firstname">Vorname</label>
+    </div>
+    <input type="submit" class="waves-effect waves-light btn red" value="Suchen"/>
+}
 @if ((Model != null) && (Model.Count > 0)){
 
     <table class="striped center responsive-table">

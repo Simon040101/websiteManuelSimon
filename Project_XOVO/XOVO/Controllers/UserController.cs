@@ -129,22 +129,49 @@ namespace XOVO.Controllers
 
         }
 
+        /*
         [HttpGet]
         public ActionResult UserManagement()
         {
             if ((Session["isAdmin"] != null) && (Convert.ToInt32(Session["isAdmin"]) == 0))
             {
                 List<User> users = LoadUsers();
-                List<User> foundUser = FoundUser();
+                // List<User> foundUser = SearchUsers(firstname, lastname);
 
                 return View(users);
+               
             }
             else
             {
                 return View("Message", new Message("Achtung", "fehlende Berechtigung", "Sie sind nicht berechtigt die Seite aufzurufen", ""));
             }
         }
-         [HttpGet]
+        */
+
+        [HttpGet]
+        public ActionResult UserManagement(string firstname="", string lastname="")
+        {
+            if ((Session["isAdmin"] != null) && (Convert.ToInt32(Session["isAdmin"]) == 0))
+            {
+                List<User> usersToDisplay;
+
+                if ( (firstname == "") && (lastname == "") ) {
+                    usersToDisplay = LoadUsers();
+                }
+                else
+                {
+                    usersToDisplay = SearchUsers(firstname, lastname);
+                }
+
+                return View(usersToDisplay);
+
+            }            else
+            {
+                return View("Message", new Message("Achtung", "fehlende Berechtigung", "Sie sind nicht berechtigt die Seite aufzurufen", ""));
+            }
+        }
+
+        [HttpGet]
          public ActionResult Login()
         {
             return View(new Login());
@@ -248,19 +275,16 @@ namespace XOVO.Controllers
 
                 List<User> aUser = new List<User>();
 
-                return aUser = ur.GetAllUser();
-            
+            return aUser = ur.GetAllUser();
+
         }
 
-        private List<User> FoundUser(string firstname, string lastname)
+        private List<User> SearchUsers(string firstname, string lastname)
         {
             UserRepositiory ur = new UserRepositiory();
             ur.Open();
 
-            List<User> fUser = new List<User>();
-
-            //To do: der Suchfunktion übergeben
-            return fUser = ur.SearchUser(firstname, lastname);
+            return ur.SearchUser(firstname, lastname);
 
         }
 
