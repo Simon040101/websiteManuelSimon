@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@{ 
+    string color = Request.Cookies["layout_color"] != null ? Request.Cookies["layout_color"].Value.ToString() : "cyan";
+}
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8"/>
@@ -43,7 +47,7 @@
 
     </ul>
 
-    <nav class="cyan darken-1">
+    <nav class="@color" darken-1">
         <div class="nav-wrapper">
             @Html.ActionLink("XOVO", "Index", "Home", null, new { @class = "brand-logo" })
             <a href="#" data-target="mobile_sidenav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
@@ -74,8 +78,8 @@
             <div class="card medium hoverable">
                 <div class="card-tabs">
                     <ul class="tabs tabs-fixed-width">
-                        <li class="tab cyan darken-1"><a class="active white-text" href="#friends">Freunde</a></li>
-                        <li class="tab cyan darken-1"><a class="white-text" href="#notify">Benachrichtigungen</a></li>
+                        <li class="tab @color darken-1"><a class="active white-text" href="#friends">Freunde</a></li>
+                        <li class="tab @color darken-1"><a class="white-text" href="#notify">Benachrichtigungen</a></li>
                     </ul>
                 </div>
                 <div class="card-content grey lighten-5">
@@ -94,7 +98,7 @@
                     <div class="row">
                         <form class="col s12" action="#">
                             <div class="file-field input-field">
-                                <div class="btn cyan darken-1">
+                                <div class="btn @color darken-1">
                                     <span>Datei</span>
                                     <input type="file" multiple>
                                 </div>
@@ -109,7 +113,7 @@
                                 </div>
                             </div>
                             
-                            <button class="btn cyan darken-1 waves-effect waves-light center" type="submit" name="action">posten
+                            <button class="btn @color darken-1 waves-effect waves-light center" type="submit" name="action">posten
                                 <i class="material-icons right">send</i>
                             </button>
                         </form>
@@ -121,7 +125,7 @@
     </div>
 
 </main>
-<footer class="page-footer cyan darken-1">
+<footer class="page-footer @color darken-1">
     <div class="footer-copyright">
         &copy; XOVO GmbH @DateTime.Now.Year
         <a href="#" class="grey-text text-lighten-4 right">About us</a>

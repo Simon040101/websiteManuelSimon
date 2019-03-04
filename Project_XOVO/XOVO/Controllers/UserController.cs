@@ -25,6 +25,10 @@ namespace XOVO.Controllers
             ur.Open();
 
             bool ChangeLayout = ur.ChangeLayout(user);
+            bool ChangeBackground = ur.ChangeBackground(user);
+
+            Response.Cookies["layout_color"].Value = user.Layout_color;
+            Response.Cookies["background_login"].Value = user.Background_login;
 
             return View(user);
         }
@@ -165,11 +169,23 @@ namespace XOVO.Controllers
                 {
                     Session["isAdmin"] = true;
                     Session["isAdmin"] = 0;
+
+                    User u = usersRepository.GetUser(user.UsernameOrEmail, user.Password);
+
+                    Response.Cookies["layout_color"].Value = u.Layout_color;
+                    Response.Cookies["background_login"].Value = u.Background_login;
+
                     return RedirectToAction("index", "home");
                 }
                 else if(log == UserRole.RegisteredUser)
                 {
                     Session["isAdmin"] = true;
+
+                    User u = usersRepository.GetUser(user.UsernameOrEmail, user.Password);
+
+                    Response.Cookies["layout_color"].Value = u.Layout_color;
+                    Response.Cookies["background_login"].Value = u.Background_login;
+
                     return RedirectToAction("index", "home");
 
                 }

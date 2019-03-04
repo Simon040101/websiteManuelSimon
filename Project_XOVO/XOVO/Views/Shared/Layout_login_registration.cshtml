@@ -1,4 +1,8 @@
-﻿
+﻿@{
+    string background = Request.Cookies["background_login"] != null ? Request.Cookies["background_login"].Value.ToString() : "/Content/img/background_login_registration.jpg";
+}
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,7 +21,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
-<body>
+<body style="background-image:url('@background')">
 <div class="navbar-fixed">
     
     
