@@ -31,8 +31,19 @@
     
     <ul class="sidenav" id="mobile_sidenav">
         <li>@Html.ActionLink("Feed", "Index", "Home", null, null)</li>
-        <li>
-            <a href="#" class="dropdown-trigger" data-target="drop_profile">Profil<i class="material-icons right">arrow_drop_down</i></a>
+        <li class="no-padding">
+                <ul class="collapsible collapsible-accordion">
+                    <li>
+                        <a class="collapsible-header">Profil<i class="material-icons">arrow_drop_down</i></a>
+                        <div class="collapsible-body">
+                            <ul>
+                                <li><a href="#!">Anzeigen</a></li>
+                                <li><a href="#!">Verwalten</a></li>
+                                <li><a href="#!">Freundesliste</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
         </li>
         <li><a href="#">Benachrichtigungen</a></li>
         <li>@Html.ActionLink("Logout", "Logout", "User", null, null)</li>
