@@ -162,6 +162,7 @@
     </Compile>
     <Compile Include="Models\db\IUserRepositiory.cs" />
     <Compile Include="Models\db\UserRepositiory.cs" />
+    <Compile Include="Models\FeedItem.cs" />
     <Compile Include="Models\Login.cs" />
     <Compile Include="Models\Message.cs" />
     <Compile Include="Models\User.cs" />
@@ -287,6 +288,7 @@
     <Content Include="Views\User\UserManagement.cshtml" />
     <Content Include="Views\User\ChangeData.cshtml" />
     <Content Include="Views\User\ChangeLayout.cshtml" />
+    <Content Include="Views\Shared\FeedItem.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

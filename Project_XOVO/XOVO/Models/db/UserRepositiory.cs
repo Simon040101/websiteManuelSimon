@@ -324,9 +324,23 @@ namespace XOVO.Models.db
             try
             {
                 MySqlCommand cmdSearchUser = this._connection.CreateCommand();
-                cmdSearchUser.CommandText = "SELECT * FROM users WHERE (firstname = @firstname) OR (lastname = @lastname)";
-                cmdSearchUser.Parameters.AddWithValue("firstname", firstname);
-                cmdSearchUser.Parameters.AddWithValue("lastname", lastname);
+                if (firstname.Trim() == "")
+                {
+                    cmdSearchUser.CommandText = "SELECT * FROM users WHERE (lastname LIKE Concat('%', @lastname, '%'))";
+                    cmdSearchUser.Parameters.AddWithValue("lastname", lastname);
+                }
+                else if (lastname.Trim() == "")
+                {
+                    cmdSearchUser.CommandText = "SELECT * FROM users WHERE (firstname LIKE Concat('%', @firstname, '%'))";
+                    cmdSearchUser.Parameters.AddWithValue("firstname", firstname);
+                }
+                else
+                {
+                    cmdSearchUser.CommandText = "SELECT * FROM users WHERE (firstname LIKE Concat('%', @firstname, '%')) AND (lastname LIKE Concat('%', @lastname, '%'))";
+                    cmdSearchUser.Parameters.AddWithValue("firstname", firstname);
+                    cmdSearchUser.Parameters.AddWithValue("lastname", lastname);
+                }
+                
 
                 using (MySqlDataReader reader = cmdSearchUser.ExecuteReader())
                 {

@@ -1,5 +1,18 @@
-﻿
+﻿@using XOVO.Models
+@model List<XOVO.Models.FeedItem>
+
 @{
     ViewBag.Title = "XOVO";
 }
 
+@if ((Model == null) || (Model.Count == 0))
+{
+    <p>Aktuell sind keine Feeds vorhanden.</p>
+}
+else
+{
+    foreach (FeedItem fi in Model)
+    {
+        @Html.Partial("FeedItem", fi)
+    }
+}
