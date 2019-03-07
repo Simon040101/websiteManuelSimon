@@ -23,7 +23,11 @@ namespace XOVO.Models.db
         bool LockUser(int id);
         bool CheckDoubleEmail(User user);
         bool ChangeData(User user);
+        User GetUser(string emailOrUsername, string passwort);
         User GetUserById(int id);
         bool ChangeLayout(User user);
+        string GetLayoutColor(int id);
+        string GetBackgroundLogin(int id);
+        bool ChangeBackground(User user);
     }
 }

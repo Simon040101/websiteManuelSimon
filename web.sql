@@ -23,7 +23,7 @@ create table users(
 )engine = InnoDB;
 
 
-insert into users values (1, "Simon", "Raass", "2001-04-01" , 0, "Simon", "Simon@swp.at", sha2("123456789", 256), 0, "blue", "0");
+insert into users values (1, "Simon", "Raass", "2001-04-01" , 0, "Simon", "Simon@swp.at", sha2("123456789", 256), 0, "blue", "/Content/img/background_login_registration.jpg");
 
 select * from users;
 

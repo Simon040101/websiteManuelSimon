@@ -25,12 +25,12 @@ namespace XOVO.Models
         public int ID { get; set; }
         public bool IsLocked { get; set; }
         public string Layout_color { get; set; }
-        public int Background_login { get; set; }
+        public string Background_login { get; set; }
 
 
 
-        public User() : this("", "", DateTime.MinValue, Gender.notSpecified, "", "", "", "", 0, false, "", 0) { }
-        public User(string firstname, string lastname, DateTime birthdate, Gender gender, string username, string password, string passwordwh, string email, int id, bool isLocked, string background, int backgroundLogin)
+        public User() : this("", "", DateTime.MinValue, Gender.notSpecified, "", "", "", "", 0, false, "", "") { }
+        public User(string firstname, string lastname, DateTime birthdate, Gender gender, string username, string password, string passwordwh, string email, int id, bool isLocked, string background, string backgroundLogin)
         {
             this.Firstname = firstname;
             this.Lastname = lastname;

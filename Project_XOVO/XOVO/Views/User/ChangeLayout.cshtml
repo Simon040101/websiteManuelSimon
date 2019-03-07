@@ -13,9 +13,11 @@
                     <div class="input-field">
                         <select class="icons" name="Layout_color">
                             <option value="" disabled selected>Wählen Sie die Farbe</option>
-                            <option value="#f44336" data-icon="" class="left">Rot</option>
-                            <option value="#4caf50" data-icon="" class="left">Grün</option>
-                            <option value="#03a9f4" data-icon="" class="left">Blau</option>
+                            <option value="red" data-icon="" class="left">Rot</option>
+                            <option value="green" data-icon="" class="left">Grün</option>
+                            <option value="cyan" data-icon="" class="left">Blau</option>
+                            <option value="orange" data-icon="" class="left">Orange</option>
+                            <option value="black" data-icon="" class="left">Schwarz</option>
                         </select>
                     </div>
 
@@ -24,19 +26,21 @@
                         <label for="id">ID</label>
                     </div>
 
+                    <div class="input-field">
+                        <select class="icons" name="Background_login">
+                            <option value="" disabled selected>Wählen Sie Ihren Hintergrund</option>
+                            <option value="/Content/img/background_login_registration.jpg" data-icon="/Content/img/background_login_registration.jpg">Hintergrund 1</option>
+                            <option value="/Content/img/background_login_registration2.jpg" data-icon="/Content/img/background_login_registration2.jpg">Hintergrund 2</option>
+                            <option value="Bild 3" data-icon="/Content/img/background_login_registration2.jpg">Hintergrund 3</option>
+                            <option value="Bild 4" data-icon="/Content/img/background_login_registration2.jpg">Hintergrund 4</option>
+                            <option value="Bild 5" data-icon="/Content/img/background_login_registration2.jpg">Hintergrund 5</option>
+                        </select>
+                    </div>
+
                     <button class="btn waves-effect waves-light" type="submit" name="action">
                         Speichern
                         <i class="material-icons right">save</i>
                     </button>
-
-                    @*<div class="input-field">
-                        <select class="icons" name="Background_login">
-                            <option value="" disabled selected>Wählen Sie Ihren Hintergrund</option>
-                            <option value="" data-icon="/Content/img/background_login_registration.jpg">Hintergrund 1</option>
-                            <option value="" data-icon="/Content/img/background_login_registration2.jpg">Hintergrund 2</option>
-                        </select>
-                        <label>Images in select</label>
-                    </div>*@
                     </form>
                 <div class="card-action">
                     

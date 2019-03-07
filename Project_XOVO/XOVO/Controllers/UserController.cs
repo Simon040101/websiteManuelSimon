@@ -25,6 +25,10 @@ namespace XOVO.Controllers
             ur.Open();
 
             bool ChangeLayout = ur.ChangeLayout(user);
+            bool ChangeBackground = ur.ChangeBackground(user);
+
+            Response.Cookies["layout_color"].Value = user.Layout_color;
+            Response.Cookies["background_login"].Value = user.Background_login;
 
             return View(user);
         }
@@ -32,6 +36,7 @@ namespace XOVO.Controllers
         public ActionResult Logout()
         {
             Session["isAdmin"] = null;
+
             return RedirectToAction("login", "user");
         }
         [HttpGet]
@@ -165,7 +170,8 @@ namespace XOVO.Controllers
 
                 return View(usersToDisplay);
 
-            }            else
+            }
+            else
             {
                 return View("Message", new Message("Achtung", "fehlende Berechtigung", "Sie sind nicht berechtigt die Seite aufzurufen", ""));
             }
@@ -192,11 +198,17 @@ namespace XOVO.Controllers
                 if(log == UserRole.Administrator)
                 {
                     Session["isAdmin"] = 0;
+
+                    User u = usersRepository.GetUser(user.UsernameOrEmail, user.Password);
+
+                    Response.Cookies["layout_color"].Value = u.Layout_color;
+                    Response.Cookies["background_login"].Value = u.Background_login;
+
                     return RedirectToAction("index", "home");
                 }
                 else if(log == UserRole.RegisteredUser)
                 {
-                    Session["isAdmin"] = 1;
+                    Session["isAdmin"] = true;
                     return RedirectToAction("index", "home");
 
                 }
