@@ -191,13 +191,12 @@ namespace XOVO.Controllers
                 }
                 if(log == UserRole.Administrator)
                 {
-                    Session["isAdmin"] = true;
                     Session["isAdmin"] = 0;
                     return RedirectToAction("index", "home");
                 }
                 else if(log == UserRole.RegisteredUser)
                 {
-                    Session["isAdmin"] = true;
+                    Session["isAdmin"] = 1;
                     return RedirectToAction("index", "home");
 
                 }
