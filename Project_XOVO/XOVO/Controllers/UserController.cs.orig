@@ -214,7 +214,6 @@ namespace XOVO.Controllers
 
                     Response.Cookies["layout_color"].Value = u.Layout_color;
                     Response.Cookies["background_login"].Value = u.Background_login;
-
                     return RedirectToAction("index", "home");
 
                 }

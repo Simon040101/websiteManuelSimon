@@ -7,7 +7,7 @@ namespace XOVO.Models.db
 {
     public class UserRepositiory : IUserRepositiory
     {
-        private string _connenctionString = "Server=localhost;Database=XOVO;Uid=root;Pwd=alpine;SslMode=none";
+        private string _connenctionString = "Server=localhost;Database=XOVO;Uid=root;Password=alpine;SslMode=none";
         private MySqlConnection _connection;
 
         public void Open()
@@ -64,7 +64,7 @@ namespace XOVO.Models.db
             {
                 string dateToInsert = userToAdd.Birthdate.ToString("yyyy-M-d");
                 MySqlCommand cmdInsert = this._connection.CreateCommand();
-                cmdInsert.CommandText = "INSERT INTO users VALUES(null, @firstname, @lastname, @birthdate, @gender, @username, @email, sha2(@pwd, 256), 1, '#f44336', 0)";
+                cmdInsert.CommandText = "INSERT INTO users VALUES(null, @firstname, @lastname, @birthdate, @gender, @username, @email, sha2(@pwd, 256), 1, 'rot', '/Content/img/background_login_registration.jpg')";
                 cmdInsert.Parameters.AddWithValue("firstname", userToAdd.Firstname);
                 cmdInsert.Parameters.AddWithValue("lastname", userToAdd.Lastname);
                 cmdInsert.Parameters.AddWithValue("birthdate", dateToInsert);
@@ -134,6 +134,43 @@ namespace XOVO.Models.db
 
             }
             catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public User GetUser(string emailOrUsername, string passwort)
+        {
+            try
+            {
+                MySqlCommand cmd = _connection.CreateCommand();
+                cmd.CommandText = "SELECT * FROM users WHERE (username = @emailOrUsername OR email = @emailOrUsername) AND passwrd = sha2(@password, 256) LIMIT 1";
+                cmd.Parameters.AddWithValue("emailOrUsername", emailOrUsername);
+                cmd.Parameters.AddWithValue("password", passwort);
+
+                using (MySqlDataReader reader = cmd.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        reader.Read();
+                        return new User
+                        {
+                            ID = Convert.ToInt32(reader["id"]),
+                            Firstname = Convert.ToString(reader["firstname"]),
+                            Lastname = Convert.ToString(reader["lastname"]),
+                            Birthdate = Convert.ToDateTime(reader["birthdate"]),
+                            Gender = (Gender)Convert.ToInt32(reader["gender"]),
+                            Username = Convert.ToString(reader["username"]),
+                            Email = Convert.ToString(reader["email"]),
+                            Layout_color = Convert.ToString(reader["layout_color"]),
+                            Background_login = Convert.ToString(reader["background_login"])
+                        };
+                    }
+                }
+                return null;
+            }
+            catch (MySqlException ex)
             {
 
                 throw;
@@ -222,7 +259,7 @@ namespace XOVO.Models.db
                                 Email = Convert.ToString(reader["email"]),
                                 IsLocked = Convert.ToInt32(reader["isAdmin"]) == 3,
                                 Layout_color = Convert.ToString(reader["layout_color"]),
-                                Background_login = Convert.ToInt32(reader["background_login"]),
+                                Background_login = Convert.ToString(reader["background_login"]),
 
 
                                 } );
@@ -300,7 +337,7 @@ namespace XOVO.Models.db
                                 Birthdate = Convert.ToDateTime(reader["birthdate"]),
                                 Gender = (Gender)Convert.ToInt32(reader["gender"]),
                                 Username = Convert.ToString(reader["username"]),
-                                Email = Convert.ToString(reader["email"]),
+                                Email = Convert.ToString(reader["email"])
 
 
                             };
@@ -359,7 +396,9 @@ namespace XOVO.Models.db
                                     Gender = (Gender) Convert.ToInt32(reader["gender"]),
                                     Username = Convert.ToString(reader["username"]),
                                     Email = Convert.ToString(reader["email"]),
-                                    IsLocked = Convert.ToInt32(reader["isAdmin"]) == 3
+                                    IsLocked = Convert.ToInt32(reader["isAdmin"]) == 3,
+                                    Background_login = Convert.ToString(reader["background_login"]),
+                                    Layout_color = Convert.ToString(reader["layout_color"])
                                 });
                         }
 
@@ -373,8 +412,55 @@ namespace XOVO.Models.db
             {
                 throw;
             }
+        }
 
-            return null;
+        public string GetBackgroundLogin(int id)
+        {
+            try
+            {
+                MySqlCommand cmdGetBackground = this._connection.CreateCommand();
+                cmdGetBackground.CommandText = "Select background_login from users where id = @id";
+                cmdGetBackground.Parameters.AddWithValue("id", id);
+
+                string Background;
+            
+                using (MySqlDataReader reader = cmdGetBackground.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            return Background = Convert.ToString(reader["background_login"]);
+                        }
+                    }
+
+                    return null;
+                    
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public bool ChangeBackground(User user)
+        {
+            try
+            {
+                MySqlCommand cmdChangeBackground = this._connection.CreateCommand();
+                cmdChangeBackground.CommandText = "Update users set background_login = @background_login where id = @id";
+                cmdChangeBackground.Parameters.AddWithValue("background_login", user.Background_login);
+                cmdChangeBackground.Parameters.AddWithValue("id", user.ID);
+
+                return cmdChangeBackground.ExecuteNonQuery() == 1;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
 
@@ -390,6 +476,39 @@ namespace XOVO.Models.db
                 return cmdChangeLayout.ExecuteNonQuery() == 1;
 
             }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public string GetLayoutColor(int id)
+        {
+            try
+            {
+                MySqlCommand cmdGetColor = this._connection.CreateCommand();
+                cmdGetColor.CommandText = "Select layout_color from users where id = @id";
+                cmdGetColor.Parameters.AddWithValue("id", id);
+
+                string Color;
+
+                using (MySqlDataReader reader = cmdGetColor.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            return Color = Convert.ToString(reader["layout_color"]);
+                        }
+                    }
+
+                    return null;
+                    
+                }
+                
+            }
+
             catch (Exception)
             {
 

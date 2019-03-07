@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@{ 
+    string color = Request.Cookies["layout_color"] != null ? Request.Cookies["layout_color"].Value.ToString() : "cyan";
+}
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8"/>
@@ -11,34 +15,6 @@
 </head>
 
 <body>
-<<<<<<< HEAD
-    <!-- Header -->
-    <header>
-        <nav class="transparent cyan darken-2">
-            <div class="container">
-                <div class="nav-wrapper">
-                    <a href="#" class="brand-logo">XOVO</a>
-                    <a href="#" class="sidnav-trigger" data-trigger="mobile-nav"><i class="material-icons">menu</i></a>
-                    <ul class="right hide-on-med-and-down">
-                        <li><a class="active-link" href="">Mein Feed</a></li>
-                        <li><a class="dropdown-trigger" href="#" data-target="dropdown1">Profil<i class="material-icons right">arrow_drop_down</i></a></li>
-                        <li><a class="waves-effect waves-light btn" href="/user/logout"><i class="material-icons right">highlight_off</i>Ausloggen</a></li>
-                        <li>
-                            <div class="switch">
-                                <label style="color:white">
-                                    DE
-                                    <input type="checkbox">
-                                    <span class="lever"></span>
-                                    EN
-                                </label>
-                            </div>
-                        </li>
-                    </ul>
-                    
-                    
-                    
-=======
->>>>>>> d5c1da2a155756dc1a762ecf9b9133454328c24d
 
 <header>
     <ul class="dropdown-content" id="drop_profile">
@@ -52,16 +28,46 @@
             <a href="#">Freundesliste</a>
         </li>
     </ul>
+    
+    <ul class="sidenav" id="mobile_sidenav">
+        <li>@Html.ActionLink("Feed", "Index", "Home", null, null)</li>
+        <li class="no-padding">
+                <ul class="collapsible collapsible-accordion">
+                    <li>
+                        <a class="collapsible-header">Profil<i class="material-icons">arrow_drop_down</i></a>
+                        <div class="collapsible-body">
+                            <ul>
+                                <li><a href="#!">Anzeigen</a></li>
+                                <li><a href="#!">Verwalten</a></li>
+                                <li><a href="#!">Freundesliste</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+        </li>
+        <li><a href="#">Benachrichtigungen</a></li>
+        <li>@Html.ActionLink("Logout", "Logout", "User", null, null)</li>
+        <li class="switch center">
+            <label>
+                DE
+                <input type="checkbox">
+                <span class="lever"></span>
+                EN
+            </label>
+        </li>
 
-    <nav class="cyan darken-1">
+    </ul>
+
+    <nav class="@color" darken-1">
         <div class="nav-wrapper">
-            @Html.ActionLink("XOVO", "Index", "Home", null, new {@class = "brand-logo"})
+            @Html.ActionLink("XOVO", "Index", "Home", null, new { @class = "brand-logo" })
+            <a href="#" data-target="mobile_sidenav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
             <ul class="right hide-on-med-and-down">
                 <li>@Html.ActionLink("Feed", "Index", "Home", null, null)</li>
                 <li>
                     <a href="#" class="dropdown-trigger" data-target="drop_profile">Profil<i class="material-icons right">arrow_drop_down</i></a>
                 </li>
-                <li>@Html.ActionLink("Logout", "Login", "User", null, null)</li>
+                <li>@Html.ActionLink("Logout", "Logout", "User", null, null)</li>
                 <li class="switch">
                     <label class="white-text">
                         DE
@@ -83,8 +89,8 @@
             <div class="card medium hoverable">
                 <div class="card-tabs">
                     <ul class="tabs tabs-fixed-width">
-                        <li class="tab cyan darken-1"><a class="active white-text" href="#friends">Freunde</a></li>
-                        <li class="tab cyan darken-1"><a class="white-text" href="#notify">Benachrichtigungen</a></li>
+                        <li class="tab @color darken-1"><a class="active white-text" href="#friends">Freunde</a></li>
+                        <li class="tab @color darken-1"><a class="white-text" href="#notify">Benachrichtigungen</a></li>
                     </ul>
                 </div>
                 <div class="card-content grey lighten-5">
@@ -95,6 +101,7 @@
         </div>
         <div class="col s12 l6">
             @RenderBody()
+
         </div>
         <div class="col l3 hide-on-med-and-down">
             <div class="card medium hoverable">
@@ -103,7 +110,7 @@
                     <div class="row">
                         <form class="col s12" action="#">
                             <div class="file-field input-field">
-                                <div class="btn cyan darken-1">
+                                <div class="btn @color darken-1">
                                     <span>Datei</span>
                                     <input type="file" multiple>
                                 </div>
@@ -118,7 +125,7 @@
                                 </div>
                             </div>
                             
-                            <button class="btn cyan darken-1 waves-effect waves-light center" type="submit" name="action">posten
+                            <button class="btn @color darken-1 waves-effect waves-light center" type="submit" name="action">posten
                                 <i class="material-icons right">send</i>
                             </button>
                         </form>
@@ -130,7 +137,7 @@
     </div>
 
 </main>
-<footer class="page-footer cyan darken-1">
+<footer class="page-footer @color darken-1">
     <div class="footer-copyright">
         &copy; XOVO GmbH @DateTime.Now.Year
         <a href="#" class="grey-text text-lighten-4 right">About us</a>
@@ -152,6 +159,7 @@
         $('.sidenav').sidenav();
         $('.tabs').tabs();
         $('input#input_text, textarea#textarea').characterCounter();
+        $('select').formSelect();
 
     });
 </script>
