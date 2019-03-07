@@ -163,7 +163,8 @@ namespace XOVO.Models.db
                             Gender = (Gender)Convert.ToInt32(reader["gender"]),
                             Username = Convert.ToString(reader["username"]),
                             Email = Convert.ToString(reader["email"]),
-                            Layout_color = Convert.ToString(reader["layout_color"])
+                            Layout_color = Convert.ToString(reader["layout_color"]),
+                            Background_login = Convert.ToString(reader["background_login"])
                         };
                     }
                 }
