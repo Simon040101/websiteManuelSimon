@@ -14,7 +14,7 @@ create table users(
     passwrd varchar(100) not null,
     isAdmin tinyint not null default 0,
     layout_color varchar(100),
-    background_login tinyint not null,
+    background_login varchar(100),
     
     constraint id_PK primary key(id)
 
