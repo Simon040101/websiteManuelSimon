@@ -7,7 +7,7 @@ namespace XOVO.Models.db
 {
     public class UserRepositiory : IUserRepositiory
     {
-        private string _connenctionString = "Server=localhost;Database=XOVO;Uid=root;Pwd=alpine;SslMode=none";
+        private string _connenctionString = "Server=localhost;Database=XOVO;Uid=root;SslMode=none";
         private MySqlConnection _connection;
 
         public void Open()
@@ -381,7 +381,9 @@ namespace XOVO.Models.db
                                     Gender = (Gender) Convert.ToInt32(reader["gender"]),
                                     Username = Convert.ToString(reader["username"]),
                                     Email = Convert.ToString(reader["email"]),
-                                    IsLocked = Convert.ToInt32(reader["isAdmin"]) == 3
+                                    IsLocked = Convert.ToInt32(reader["isAdmin"]) == 3,
+                                    Background_login = Convert.ToString(reader["background_login"]),
+                                    Layout_color = Convert.ToString(reader["layout_color"])
                                 });
                         }
 

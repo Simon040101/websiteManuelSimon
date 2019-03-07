@@ -36,6 +36,7 @@ namespace XOVO.Controllers
         public ActionResult Logout()
         {
             Session["isAdmin"] = null;
+
             return RedirectToAction("login", "user");
         }
         [HttpGet]
@@ -169,7 +170,8 @@ namespace XOVO.Controllers
 
                 return View(usersToDisplay);
 
-            }            else
+            }
+            else
             {
                 return View("Message", new Message("Achtung", "fehlende Berechtigung", "Sie sind nicht berechtigt die Seite aufzurufen", ""));
             }

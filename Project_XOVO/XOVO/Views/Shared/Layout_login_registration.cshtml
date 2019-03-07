@@ -1,5 +1,13 @@
 ﻿@{
-    string background = Request.Cookies["background_login"] != null ? Request.Cookies["background_login"].Value.ToString() : "/Content/img/background_login_registration.jpg";
+    string background;
+    if (Request.Cookies["background_login"] != null)
+    {
+        background = Request.Cookies["background_login"].Value.ToString();
+    }
+    else
+    {
+        background = "/Content/img/background_login_registration.jpg";
+    }
 }
 
 
