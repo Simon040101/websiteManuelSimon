@@ -7,6 +7,15 @@ namespace XOVO.Models
 {
     public class FeedItem
     {
-        public string Name { get; set; }
+        // Variablen and Konstanten
+
+        // properties
+        public  User User { get; set; }
+
+        // ctors
+
+
+
+
     }
 }

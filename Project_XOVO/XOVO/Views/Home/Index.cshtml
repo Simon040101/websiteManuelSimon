@@ -11,8 +11,10 @@
 }
 else
 {
-    foreach (FeedItem fi in Model)
-    {
+    <div id="card">
+        @foreach (FeedItem fi in Model)
+        {
         @Html.Partial("FeedItem", fi)
-    }
+        }
+    </div>
 }
