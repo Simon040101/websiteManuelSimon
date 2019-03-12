@@ -64,8 +64,18 @@ namespace XOVO.Controllers
                     UserRepositiory ur = new UserRepositiory();
                     ur.Open();
 
+                    Session["UserID"] = user.ID;
+
                     bool ChangeSuccess = ur.ChangeData(user);
-                    return Request.UrlReferrer == null ? (ActionResult)RedirectToAction("Index", "Home") : Redirect(Request.UrlReferrer.ToString());
+                    if(ChangeSuccess == true)
+                    {
+                        return Request.UrlReferrer == null ? (ActionResult)RedirectToAction("Index", "Home") : Redirect(Request.UrlReferrer.ToString());
+                    }
+
+                    else
+                    {
+                        return View("Message", new Message("Daten ändern", "Datenbankfehler", "Ihre Daten konnten nicht verändert werden", ""));
+                    }
                 }
                 else
                 {
@@ -197,9 +207,11 @@ namespace XOVO.Controllers
                 }
                 if(log == UserRole.Administrator)
                 {
-                    Session["isAdmin"] = 0;
+                    Session["isAdmin"] = true;
+                    
 
                     User u = usersRepository.GetUser(user.UsernameOrEmail, user.Password);
+                    Session["UserID"] = u.ID;
 
                     Response.Cookies["layout_color"].Value = u.Layout_color;
                     Response.Cookies["background_login"].Value = u.Background_login;
@@ -208,7 +220,9 @@ namespace XOVO.Controllers
                 }
                 else if(log == UserRole.RegisteredUser)
                 {
-                    Session["isAdmin"] = true;
+                    User u = usersRepository.GetUser(user.UsernameOrEmail, user.Password);
+                    Session["isAdmin"] = false;
+                    Session["UserID"] = u.ID;
                     return RedirectToAction("index", "home");
 
                 }
