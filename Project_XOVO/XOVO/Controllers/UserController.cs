@@ -15,14 +15,24 @@ namespace XOVO.Controllers
 
         [HttpGet]
         public ActionResult ChangeLayout()
-        {
-            return View();
+        {   
+            if(Session["isAdmin"] != null)
+            {
+                return View();
+            }
+            else
+            {
+                return View("Message", new Message("Design ändern", "Fehler", "Ihre Daten konnten nicht verändert werden", "Melden Sie sich an"));
+            }
+            
         }
         [HttpPost]
         public ActionResult ChangeLayout(User user)
         {
             UserRepositiory ur = new UserRepositiory();
             ur.Open();
+
+            user.ID = Convert.ToInt32(Session["UserID"]);
 
             bool ChangeLayout = ur.ChangeLayout(user);
             bool ChangeBackground = ur.ChangeBackground(user);
@@ -64,7 +74,7 @@ namespace XOVO.Controllers
                     UserRepositiory ur = new UserRepositiory();
                     ur.Open();
 
-                    Session["UserID"] = user.ID;
+                    user.ID = Convert.ToInt32(Session["UserID"]);
 
                     bool ChangeSuccess = ur.ChangeData(user);
                     if(ChangeSuccess == true)
@@ -223,6 +233,9 @@ namespace XOVO.Controllers
                     User u = usersRepository.GetUser(user.UsernameOrEmail, user.Password);
                     Session["isAdmin"] = false;
                     Session["UserID"] = u.ID;
+
+                    Response.Cookies["layout_color"].Value = u.Layout_color;
+                    Response.Cookies["background_login"].Value = u.Background_login;
                     return RedirectToAction("index", "home");
 
                 }

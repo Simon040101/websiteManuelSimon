@@ -9,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>@ViewBag.Title - stay together </title>
     @Styles.Render("~/main/css/")
+    @Styles.Render("~/color/")
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
@@ -22,10 +23,13 @@
             <a href="#">Anzeigen</a>
         </li>
         <li>
-            <a href="#">Verwalten</a>
+            <a href="/user/changedata">Verwalten</a>
         </li>
         <li>
             <a href="#">Freundesliste</a>
+        </li>
+        <li>
+            <a href="/user/changelayout">Webseite bearbeiten</a>
         </li>
     </ul>
     
@@ -58,7 +62,8 @@
 
     </ul>
 
-    <nav class="@color" darken-1">
+    <div class="navbar-fixed">
+    <nav class="@color darken-1">
         <div class="nav-wrapper">
             @Html.ActionLink("XOVO", "Index", "Home", null, new { @class = "brand-logo" })
             <a href="#" data-target="mobile_sidenav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
@@ -80,6 +85,7 @@
             </ul>
         </div>
     </nav>
+        </div>
 </header>
 
 
@@ -147,6 +153,7 @@
 
 @Scripts.Render("~/bundles/jquery")
 @Scripts.Render("~/bundles/materialize")
+@Scripts.Render("~/bundles/colorpicker/")
 <script>
     $(document).ready(function() {
         $('.dropdown-trigger').dropdown
@@ -160,7 +167,8 @@
         $('.tabs').tabs();
         $('input#input_text, textarea#textarea').characterCounter();
         $('select').formSelect();
-
+        $('.datepicker').datepicker();
+        $('.picker').colorpicker();
     });
 </script>
 </body>

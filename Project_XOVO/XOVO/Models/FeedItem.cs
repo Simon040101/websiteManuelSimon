@@ -11,6 +11,7 @@ namespace XOVO.Models
 
         // properties
         public  User User { get; set; }
+        public string Name { get; set; }
 
         // ctors
 

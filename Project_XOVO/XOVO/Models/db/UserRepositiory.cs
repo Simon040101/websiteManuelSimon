@@ -7,7 +7,7 @@ namespace XOVO.Models.db
 {
     public class UserRepositiory : IUserRepositiory
     {
-        private string _connenctionString = "Server=localhost;Database=XOVO;Uid=root;Password=alpine;SslMode=none";
+        private string _connenctionString = "Server=localhost;Database=XOVO;Uid=root;SslMode=none";
         private MySqlConnection _connection;
 
         public void Open()

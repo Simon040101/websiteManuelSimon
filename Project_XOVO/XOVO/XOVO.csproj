@@ -169,6 +169,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\css\bootstrap-colorpicker.css" />
+    <Content Include="Content\css\bootstrap-colorpicker.min.css" />
     <Content Include="Content\css\homepage.css" />
     <Content Include="Content\css\login_registration.css" />
     <Content Include="Content\css\materialize.css" />
@@ -176,8 +178,8 @@
     <Content Include="Content\img\background_login_registration.jpg" />
     <Content Include="Content\js\anime.min.js" />
     <Content Include="Content\js\autocomplete.js" />
-    <Content Include="Content\js\bin\materialize.js" />
-    <Content Include="Content\js\bin\materialize.min.js" />
+    <Content Include="Content\js\bootstrap-colorpicker.js" />
+    <Content Include="Content\js\bootstrap-colorpicker.min.js" />
     <Content Include="Content\js\buttons.js" />
     <Content Include="Content\js\cards.js" />
     <Content Include="Content\js\carousel.js" />
