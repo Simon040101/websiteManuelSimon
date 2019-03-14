@@ -223,8 +223,15 @@ namespace XOVO.Controllers
                     User u = usersRepository.GetUser(user.UsernameOrEmail, user.Password);
                     Session["UserID"] = u.ID;
 
-                    Response.Cookies["layout_color"].Value = u.Layout_color;
-                    Response.Cookies["background_login"].Value = u.Background_login;
+                    HttpCookie layout_Color = new HttpCookie("layout_color");
+                    layout_Color.Value = u.Layout_color;
+                    layout_Color.Expires = DateTime.Now.AddDays(2);
+                    Response.Cookies.Add(layout_Color);
+
+                    HttpCookie Background_Cookie = new HttpCookie("background_login");
+                    Background_Cookie.Value = u.Background_login;
+                    Background_Cookie.Expires = DateTime.Now.AddDays(2);
+                    Response.Cookies.Add(Background_Cookie);
 
                     return RedirectToAction("index", "home");
                 }
@@ -234,8 +241,16 @@ namespace XOVO.Controllers
                     Session["isAdmin"] = false;
                     Session["UserID"] = u.ID;
 
-                    Response.Cookies["layout_color"].Value = u.Layout_color;
-                    Response.Cookies["background_login"].Value = u.Background_login;
+                    HttpCookie layout_Color = new HttpCookie("layout_color");
+                    layout_Color.Value = u.Layout_color;
+                    layout_Color.Expires = DateTime.Now.AddDays(2);
+                    Response.Cookies.Add(layout_Color);
+
+                    HttpCookie Background_Cookie = new HttpCookie("background_login");
+                    Background_Cookie.Value = u.Background_login;
+                    Background_Cookie.Expires = DateTime.Now.AddDays(2);
+                    Response.Cookies.Add(Background_Cookie);
+
                     return RedirectToAction("index", "home");
 
                 }
