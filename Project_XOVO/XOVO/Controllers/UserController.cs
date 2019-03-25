@@ -264,16 +264,19 @@ namespace XOVO.Controllers
                 }
                 else if(log == UserRole.NoUser)
                 {
+                    Session["isAdmin"] = 2;
                     return View("Message_Registrierung", new Message("Login", "Sie sind noch kein Benutzer", "Es tut uns leid wir konnten dich in der Datenbank nicht finden :(", "Registrieren!!!")); 
                 }
                 else
                 {
+                    Session["isAdmin"] = 2;
                     return View("Message_Registrierung", new Message("Login", "", "Es ist während der Anmeldung zu einem Fehler gekommen :(", "Versuchen Sie es später erneut"));
                 }
                 
             }
             catch (Exception)
             {
+                Session["isAdmin"] = 2;
                 return View("Message", new Message("Datenbankfehler", "", "Probleme mit der Datenbankverbindung!", "Versuchen Sie es später erneut."));
             }
             finally

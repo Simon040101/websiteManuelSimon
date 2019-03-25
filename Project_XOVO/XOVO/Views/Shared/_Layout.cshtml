@@ -24,62 +24,69 @@
         <li>
             <div class="user-view">
                 <div class="background">
-                    <img src="~/Content/img/background_sidenav.png">
+                       <img src="~/Content/img/background_sidenav.png">
                 </div>
-                <a href="#user"><img class="circle" src="@profilepic"></a>
-                <a href="#name"><span class="white-text name">@username</span></a>
-                <a href="#email"><span class="white-text email">@email</span></a>
-                @if (Convert.ToInt32(Session["isAdmin"]) == 0)
-                {
-                    <span class="white-text">Adminrechte</span>
-                }
-            </div>
-        </li>
-        <li><a class="subheader">Daten bearbeiten</a></li>
-        <li><a href="/user/changedata"><i class="material-icons">insert_emoticon</i>Profildaten ändern</a></li>
-        <li><a href="/user/changelayout"><i class="material-icons">work</i>Webseite bearbeiten</a></li>
+                    <a href="#user"><img class="circle" src="@profilepic"></a>
+                    <a href="#name"><span class="white-text name">@username</span></a>
+                    <a href="#email"><span class="white-text email">@email</span></a>
+                    @if (Convert.ToInt32(Session["isAdmin"]) == 0)
+                    {
+                        <span class="white-text">Adminrechte</span>
+                    }
+                    @if(Convert.ToInt32(Session["isAdmin"]) == 2)
+                    {
+                        <span class="white-text">Sie müssen sich vorher anmelden!</span>
+                    }
 
-        @if(Convert.ToInt32(Session["isAdmin"]) == 0)
-        {
-            <li><div class="divider"></div></li>
-            <li><a class="subheader">Administratoreinstellungen</a></li>
-            <li><a href="/user/usermanagement"><i class="material-icons">lock</i>Benutzerverwaltung</a></li>
-
-        }
-
-        <li><div class="divider"></div></li>
-        <li><a href="/user/logout"><i class="material-icons">logout</i>Abmelden</a></li>
-    </ul>
-
-<header>
-    <nav class="@color darken-1">
-        <div class="nav-wrapper">
-            <div class="navbar-fixed">
-                @Html.ActionLink("XOVO", "Index", "Home", null, new { @class = "brand-logo center" })
-                <a href="#" data-target="slide-out" class="sidenav-trigger show-on-medium-and-up"><i class="material-icons">menu</i></a>
-            </div>
-       </div>
-    </nav>    
-</header>
-    
-    
-    <div class="row">
-        <div class="col l3 hide-on-med-and-down">
-            <div class="card medium hoverable">
-                <div class="card-tabs">
-                    <ul class="tabs tabs-fixed-width">
-                        <li class="tab @color darken-1"><a class="active white-text" href="#friends">Freunde</a></li>
-                        <li class="tab @color darken-1"><a class="white-text" href="#notify">Benachrichtigungen</a></li>
-                    </ul>
                 </div>
-                <div class="card-content grey lighten-5">
-                    <div id="friends">Vorname Nachname</div>
-                    <div id="notify">Text of Notify</div>
-                </div>
-            </div>
-        </div>
-        <div class="col s12 l6">
-            @RenderBody()
+            </li>
+            <li><a class="subheader">Daten bearbeiten</a></li>
+            <li><a href="/user/changedata"><i class="material-icons">insert_emoticon</i>Profildaten ändern</a></li>
+            <li><a href="/user/changelayout"><i class="material-icons">work</i>Webseite bearbeiten</a></li>
+
+            @if (Convert.ToInt32(Session["isAdmin"]) == 0)
+            {
+                <li><div class="divider"></div></li>
+                <li><a class="subheader">Administratoreinstellungen</a></li>
+                <li><a href="/user/usermanagement"><i class="material-icons">lock</i>Benutzerverwaltung</a></li>
+
+            }
+
+                    <li><div class="divider"></div></li>
+                    <li><a href="/user/logout"><i class="material-icons">logout</i>Abmelden</a></li>
+                </ul>
+                
+
+
+                <header>
+                    <nav class="@color darken-1">
+                        <div class="nav-wrapper">
+                            <div class="navbar-fixed">
+                                @Html.ActionLink("XOVO", "Index", "Home", null, new { @class = "brand-logo center" })
+                                <a href="#" data-target="slide-out" class="sidenav-trigger show-on-medium-and-up"><i class="material-icons">menu</i></a>
+                            </div>
+                        </div>
+                    </nav>
+                </header>
+
+
+                <div class="row">
+                    <div class="col l3 hide-on-med-and-down">
+                        <div class="card medium hoverable">
+                            <div class="card-tabs">
+                                <ul class="tabs tabs-fixed-width">
+                                    <li class="tab @color darken-1"><a class="active white-text" href="#friends">Freunde</a></li>
+                                    <li class="tab @color darken-1"><a class="white-text" href="#notify">Benachrichtigungen</a></li>
+                                </ul>
+                            </div>
+                            <div class="card-content grey lighten-5">
+                                <div id="friends">Vorname Nachname</div>
+                                <div id="notify">Text of Notify</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col s12 l6">
+                        @RenderBody()
 
         </div>
 
@@ -125,34 +132,34 @@
 
     </div>
 
-</main>
-<footer class="page-footer @color darken-1">
-    <div class="footer-copyright">
-        &copy; XOVO @DateTime.Now.Year
-        <a href="#" class="grey-text text-lighten-4 right">Über uns</a>
-    </div>
-</footer>
+                </main>
+                <footer class="page-footer @color darken-1">
+                    <div class="footer-copyright">
+                        &copy; XOVO @DateTime.Now.Year
+                        <a href="#" class="grey-text text-lighten-4 right">Über uns</a>
+                    </div>
+                </footer>
 
 
-@Scripts.Render("~/bundles/jquery")
-@Scripts.Render("~/bundles/materialize")
-@Scripts.Render("~/bundles/colorpicker/")
-<script>
-    $(document).ready(function() {
-        $('.dropdown-trigger').dropdown
-        (
-            {
-            coverTrigger: false
-            }
-        );
+                @Scripts.Render("~/bundles/jquery")
+                @Scripts.Render("~/bundles/materialize")
+                @Scripts.Render("~/bundles/colorpicker/")
+                <script>
+                    $(document).ready(function () {
+                        $('.dropdown-trigger').dropdown
+                        (
+                            {
+                                coverTrigger: false
+                            }
+                        );
 
-        $('.tabs').tabs();
-        $('input#input_text, textarea#textarea').characterCounter();
-        $('select').formSelect();
-        $('.datepicker').datepicker();
-        $('.sidenav').sidenav();
+                        $('.tabs').tabs();
+                        $('input#input_text, textarea#textarea').characterCounter();
+                        $('select').formSelect();
+                        $('.datepicker').datepicker();
+                        $('.sidenav').sidenav();
 
-    });
-</script>
-</body>
+                    });
+                </script>
+            </body>
 </html>
