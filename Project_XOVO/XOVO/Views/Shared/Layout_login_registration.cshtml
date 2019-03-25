@@ -1,6 +1,6 @@
 ﻿@{
     string background;
-    if (Request.Cookies["background_login"] != null)
+    if (Request.Cookies["background_login"] != null && !string.IsNullOrEmpty(Request.Cookies["background_login"].Value))
     {
         background = Request.Cookies["background_login"].Value.ToString();
     }

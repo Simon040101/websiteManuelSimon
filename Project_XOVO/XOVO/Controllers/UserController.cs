@@ -15,14 +15,24 @@ namespace XOVO.Controllers
 
         [HttpGet]
         public ActionResult ChangeLayout()
-        {
-            return View();
+        {   
+            if(Session["isAdmin"] != null)
+            {
+                return View();
+            }
+            else
+            {
+                return View("Message", new Message("Design ändern", "Fehler", "Ihre Daten konnten nicht verändert werden", "Melden Sie sich an"));
+            }
+            
         }
         [HttpPost]
         public ActionResult ChangeLayout(User user)
         {
             UserRepositiory ur = new UserRepositiory();
             ur.Open();
+
+            user.ID = Convert.ToInt32(Session["UserID"]);
 
             bool ChangeLayout = ur.ChangeLayout(user);
             bool ChangeBackground = ur.ChangeBackground(user);
@@ -64,7 +74,7 @@ namespace XOVO.Controllers
                     UserRepositiory ur = new UserRepositiory();
                     ur.Open();
 
-                    Session["UserID"] = user.ID;
+                    user.ID = Convert.ToInt32(Session["UserID"]);
 
                     bool ChangeSuccess = ur.ChangeData(user);
                     if(ChangeSuccess == true)
@@ -207,22 +217,47 @@ namespace XOVO.Controllers
                 }
                 if(log == UserRole.Administrator)
                 {
-                    Session["isAdmin"] = true;
+                    Session["isAdmin"] = 0;
+                    
                     
 
                     User u = usersRepository.GetUser(user.UsernameOrEmail, user.Password);
                     Session["UserID"] = u.ID;
+                    Session["ProfilPic"] = u.Profilpicture;
+                    Session["Username"] = u.Username;
+                    Session["Email"] = u.Email;
 
-                    Response.Cookies["layout_color"].Value = u.Layout_color;
-                    Response.Cookies["background_login"].Value = u.Background_login;
+                    HttpCookie layout_Color = new HttpCookie("layout_color");
+                    layout_Color.Value = u.Layout_color;
+                    layout_Color.Expires = DateTime.Now.AddDays(2);
+                    Response.Cookies.Add(layout_Color);
+
+                    HttpCookie Background_Cookie = new HttpCookie("background_login");
+                    Background_Cookie.Value = u.Background_login;
+                    Background_Cookie.Expires = DateTime.Now.AddDays(2);
+                    Response.Cookies.Add(Background_Cookie);
 
                     return RedirectToAction("index", "home");
                 }
                 else if(log == UserRole.RegisteredUser)
                 {
                     User u = usersRepository.GetUser(user.UsernameOrEmail, user.Password);
-                    Session["isAdmin"] = false;
+                    Session["isAdmin"] = 1;
                     Session["UserID"] = u.ID;
+                    Session["ProfilPic"] = u.Profilpicture;
+                    Session["Username"] = u.Username;
+                    Session["Email"] = u.Email;
+
+                    HttpCookie layout_Color = new HttpCookie("layout_color");
+                    layout_Color.Value = u.Layout_color;
+                    layout_Color.Expires = DateTime.Now.AddDays(2);
+                    Response.Cookies.Add(layout_Color);
+
+                    HttpCookie Background_Cookie = new HttpCookie("background_login");
+                    Background_Cookie.Value = u.Background_login;
+                    Background_Cookie.Expires = DateTime.Now.AddDays(2);
+                    Response.Cookies.Add(Background_Cookie);
+
                     return RedirectToAction("index", "home");
 
                 }

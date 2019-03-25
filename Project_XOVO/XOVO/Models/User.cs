@@ -26,6 +26,7 @@ namespace XOVO.Models
         public bool IsLocked { get; set; }
         public string Layout_color { get; set; }
         public string Background_login { get; set; }
+        public string Profilpicture { get; set; }
 
 
 

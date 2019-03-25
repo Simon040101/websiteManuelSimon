@@ -178,8 +178,6 @@
     <Content Include="Content\img\background_login_registration.jpg" />
     <Content Include="Content\js\anime.min.js" />
     <Content Include="Content\js\autocomplete.js" />
-    <Content Include="Content\js\bin\materialize.js" />
-    <Content Include="Content\js\bin\materialize.min.js" />
     <Content Include="Content\js\buttons.js" />
     <Content Include="Content\js\cards.js" />
     <Content Include="Content\js\carousel.js" />

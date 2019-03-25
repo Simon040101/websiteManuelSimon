@@ -15,6 +15,7 @@ create table users(
     isAdmin tinyint not null default 0,
     layout_color varchar(100),
     background_login varchar(100),
+    profilpic varchar(100),
     
     constraint id_PK primary key(id)
 

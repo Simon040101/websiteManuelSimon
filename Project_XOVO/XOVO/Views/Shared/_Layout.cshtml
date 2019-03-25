@@ -1,5 +1,8 @@
 ﻿@{ 
     string color = Request.Cookies["layout_color"] != null ? Request.Cookies["layout_color"].Value.ToString() : "cyan";
+    string profilepic = Session["Profilepic"] != null ? Convert.ToString(Session["Profilepic"]) : "/Content/img/placeholder.png";
+    string email = Convert.ToString(Session["Email"]);
+    string username = Convert.ToString(Session["Username"]);
 }
 
 <!DOCTYPE html>
@@ -9,6 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>@ViewBag.Title - stay together </title>
     @Styles.Render("~/main/css/")
+    @Styles.Render("~/color/")
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
@@ -16,74 +20,49 @@
 
 <body>
 
+    <ul id="slide-out" class="sidenav">
+        <li>
+            <div class="user-view">
+                <div class="background">
+                    <img src="~/Content/img/background_sidenav.png">
+                </div>
+                <a href="#user"><img class="circle" src="@profilepic"></a>
+                <a href="#name"><span class="white-text name">@username</span></a>
+                <a href="#email"><span class="white-text email">@email</span></a>
+                @if (Convert.ToInt32(Session["isAdmin"]) == 0)
+                {
+                    <span class="white-text">Adminrechte</span>
+                }
+            </div>
+        </li>
+        <li><a class="subheader">Daten bearbeiten</a></li>
+        <li><a href="/user/changedata"><i class="material-icons">insert_emoticon</i>Profildaten ändern</a></li>
+        <li><a href="/user/changelayout"><i class="material-icons">work</i>Webseite bearbeiten</a></li>
+
+        @if(Convert.ToInt32(Session["isAdmin"]) == 0)
+        {
+            <li><div class="divider"></div></li>
+            <li><a class="subheader">Administratoreinstellungen</a></li>
+            <li><a href="/user/usermanagement"><i class="material-icons">lock</i>Benutzerverwaltung</a></li>
+
+        }
+
+        <li><div class="divider"></div></li>
+        <li><a href="/user/logout"><i class="material-icons">logout</i>Abmelden</a></li>
+    </ul>
+
 <header>
-    <ul class="dropdown-content" id="drop_profile">
-        <li>
-            <a href="#">Anzeigen</a>
-        </li>
-        <li>
-            <a href="#">Verwalten</a>
-        </li>
-        <li>
-            <a href="#">Freundesliste</a>
-        </li>
-    </ul>
-    
-    <ul class="sidenav" id="mobile_sidenav">
-        <li>@Html.ActionLink("Feed", "Index", "Home", null, null)</li>
-        <li class="no-padding">
-                <ul class="collapsible collapsible-accordion">
-                    <li>
-                        <a class="collapsible-header">Profil<i class="material-icons">arrow_drop_down</i></a>
-                        <div class="collapsible-body">
-                            <ul>
-                                <li><a href="#!">Anzeigen</a></li>
-                                <li><a href="#!">Verwalten</a></li>
-                                <li><a href="#!">Freundesliste</a></li>
-                            </ul>
-                        </div>
-                    </li>
-                </ul>
-        </li>
-        <li><a href="#">Benachrichtigungen</a></li>
-        <li>@Html.ActionLink("Logout", "Logout", "User", null, null)</li>
-        <li class="switch center">
-            <label>
-                DE
-                <input type="checkbox">
-                <span class="lever"></span>
-                EN
-            </label>
-        </li>
-
-    </ul>
-
-    <nav class="@color" darken-1">
+    <nav class="@color darken-1">
         <div class="nav-wrapper">
-            @Html.ActionLink("XOVO", "Index", "Home", null, new { @class = "brand-logo" })
-            <a href="#" data-target="mobile_sidenav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-            <ul class="right hide-on-med-and-down">
-                <li>@Html.ActionLink("Feed", "Index", "Home", null, null)</li>
-                <li>
-                    <a href="#" class="dropdown-trigger" data-target="drop_profile">Profil<i class="material-icons right">arrow_drop_down</i></a>
-                </li>
-                <li>@Html.ActionLink("Logout", "Logout", "User", null, null)</li>
-                <li class="switch">
-                    <label class="white-text">
-                        DE
-                        <input type="checkbox">
-                        <span class="lever"></span>
-                        EN
-                    </label>
-                </li>
-
-            </ul>
-        </div>
-    </nav>
+            <div class="navbar-fixed">
+                @Html.ActionLink("XOVO", "Index", "Home", null, new { @class = "brand-logo center" })
+                <a href="#" data-target="slide-out" class="sidenav-trigger show-on-medium-and-up"><i class="material-icons">menu</i></a>
+            </div>
+       </div>
+    </nav>    
 </header>
-
-
-<main>
+    
+    
     <div class="row">
         <div class="col l3 hide-on-med-and-down">
             <div class="card medium hoverable">
@@ -149,14 +128,15 @@
 </main>
 <footer class="page-footer @color darken-1">
     <div class="footer-copyright">
-        &copy; XOVO GmbH @DateTime.Now.Year
-        <a href="#" class="grey-text text-lighten-4 right">About us</a>
+        &copy; XOVO @DateTime.Now.Year
+        <a href="#" class="grey-text text-lighten-4 right">Über uns</a>
     </div>
 </footer>
 
 
 @Scripts.Render("~/bundles/jquery")
 @Scripts.Render("~/bundles/materialize")
+@Scripts.Render("~/bundles/colorpicker/")
 <script>
     $(document).ready(function() {
         $('.dropdown-trigger').dropdown
@@ -166,10 +146,11 @@
             }
         );
 
-        $('.sidenav').sidenav();
         $('.tabs').tabs();
         $('input#input_text, textarea#textarea').characterCounter();
         $('select').formSelect();
+        $('.datepicker').datepicker();
+        $('.sidenav').sidenav();
 
     });
 </script>

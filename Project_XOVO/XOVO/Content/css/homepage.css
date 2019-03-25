@@ -19,3 +19,12 @@ main {
     padding-right: 2em;
     text-decoration: none
 }
+
+#profileImg{
+    height: 3em !important;
+    width: auto !important;
+    margin-top: 10px;
+}
+nav{
+    color: red;
+}
