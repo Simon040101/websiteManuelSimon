@@ -217,11 +217,12 @@ namespace XOVO.Controllers
                 }
                 if(log == UserRole.Administrator)
                 {
-                    Session["isAdmin"] = 0;
+                   
                     
                     
 
                     User u = usersRepository.GetUser(user.UsernameOrEmail, user.Password);
+                    Session["isAdmin"] = 0;
                     Session["UserID"] = u.ID;
                     Session["ProfilPic"] = u.Profilpicture;
                     Session["Username"] = u.Username;
