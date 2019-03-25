@@ -35,7 +35,7 @@ namespace XOVO.Models.db
             try
             {
                 MySqlCommand cmdChange = this._connection.CreateCommand();
-                cmdChange.CommandText = "Update users set firstname = @firstname, lastname = @lastname, birthdate = @birthdate, gender = @gender, username = @username, email = @email, passwrd = sha2(@passwort, 256) where id = @id";
+                cmdChange.CommandText = "Update users set firstname = @firstname, lastname = @lastname, birthdate = @birthdate, gender = @gender, username = @username, email = @email, passwrd = sha2(@passwort, 256), profilpic = @pfb where id = @id";
                 cmdChange.Parameters.AddWithValue("firstname", user.Firstname);
                 cmdChange.Parameters.AddWithValue("lastname", user.Lastname);
                 cmdChange.Parameters.AddWithValue("birthdate", user.Birthdate);
@@ -44,6 +44,7 @@ namespace XOVO.Models.db
                 cmdChange.Parameters.AddWithValue("email", user.Email);
                 cmdChange.Parameters.AddWithValue("passwort", user.Password);
                 cmdChange.Parameters.AddWithValue("id", user.ID);
+                cmdChange.Parameters.AddWithValue("pfb", user.Profilpicture);
                 
                 return cmdChange.ExecuteNonQuery() == 1;
             }
@@ -64,7 +65,7 @@ namespace XOVO.Models.db
             {
                 string dateToInsert = userToAdd.Birthdate.ToString("yyyy-M-d");
                 MySqlCommand cmdInsert = this._connection.CreateCommand();
-                cmdInsert.CommandText = "INSERT INTO users VALUES(null, @firstname, @lastname, @birthdate, @gender, @username, @email, sha2(@pwd, 256), 1, 'rot', '/Content/img/background_login_registration.jpg')";
+                cmdInsert.CommandText = "INSERT INTO users VALUES(null, @firstname, @lastname, @birthdate, @gender, @username, @email, sha2(@pwd, 256), 1, 'rot', '/Content/img/background_login_registration.jpg', @profilpic)";
                 cmdInsert.Parameters.AddWithValue("firstname", userToAdd.Firstname);
                 cmdInsert.Parameters.AddWithValue("lastname", userToAdd.Lastname);
                 cmdInsert.Parameters.AddWithValue("birthdate", dateToInsert);
@@ -72,6 +73,7 @@ namespace XOVO.Models.db
                 cmdInsert.Parameters.AddWithValue("email", userToAdd.Email);
                 cmdInsert.Parameters.AddWithValue("username", userToAdd.Username);
                 cmdInsert.Parameters.AddWithValue("pwd", userToAdd.Password);
+                cmdInsert.Parameters.AddWithValue("profilpic", userToAdd.Profilpicture);
 
                 return cmdInsert.ExecuteNonQuery() == 1;
             }
@@ -164,7 +166,8 @@ namespace XOVO.Models.db
                             Username = Convert.ToString(reader["username"]),
                             Email = Convert.ToString(reader["email"]),
                             Layout_color = Convert.ToString(reader["layout_color"]),
-                            Background_login = Convert.ToString(reader["background_login"])
+                            Background_login = Convert.ToString(reader["background_login"]),
+                            Profilpicture = Convert.ToString(reader["profilpic"])
                         };
                     }
                 }
@@ -260,6 +263,7 @@ namespace XOVO.Models.db
                                 IsLocked = Convert.ToInt32(reader["isAdmin"]) == 3,
                                 Layout_color = Convert.ToString(reader["layout_color"]),
                                 Background_login = Convert.ToString(reader["background_login"]),
+                                Profilpicture = Convert.ToString(reader["profilpic"]),
 
 
                                 } );
@@ -331,16 +335,20 @@ namespace XOVO.Models.db
 
                              return new User
                             {
-                                ID = Convert.ToInt32(reader["id"]),
-                                Firstname = Convert.ToString(reader["firstname"]),
-                                Lastname = Convert.ToString(reader["lastname"]),
-                                Birthdate = Convert.ToDateTime(reader["birthdate"]),
-                                Gender = (Gender)Convert.ToInt32(reader["gender"]),
-                                Username = Convert.ToString(reader["username"]),
-                                Email = Convert.ToString(reader["email"])
+                                 ID = Convert.ToInt32(reader["id"]),
+                                 Firstname = Convert.ToString(reader["firstname"]),
+                                 Lastname = Convert.ToString(reader["lastname"]),
+                                 Birthdate = Convert.ToDateTime(reader["birthdate"]),
+                                 Gender = (Gender)Convert.ToInt32(reader["gender"]),
+                                 Username = Convert.ToString(reader["username"]),
+                                 Email = Convert.ToString(reader["email"]),
+                                 IsLocked = Convert.ToInt32(reader["isAdmin"]) == 3,
+                                 Layout_color = Convert.ToString(reader["layout_color"]),
+                                 Background_login = Convert.ToString(reader["background_login"]),
+                                 Profilpicture = Convert.ToString(reader["profilpic"]),
 
 
-                            };
+                             };
 
                         }
                     }
@@ -393,12 +401,13 @@ namespace XOVO.Models.db
                                     Firstname = Convert.ToString(reader["firstname"]),
                                     Lastname = Convert.ToString(reader["lastname"]),
                                     Birthdate = Convert.ToDateTime(reader["birthdate"]),
-                                    Gender = (Gender) Convert.ToInt32(reader["gender"]),
+                                    Gender = (Gender)Convert.ToInt32(reader["gender"]),
                                     Username = Convert.ToString(reader["username"]),
                                     Email = Convert.ToString(reader["email"]),
                                     IsLocked = Convert.ToInt32(reader["isAdmin"]) == 3,
                                     Background_login = Convert.ToString(reader["background_login"]),
-                                    Layout_color = Convert.ToString(reader["layout_color"])
+                                    Layout_color = Convert.ToString(reader["layout_color"]),
+                                    Profilpicture = Convert.ToString(reader["profilpic"]),
                                 });
                         }
 
@@ -436,6 +445,37 @@ namespace XOVO.Models.db
 
                     return null;
                     
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public string GetProfilPic(int id)
+        {
+            try
+            {
+                MySqlCommand cmdGetBackground = this._connection.CreateCommand();
+                cmdGetBackground.CommandText = "Select profilpic from users where id = @id";
+                cmdGetBackground.Parameters.AddWithValue("id", id);
+
+                string Picture;
+
+                using (MySqlDataReader reader = cmdGetBackground.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            return Picture = Convert.ToString(reader["profilpic"]);
+                        }
+                    }
+
+                    return null;
+
                 }
             }
             catch (Exception)

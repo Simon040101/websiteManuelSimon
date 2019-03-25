@@ -217,11 +217,15 @@ namespace XOVO.Controllers
                 }
                 if(log == UserRole.Administrator)
                 {
-                    Session["isAdmin"] = true;
+                    Session["isAdmin"] = 0;
+                    
                     
 
                     User u = usersRepository.GetUser(user.UsernameOrEmail, user.Password);
                     Session["UserID"] = u.ID;
+                    Session["ProfilPic"] = u.Profilpicture;
+                    Session["Username"] = u.Username;
+                    Session["Email"] = u.Email;
 
                     HttpCookie layout_Color = new HttpCookie("layout_color");
                     layout_Color.Value = u.Layout_color;
@@ -238,8 +242,11 @@ namespace XOVO.Controllers
                 else if(log == UserRole.RegisteredUser)
                 {
                     User u = usersRepository.GetUser(user.UsernameOrEmail, user.Password);
-                    Session["isAdmin"] = false;
+                    Session["isAdmin"] = 1;
                     Session["UserID"] = u.ID;
+                    Session["ProfilPic"] = u.Profilpicture;
+                    Session["Username"] = u.Username;
+                    Session["Email"] = u.Email;
 
                     HttpCookie layout_Color = new HttpCookie("layout_color");
                     layout_Color.Value = u.Layout_color;
