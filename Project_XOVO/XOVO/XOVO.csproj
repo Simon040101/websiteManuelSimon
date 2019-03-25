@@ -160,6 +160,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\db\FeedRepository.cs" />
+    <Compile Include="Models\db\IFeedRepository.cs" />
     <Compile Include="Models\db\IUserRepositiory.cs" />
     <Compile Include="Models\db\UserRepositiory.cs" />
     <Compile Include="Models\FeedItem.cs" />

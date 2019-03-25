@@ -2,13 +2,16 @@
 
 <div class="card">
     <div>
-        @Model.Name
+        <p class="left">@Model.UserForFeed.ID</p>
+        <p class="right">@Model.CreationDateTime.ToLongDateString()</p>
+        <p class="center">@Model.CreationDateTime.TimeOfDay</p>
     </div>
     <div class="card-image">
-        <img src="/Content/img/background_login_registration.jpg">
+        <img src="@Model.ImgPath">
     </div>
     <div class="card-content">
-        <p>CONTENT of FeedItem</p>
+        
+        <p>@Model.FeedContent</p>
     </div>
     <div class="card-action">
         <a href="#" class ="left">gefällt mir soon</a>
