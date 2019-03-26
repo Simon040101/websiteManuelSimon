@@ -11,10 +11,15 @@ namespace XOVO.Models
         public int Id { get; set; }
 
         // properties
+<<<<<<< HEAD
         public  User UserForFeed { get; set; }
         public DateTime CreationDateTime { get; set; }
         public string ImgPath { get; set; }
         public string FeedContent { get; set; }
+=======
+        public  User User { get; set; }
+        public string Name { get; set; }
+>>>>>>> 91886ead0a3339fe0eb907e906f5fc013e6b661d
 
         // ctors
         public FeedItem() : this(0, null, DateTime.MinValue, "", ""){ }
