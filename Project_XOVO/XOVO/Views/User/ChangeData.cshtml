@@ -2,6 +2,7 @@
 @using XOVO.Models
 @{
     ViewBag.Title = "Daten ändern";
+    User user = (User)Session["User"];
 }
 <h4>Daten ändern</h4>
 <div class="row">
@@ -25,9 +26,17 @@
                 @Html.ValidationSummary()
                 <span class="card-title">Daten ändern</span>
                 <form>
-                    <div class="col s2">
-                    <img src="~/Content/img/placeholder.png" alt="" class="circle responsive-img">
+                    <div class="file-field input-field">
+                        <div class="btn">
+                            <span>Datei</span>
+                            <input type="file">
+                        </div>
+                        <div class="file-path-wrapper">
+                            <input class="file-path validate" type="text" name="Profilpicture">
+                            <label for="Profilpicture">Profilbild</label>
+                        </div>
                     </div>
+
                     <div class="input-field">
                         <select class="icons" name="Gender">
                             <option value="" disabled selected>Wählen Sie Ihr Geschlecht</option>
@@ -38,37 +47,37 @@
                     </div>
                     <div class="input-field">
                         <i class="material-icons prefix">person_pin</i>
-                        <input type="text" id="firstname" name="Firstname" />
+                        <input value="@user.Firstname" type="text" id="firstname" name="Firstname" />
                         <label for="firstname">neuer Vorname</label>
                     </div>
                     <div class="input-field">
                         <i class="material-icons prefix">person_pin</i>
-                        <input type="text" id="Lastname" name="Lastname" />
+                        <input value="@user.Lastname" type="text" id="Lastname" name="Lastname" />
                         <label for="Lastname">neuer Nachname</label>
                     </div>
                     <div class="input-field">
                         <i class="material-icons prefix">insert_invitation</i>
-                        <input type="text" id="birthdate" name="Birthdate" class="datepicker">
+                        <input value="@user.Birthdate" type="text" id="birthdate" name="Birthdate" class="datepicker">
                         <label for="birthdate">neues Geburtstdatum</label>
                     </div>
                     <div class="input-field">
                         <i class="material-icons prefix">email</i>
-                        <input type="text" id="Email" name="Email" />
+                        <input value="@user.Email" type="text" id="Email" name="Email" />
                         <label for="Email">neue Email</label>
                     </div>
                     <div class="input-field">
                         <i class="material-icons prefix">mood</i>
-                        <input type="text" id="Username" name="Username" />
+                        <input value="@user.Username" type="text" id="Username" name="Username" />
                         <label for="Username">neuer Benutzername</label>
                     </div>
                     <div class="input-field">
                         <i class="material-icons prefix">lock</i>
-                        <input type="password" id="Password" name="Password" />
+                        <input value="@user.Password" type="password" id="Password" name="Password" />
                         <label for="Password">neues Passwort</label>
                     </div>
                     <div class="input-field">
                         <i class="material-icons prefix">lock</i>
-                        <input type="password" id="PasswordWH" name="PasswordWH" />
+                        <input value="@user.PasswordWH" type="password" id="PasswordWH" name="PasswordWH" />
                         <label for="Password">neues Passwort erneut eingeben</label>
                     </div>
                 </form>

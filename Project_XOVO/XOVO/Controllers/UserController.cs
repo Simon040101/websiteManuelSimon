@@ -40,7 +40,7 @@ namespace XOVO.Controllers
             Response.Cookies["layout_color"].Value = user.Layout_color;
             Response.Cookies["background_login"].Value = user.Background_login;
 
-            return View(user);
+            return View("Message", new Message("Webseite bearbeiten", "", "Das Aussehen wurde erfolgreich geändert", ""));
         }
 
         public ActionResult Logout()
@@ -65,9 +65,9 @@ namespace XOVO.Controllers
         [HttpPost]
         public ActionResult ChangeData(User user)
         {
-            if ((Session["isAdmin"] != null) && (Convert.ToInt32(Session["isAdmin"]) != 3) && (Convert.ToInt32(Session["isAdmin"]) != 2))
+            if ((Session["isAdmin"] != null) && (Convert.ToInt32(Session["isAdmin"]) != 2))
             {
-                ValidateRegistrationForm(user);
+                ValidateChangeDataForm(user);
 
                 if (ModelState.IsValid)
                 {
@@ -79,7 +79,7 @@ namespace XOVO.Controllers
                     bool ChangeSuccess = ur.ChangeData(user);
                     if(ChangeSuccess == true)
                     {
-                        return Request.UrlReferrer == null ? (ActionResult)RedirectToAction("Index", "Home") : Redirect(Request.UrlReferrer.ToString());
+                        return View("Message", new Message("Daten ändern", "", "Ihre Daten wurden erfolgreich geändert", ""));
                     }
 
                     else
@@ -87,10 +87,7 @@ namespace XOVO.Controllers
                         return View("Message", new Message("Daten ändern", "Datenbankfehler", "Ihre Daten konnten nicht verändert werden", ""));
                     }
                 }
-                else
-                {
-                    return View("Message", new Message("Daten ändern", "Fehler", "Ihre Daten konnten nicht verändert werden", ""));
-                }
+                return View(user);
             }
             else
             {
@@ -217,15 +214,11 @@ namespace XOVO.Controllers
                 }
                 if(log == UserRole.Administrator)
                 {
-                    Session["isAdmin"] = 0;
-                    
-                    
-
                     User u = usersRepository.GetUser(user.UsernameOrEmail, user.Password);
                     Session["UserID"] = u.ID;
                     Session["ProfilPic"] = u.Profilpicture;
-                    Session["Username"] = u.Username;
-                    Session["Email"] = u.Email;
+                    Session["isAdmin"] = 0;
+                    Session["User"] = u;
 
                     HttpCookie layout_Color = new HttpCookie("layout_color");
                     layout_Color.Value = u.Layout_color;
@@ -243,10 +236,9 @@ namespace XOVO.Controllers
                 {
                     User u = usersRepository.GetUser(user.UsernameOrEmail, user.Password);
                     Session["isAdmin"] = 1;
+                    Session["User"] = u;
                     Session["UserID"] = u.ID;
                     Session["ProfilPic"] = u.Profilpicture;
-                    Session["Username"] = u.Username;
-                    Session["Email"] = u.Email;
 
                     HttpCookie layout_Color = new HttpCookie("layout_color");
                     layout_Color.Value = u.Layout_color;
@@ -349,6 +341,43 @@ namespace XOVO.Controllers
 
             return ur.SearchUser(firstname, lastname);
 
+        }
+
+        private void ValidateChangeDataForm(User userToChange)
+        {
+            UserRepositiory ur = new UserRepositiory();
+
+            ur.Open();
+
+
+            if ((userToChange.Firstname == null) || (userToChange.Firstname.Trim().Length < 1))
+            {
+                ModelState.AddModelError("Firstname", "Bitte geben Sie einen sinnvollen Vornamen ein");
+            }
+            if ((userToChange.Lastname == null) || (userToChange.Lastname.Trim().Length < 1))
+            {
+                ModelState.AddModelError("Lastname", "Bitte geben Sie einen sinnvollen Nachnamen ein");
+            }
+            if ((userToChange.Email == null) || (!userToChange.Email.Contains("@")))
+            {
+                ModelState.AddModelError("Email", "Bitte geben Sie eine gültige Email an");
+            }
+            if (userToChange.Birthdate >= (DateTime.Now))
+            {
+                ModelState.AddModelError("Birthdate", "Kommen Sie aus der Zukunft????");
+            }
+            if (userToChange.Username == null)
+            {
+                ModelState.AddModelError("Username", "Bitte geben Sie einen Benutzernamen ein.");
+            }
+            if ((userToChange.Password == null) || (userToChange.Password.Length < 8))
+            {
+                ModelState.AddModelError("Password", "Das Passwort muss mindestens 8 Zeichen beinhalten");
+            }
+            if (userToChange.Password != userToChange.PasswordWH)
+            {
+                ModelState.AddModelError("PasswordWH", "Die Passwörter stimmen nicht überein!");
+            }
         }
 
         private void ValidateRegistrationForm(User userToValidate)
