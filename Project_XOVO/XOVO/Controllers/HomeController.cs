@@ -47,42 +47,33 @@ namespace XOVO.Controllers
 
        
         [HttpPost]
-        public ActionResult PostFeed(IEnumerable<HttpPostedFileBase> files, string feedText)
+        public ActionResult PostFeed(FeedItem item)
         {
-
-
-           // PostForm(feedItem);
-
-            if (ModelState.IsValid)
+            try
             {
-
                 FeedRepository fr = new FeedRepository();
-                FeedItem feedItem = new FeedItem(/*???*/);   
-                try
-                {
-                    fr.Open();
+                fr.Open();
 
-                    if (fr.InsertFeedItem(feedItem))
-                    {
-                        return View("Message", new Message("Posten", "", "Beitrag wurde erfolgreich gepostet", ""));
-                    }
-                    else
-                    {
-                        return View("Message", new Message("Posten", "", "Beitrag konnte nicht gepostet werden!", "Versuchen Sie es später erneut."));
-                    }
+                item.UserForFeed = (User)Session["User"];
 
-                }
-                catch (MySqlException)
+                bool test = fr.InsertFeedItem(item);
+
+                if (test == true)
                 {
-                    return View("Message", new Message("Datenbankfehler", "", "Probleme mit der Datenbankverbindung!", "Versuchen Sie es später erneut."));
+                    return View("Message", new Message("Hinzufügen", "", "Erfolgreich", ""));
                 }
-                finally
+                else
                 {
-                    fr.Close();
+                    return View("Message", new Message("Hinzufügen", "", "Nicht erfolgreich", ""));
                 }
             }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
 
-            return RedirectToAction("Index", "Home");
+           
         }
 
 

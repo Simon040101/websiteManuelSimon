@@ -227,6 +227,7 @@ namespace XOVO.Controllers
                     Session["ProfilPic"] = u.Profilpicture;
                     Session["Username"] = u.Username;
                     Session["Email"] = u.Email;
+                    Session["User"] = u;
 
                     HttpCookie layout_Color = new HttpCookie("layout_color");
                     layout_Color.Value = u.Layout_color;
@@ -248,6 +249,7 @@ namespace XOVO.Controllers
                     Session["ProfilPic"] = u.Profilpicture;
                     Session["Username"] = u.Username;
                     Session["Email"] = u.Email;
+                    Session["User"] = u;
 
                     HttpCookie layout_Color = new HttpCookie("layout_color");
                     layout_Color.Value = u.Layout_color;

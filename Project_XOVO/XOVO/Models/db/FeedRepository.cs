@@ -71,7 +71,8 @@ namespace XOVO.Models.db
 
             try
             {
-                string dateToInsert = itemToInsert.CreationDateTime.ToString("yyyy-M-d");
+                DateTime dateToInsert;
+                dateToInsert = DateTime.Now;
                 MySqlCommand cmdInsert = this._connection.CreateCommand();
                 cmdInsert.CommandText = "INSERT INTO feed VALUES(NULL, @id, @creationDateTime, @imgPath, @textarea)";
                 cmdInsert.Parameters.AddWithValue("id", itemToInsert.UserForFeed.ID);
@@ -89,5 +90,7 @@ namespace XOVO.Models.db
                 throw;
             }
         }
+
+        private 
     }
 }

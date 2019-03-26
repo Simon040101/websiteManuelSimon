@@ -1,5 +1,8 @@
 ﻿@{ 
     string color = Request.Cookies["layout_color"] != null ? Request.Cookies["layout_color"].Value.ToString() : "cyan";
+    string profilepic = Session["Profilepic"] != null ? Convert.ToString(Session["Profilepic"]) : "/Content/img/placeholder.png";
+    string email = Convert.ToString(Session["Email"]);
+    string username = Convert.ToString(Session["Username"]);
 }
 
 <!DOCTYPE html>
@@ -9,6 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>@ViewBag.Title - stay together </title>
     @Styles.Render("~/main/css/")
+    @Styles.Render("~/color/")
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
@@ -16,141 +20,170 @@
 
 <body>
 
-<header>
-    <ul class="dropdown-content" id="drop_profile">
+    <ul id="slide-out" class="sidenav">
         <li>
-            <a href="#">Anzeigen</a>
-        </li>
-        <li>
-            <a href="#">Verwalten</a>
-        </li>
-        <li>
-            <a href="#">Freundesliste</a>
-        </li>
-    </ul>
-    
-    <ul class="sidenav" id="mobile_sidenav">
-        <li>@Html.ActionLink("Feed", "Index", "Home", null, null)</li>
-        <li class="no-padding">
-                <ul class="collapsible collapsible-accordion">
-                    <li>
-                        <a class="collapsible-header">Profil<i class="material-icons">arrow_drop_down</i></a>
-                        <div class="collapsible-body">
-                            <ul>
-                                <li><a href="#!">Anzeigen</a></li>
-                                <li><a href="#!">Verwalten</a></li>
-                                <li><a href="#!">Freundesliste</a></li>
-                            </ul>
-                        </div>
-                    </li>
-                </ul>
-        </li>
-        <li><a href="#">Benachrichtigungen</a></li>
-        <li>@Html.ActionLink("Logout", "Logout", "User", null, null)</li>
-        <li class="switch center">
-            <label>
-                DE
-                <input type="checkbox">
-                <span class="lever"></span>
-                EN
-            </label>
-        </li>
+            <div class="user-view">
+                <div class="background">
+                       <img src="~/Content/img/background_sidenav.png">
+                </div>
+                    <a href="#user"><img class="circle" src="@profilepic"></a>
+                    <a href="#name"><span class="white-text name">@username</span></a>
+                    <a href="#email"><span class="white-text email">@email</span></a>
+                    @if (Convert.ToInt32(Session["isAdmin"]) == 0)
+                    {
+                        <span class="white-text">Adminrechte</span>
+                    }
+                    @if(Convert.ToInt32(Session["isAdmin"]) == 2)
+                    {
+                        <span class="white-text">Sie müssen sich vorher anmelden!</span>
+                    }
 
-    </ul>
+                </div>
 <<<<<<< HEAD
-    <nav class="cyan darken-1">
-=======
-
-    <nav class="@color" darken-1">
->>>>>>> master
-        <div class="nav-wrapper">
-            @Html.ActionLink("XOVO", "Index", "Home", null, new { @class = "brand-logo" })
-            <a href="#" data-target="mobile_sidenav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-            <ul class="right hide-on-med-and-down">
-                <li>@Html.ActionLink("Feed", "Index", "Home", null, null)</li>
-                <li>
-                    <a href="#" class="dropdown-trigger" data-target="drop_profile">Profil<i class="material-icons right">arrow_drop_down</i></a>
-                </li>
-                <li>@Html.ActionLink("Logout", "Logout", "User", null, null)</li>
-                <li class="switch">
-                    <label class="white-text">
-                        DE
-                        <input type="checkbox">
-                        <span class="lever"></span>
-                        EN
-                    </label>
-                </li>
-
-            </ul>
-        </div>
-    </nav>
-</header>
-
-
-<main>
-    <div class="row">
-        <div class="col l3 hide-on-med-and-down">
-            <div class="card medium hoverable">
-                <div class="card-tabs">
-                    <ul class="tabs tabs-fixed-width">
-                        <li class="tab @color darken-1"><a class="active white-text" href="#friends">Freunde</a></li>
-                        <li class="tab @color darken-1"><a class="white-text" href="#notify">Benachrichtigungen</a></li>
-                    </ul>
-                </div>
-                <div class="card-content grey lighten-5">
-                    <div id="friends">Vorname Nachname</div>
-                    <div id="notify">Text of Notify</div>
-                </div>
             </div>
         </div>
         <div class="col s12 l6">
             @RenderBody()
 
         </div>
-        <div class="col l3 hide-on-med-and-down">
-            <div class="card medium hoverable">
-                <div class="card-content center">
-                    <span class="card-title ">Beitrag teilen</span>
-                    <div class="row">
-                        <form class="col s12" action="#">
-                            <div class="file-field input-field">
-                                <div class="btn @color darken-1">
-                                    <span>Datei</span>
-                                    <input type="file" multiple>
+
+
+        @using (Html.BeginForm("PostFeed", "Home", FormMethod.Post, new {enctype = "multipart/from-data"}))
+        {
+            <div class="col l3 hide-on-med-and-down">
+                <div class="card medium hoverable">
+                    <div class="card-content center">
+                        <span class="card-title ">Beitrag teilen</span>
+                        <div class="row">
+                            <form class="col s12" action="#">
+                                <div class="file-field input-field">
+                                    <div class="btn @color darken-1">
+                                        <span>Datei</span>
+                                        <input type="file" id="files" name="files" multiple>
+                                        
+                                    </div>
+                                    <div class="file-path-wrapper">
+                                        <input class="file-path validate" type="text" placeholder="Eine oder mehrere Dateien Hochladen">
+                                    </div>
                                 </div>
-                                <div class="file-path-wrapper">
-                                    <input class="file-path validate" type="text" placeholder="Eine oder mehrere Dateien Hochladen">
+                                <div class="row">
+                                    <div class="input-field col s12" style="overflow-y: auto; height: 100px;">
+                                        <textarea id="feedText" name="feedText" class="materialize-textarea" data-length="500"></textarea>
+                                        <label for="feedText">Beitrag</label>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="input-field col s12" style="overflow-y: auto; height: 100px;">
-                                    <textarea id="textarea" class="materialize-textarea" data-length="500"></textarea>
-                                    <label for="textarea">Beitrag</label>
-                                </div>
-                            </div>
-                            
-                            <button class="btn @color darken-1 waves-effect waves-light center" type="submit" name="action">posten
-                                <i class="material-icons right">send</i>
-                            </button>
-                        </form>
-                    </div>
-                </div>
+
+                                <button class="btn @color darken-1 waves-effect waves-light center" type="submit" name="action">
+                                    posten
+                                    <i class="material-icons right">send</i>
+                                </button>
+                            </form>
+=======
+            </li>
+            <li><a class="subheader">Daten bearbeiten</a></li>
+            <li><a href="/user/changedata"><i class="material-icons">insert_emoticon</i>Profildaten ändern</a></li>
+            <li><a href="/user/changelayout"><i class="material-icons">work</i>Webseite bearbeiten</a></li>
+
+            @if (Convert.ToInt32(Session["isAdmin"]) == 0)
+            {
+                <li><div class="divider"></div></li>
+                <li><a class="subheader">Administratoreinstellungen</a></li>
+                <li><a href="/user/usermanagement"><i class="material-icons">lock</i>Benutzerverwaltung</a></li>
+
+            }
+
+                    <li><div class="divider"></div></li>
+                    <li><a href="/user/logout"><i class="material-icons">logout</i>Abmelden</a></li>
+                </ul>
                 
+
+
+                <header>
+                    <nav class="@color darken-1">
+                        <div class="nav-wrapper">
+                            <div class="navbar-fixed">
+                                @Html.ActionLink("XOVO", "Index", "Home", null, new { @class = "brand-logo center" })
+                                <a href="#" data-target="slide-out" class="sidenav-trigger show-on-medium-and-up"><i class="material-icons">menu</i></a>
+                            </div>
+                        </div>
+                    </nav>
+                </header>
+
+
+                <div class="row">
+                    <div class="col l3 hide-on-med-and-down">
+                        <div class="card medium hoverable">
+                            <div class="card-tabs">
+                                <ul class="tabs tabs-fixed-width">
+                                    <li class="tab @color darken-1"><a class="active white-text" href="#friends">Freunde</a></li>
+                                    <li class="tab @color darken-1"><a class="white-text" href="#notify">Benachrichtigungen</a></li>
+                                </ul>
+                            </div>
+                            <div class="card-content grey lighten-5">
+                                <div id="friends">Vorname Nachname</div>
+                                <div id="notify">Text of Notify</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col s12 l6">
+                        @RenderBody()
+
+                    </div>
+                    <div class="col l3 hide-on-med-and-down">
+                        <div class="card medium hoverable">
+                            <div class="card-content center">
+                                <span class="card-title ">Beitrag teilen</span>
+                                <div class="row">
+                                    <form class="col s12" action="#">
+                                        <div class="file-field input-field">
+                                            <div class="btn @color darken-1">
+                                                <span>Datei</span>
+                                                <input type="file" multiple>
+                                            </div>
+                                            <div class="file-path-wrapper">
+                                                <input class="file-path validate" type="text" placeholder="Eine oder mehrere Dateien Hochladen">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="input-field col s12" style="overflow-y: auto; height: 100px;">
+                                                <textarea id="textarea" class="materialize-textarea" data-length="500"></textarea>
+                                                <label for="textarea">Beitrag</label>
+                                            </div>
+                                        </div>
+
+                                        <button class="btn @color darken-1 waves-effect waves-light center" type="submit" name="action">
+                                            posten
+                                            <i class="material-icons right">send</i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+
+>>>>>>> f306e875eb4c0cf32de9b25ae8dd5e57604cbda0
+                        </div>
+                    </div>
+
+                </div>
+<<<<<<< HEAD
             </div>
-        </div>
+
+         }
+        
+
     </div>
 
 </main>
 <footer class="page-footer @color darken-1">
     <div class="footer-copyright">
-        &copy; XOVO GmbH @DateTime.Now.Year
-        <a href="#" class="grey-text text-lighten-4 right">About us</a>
+        &copy; XOVO @DateTime.Now.Year
+        <a href="#" class="grey-text text-lighten-4 right">Über uns</a>
     </div>
 </footer>
 
 
 @Scripts.Render("~/bundles/jquery")
 @Scripts.Render("~/bundles/materialize")
+@Scripts.Render("~/bundles/colorpicker/")
 <script>
     $(document).ready(function() {
         $('.dropdown-trigger').dropdown
@@ -159,13 +192,37 @@
             coverTrigger: false
             }
         );
+=======
+>>>>>>> f306e875eb4c0cf32de9b25ae8dd5e57604cbda0
 
-        $('.sidenav').sidenav();
-        $('.tabs').tabs();
-        $('input#input_text, textarea#textarea').characterCounter();
-        $('select').formSelect();
+                </main>
+                <footer class="page-footer @color darken-1">
+                    <div class="footer-copyright">
+                        &copy; XOVO @DateTime.Now.Year
+                        <a href="#" class="grey-text text-lighten-4 right">Über uns</a>
+                    </div>
+                </footer>
 
-    });
-</script>
-</body>
+
+                @Scripts.Render("~/bundles/jquery")
+                @Scripts.Render("~/bundles/materialize")
+                @Scripts.Render("~/bundles/colorpicker/")
+                <script>
+                    $(document).ready(function () {
+                        $('.dropdown-trigger').dropdown
+                        (
+                            {
+                                coverTrigger: false
+                            }
+                        );
+
+                        $('.tabs').tabs();
+                        $('input#input_text, textarea#textarea').characterCounter();
+                        $('select').formSelect();
+                        $('.datepicker').datepicker();
+                        $('.sidenav').sidenav();
+
+                    });
+                </script>
+            </body>
 </html>
