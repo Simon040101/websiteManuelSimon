@@ -54,7 +54,7 @@ namespace XOVO.Controllers
                 FeedRepository fr = new FeedRepository();
                 fr.Open();
 
-                item.UserForFeed = (User)Session["User"];
+                item.UserForFeed = Convert.ToInt32((Session["UserID"]));
 
                 bool test = fr.InsertFeedItem(item);
 
@@ -75,6 +75,37 @@ namespace XOVO.Controllers
 
            
         }
+
+        
+        public ActionResult LikeFeed(int id)
+        {
+            
+            int userID = Convert.ToInt32(Session["UserID"]);
+
+            try
+            {
+                FeedRepository fr = new FeedRepository();
+                fr.Open();
+
+                bool success = fr.UserLikeFeed(userID, id);
+
+                if(success == true)
+                {
+                    return View("Message", new Message("Beitrag", "Vorgang wird bearbeitet", "Dein Like wurde registriert", ""));
+                }
+                else
+                {
+                    return View("Message", new Message("Beitrag", "Fehler", "Irgendetwas ist schief gelaufen", "Versuche es später erneut!"));
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+       
 
 
         private void ValidatePostForm(FeedItem feedItemToValidate)

@@ -15,8 +15,16 @@ namespace XOVO.Controllers
 
         [HttpGet]
         public ActionResult ChangeLayout()
-        {
-            return View();
+        {   
+            if(Session["isAdmin"] != null)
+            {
+                return View();
+            }
+            else
+            {
+                return View("Message", new Message("Design ändern", "Fehler", "Ihre Daten konnten nicht verändert werden", "Melden Sie sich an"));
+            }
+            
         }
         [HttpPost]
         public ActionResult ChangeLayout(User user)
@@ -24,13 +32,15 @@ namespace XOVO.Controllers
             UserRepositiory ur = new UserRepositiory();
             ur.Open();
 
+            user.ID = Convert.ToInt32(Session["UserID"]);
+
             bool ChangeLayout = ur.ChangeLayout(user);
             bool ChangeBackground = ur.ChangeBackground(user);
 
             Response.Cookies["layout_color"].Value = user.Layout_color;
             Response.Cookies["background_login"].Value = user.Background_login;
 
-            return View(user);
+            return View("Message", new Message("Webseite bearbeiten", "", "Das Aussehen wurde erfolgreich geändert", ""));
         }
 
         public ActionResult Logout()
@@ -55,22 +65,29 @@ namespace XOVO.Controllers
         [HttpPost]
         public ActionResult ChangeData(User user)
         {
-            if ((Session["isAdmin"] != null) && (Convert.ToInt32(Session["isAdmin"]) != 3) && (Convert.ToInt32(Session["isAdmin"]) != 2))
+            if ((Session["isAdmin"] != null) && (Convert.ToInt32(Session["isAdmin"]) != 2))
             {
-                ValidateRegistrationForm(user);
+                ValidateChangeDataForm(user);
 
                 if (ModelState.IsValid)
                 {
                     UserRepositiory ur = new UserRepositiory();
                     ur.Open();
 
+                    user.ID = Convert.ToInt32(Session["UserID"]);
+
                     bool ChangeSuccess = ur.ChangeData(user);
-                    return Request.UrlReferrer == null ? (ActionResult)RedirectToAction("Index", "Home") : Redirect(Request.UrlReferrer.ToString());
+                    if(ChangeSuccess == true)
+                    {
+                        return View("Message", new Message("Daten ändern", "", "Ihre Daten wurden erfolgreich geändert", ""));
+                    }
+
+                    else
+                    {
+                        return View("Message", new Message("Daten ändern", "Datenbankfehler", "Ihre Daten konnten nicht verändert werden", ""));
+                    }
                 }
-                else
-                {
-                    return View("Message", new Message("Daten ändern", "Fehler", "Ihre Daten konnten nicht verändert werden", ""));
-                }
+                return View(user);
             }
             else
             {
@@ -197,43 +214,68 @@ namespace XOVO.Controllers
                 }
                 if(log == UserRole.Administrator)
                 {
-                    Session["isAdmin"] = 0;
+<<<<<<< HEAD
+=======
+                   
+                    
+                    
 
+>>>>>>> ffb352cb2312e6002ad70e42cdea11592c1eb8bf
                     User u = usersRepository.GetUser(user.UsernameOrEmail, user.Password);
+                    Session["isAdmin"] = 0;
+                    Session["UserID"] = u.ID;
+                    Session["ProfilPic"] = u.Profilpicture;
+                    Session["isAdmin"] = 0;
+                    Session["User"] = u;
 
-                    Response.Cookies["layout_color"].Value = u.Layout_color;
-                    Response.Cookies["background_login"].Value = u.Background_login;
+                    HttpCookie layout_Color = new HttpCookie("layout_color");
+                    layout_Color.Value = u.Layout_color;
+                    layout_Color.Expires = DateTime.Now.AddDays(2);
+                    Response.Cookies.Add(layout_Color);
+
+                    HttpCookie Background_Cookie = new HttpCookie("background_login");
+                    Background_Cookie.Value = u.Background_login;
+                    Background_Cookie.Expires = DateTime.Now.AddDays(2);
+                    Response.Cookies.Add(Background_Cookie);
 
                     return RedirectToAction("index", "home");
                 }
                 else if(log == UserRole.RegisteredUser)
                 {
-<<<<<<< HEAD
-                    Session["isAdmin"] = 1;
-=======
-                    Session["isAdmin"] = true;
-
                     User u = usersRepository.GetUser(user.UsernameOrEmail, user.Password);
+                    Session["isAdmin"] = 1;
+                    Session["User"] = u;
+                    Session["UserID"] = u.ID;
+                    Session["ProfilPic"] = u.Profilpicture;
 
-                    Response.Cookies["layout_color"].Value = u.Layout_color;
-                    Response.Cookies["background_login"].Value = u.Background_login;
+                    HttpCookie layout_Color = new HttpCookie("layout_color");
+                    layout_Color.Value = u.Layout_color;
+                    layout_Color.Expires = DateTime.Now.AddDays(2);
+                    Response.Cookies.Add(layout_Color);
 
->>>>>>> master
+                    HttpCookie Background_Cookie = new HttpCookie("background_login");
+                    Background_Cookie.Value = u.Background_login;
+                    Background_Cookie.Expires = DateTime.Now.AddDays(2);
+                    Response.Cookies.Add(Background_Cookie);
+
                     return RedirectToAction("index", "home");
 
                 }
                 else if(log == UserRole.NoUser)
                 {
+                    Session["isAdmin"] = 2;
                     return View("Message_Registrierung", new Message("Login", "Sie sind noch kein Benutzer", "Es tut uns leid wir konnten dich in der Datenbank nicht finden :(", "Registrieren!!!")); 
                 }
                 else
                 {
+                    Session["isAdmin"] = 2;
                     return View("Message_Registrierung", new Message("Login", "", "Es ist während der Anmeldung zu einem Fehler gekommen :(", "Versuchen Sie es später erneut"));
                 }
                 
             }
             catch (Exception)
             {
+                Session["isAdmin"] = 2;
                 return View("Message", new Message("Datenbankfehler", "", "Probleme mit der Datenbankverbindung!", "Versuchen Sie es später erneut."));
             }
             finally
@@ -307,6 +349,43 @@ namespace XOVO.Controllers
 
             return ur.SearchUser(firstname, lastname);
 
+        }
+
+        private void ValidateChangeDataForm(User userToChange)
+        {
+            UserRepositiory ur = new UserRepositiory();
+
+            ur.Open();
+
+
+            if ((userToChange.Firstname == null) || (userToChange.Firstname.Trim().Length < 1))
+            {
+                ModelState.AddModelError("Firstname", "Bitte geben Sie einen sinnvollen Vornamen ein");
+            }
+            if ((userToChange.Lastname == null) || (userToChange.Lastname.Trim().Length < 1))
+            {
+                ModelState.AddModelError("Lastname", "Bitte geben Sie einen sinnvollen Nachnamen ein");
+            }
+            if ((userToChange.Email == null) || (!userToChange.Email.Contains("@")))
+            {
+                ModelState.AddModelError("Email", "Bitte geben Sie eine gültige Email an");
+            }
+            if (userToChange.Birthdate >= (DateTime.Now))
+            {
+                ModelState.AddModelError("Birthdate", "Kommen Sie aus der Zukunft????");
+            }
+            if (userToChange.Username == null)
+            {
+                ModelState.AddModelError("Username", "Bitte geben Sie einen Benutzernamen ein.");
+            }
+            if ((userToChange.Password == null) || (userToChange.Password.Length < 8))
+            {
+                ModelState.AddModelError("Password", "Das Passwort muss mindestens 8 Zeichen beinhalten");
+            }
+            if (userToChange.Password != userToChange.PasswordWH)
+            {
+                ModelState.AddModelError("PasswordWH", "Die Passwörter stimmen nicht überein!");
+            }
         }
 
         private void ValidateRegistrationForm(User userToValidate)

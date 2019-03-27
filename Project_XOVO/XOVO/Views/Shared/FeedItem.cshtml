@@ -1,22 +1,20 @@
 ﻿@model XOVO.Models.FeedItem
 
-<div class="card">
-    <div>
-        <p class="left">@Model.UserForFeed.ID</p>
-        <p class="right">@Model.CreationDateTime.ToLongDateString()</p>
-        <p class="center">@Model.CreationDateTime.TimeOfDay</p>
-    </div>
-    <div class="card-image">
-        <img src="@Model.ImgPath">
-    </div>
-    <div class="card-content">
-        
-        <p>@Model.FeedContent</p>
-    </div>
-    <div class="card-action">
-        <a href="#" class ="left">gefällt mir soon</a>
-        <a href="#" class="center">kommentieren</a>
-        <a href="#" class="right">teilen</a>
+        <div class="card">
 
-    </div>
-</div>
+                <div class="card-image">
+                    <img src="@Model.ImgPath">
+                    <span class="card-title">@Model.UserForFeed</span>
+                </div>
+            
+            <div class="card-content">
+                <p>@Model.FeedContent</p>
+            </div>
+            <div class="card-action">
+                <a href="/home/likefeed/@Model.Id"><i class="material-icons">thumb_up</i></a>
+                <a href="#"><i class="material-icons">comment</i></a>
+                <i>@Model.CreationDateTime</i>
+                <a href="#" class="right"><i class="material-icons">share</i></a>
+            </div>
+        </div>
+   
