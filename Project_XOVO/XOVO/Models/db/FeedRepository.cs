@@ -50,7 +50,7 @@ namespace XOVO.Models.db
                             //      Problem - aktuelle Lösung belegt nur das ID-Feld des Users, die restlichen Felder des Users sind unbelegt.
                             allItems.Add(
                                 new FeedItem(Convert.ToInt32(reader["feed_id"]), Convert.ToInt32(reader["user_id"]), Convert.ToDateTime(reader["creationDateTime"]),
-                                        Convert.ToString(reader["imagePath"]), Convert.ToString(reader["content"])));
+                                        Convert.ToString(reader["imagePath"]), Convert.ToString(reader["content"]), Convert.ToInt32(reader["likeCount"])));
                         }
                     }
                 }
@@ -121,11 +121,12 @@ namespace XOVO.Models.db
                 DateTime dateToInsert;
                 dateToInsert = DateTime.Now;
                 MySqlCommand cmdInsert = this._connection.CreateCommand();
-                cmdInsert.CommandText = "INSERT INTO feed VALUES(NULL, @id, @creationDateTime, @imgPath, @textarea)";
+                cmdInsert.CommandText = "INSERT INTO feed VALUES(NULL, @id, @creationDateTime, @imgPath, @textarea, @likecount)";
                 cmdInsert.Parameters.AddWithValue("id", itemToInsert.UserForFeed);
                 cmdInsert.Parameters.AddWithValue("creationDateTime", dateToInsert);
                 cmdInsert.Parameters.AddWithValue("imgPath", itemToInsert.ImgPath);
                 cmdInsert.Parameters.AddWithValue("textarea", itemToInsert.FeedContent);
+                cmdInsert.Parameters.AddWithValue("likecount", itemToInsert.LikeCount);
 
 
 

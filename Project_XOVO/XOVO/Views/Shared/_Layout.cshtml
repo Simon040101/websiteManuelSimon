@@ -82,6 +82,7 @@
                     <i class="material-icons">menu</i>
                 </a>
             </div>
+            
         </div>
     </nav>
 </header>
@@ -89,20 +90,26 @@
 
 <div class="row">
     <div class="col l3 hide-on-med-and-down">
-        <div class="card medium hoverable">
+        <div class="card medium">
             <div class="card-tabs">
                 <ul class="tabs tabs-fixed-width">
                     <li class="tab @color darken-1">
                         <a class="active white-text" href="#friends">Freunde</a>
                     </li>
                     <li class="tab @color darken-1">
-                        <a class="white-text" href="#notify">Benachrichtigungen</a>
+                        <a class="white-text" href="#notify">Nach Personen suchen</a>
                     </li>
                 </ul>
             </div>
             <div class="card-content grey lighten-5">
                 <div id="friends">Vorname Nachname</div>
-                <div id="notify">Text of Notify</div>
+                <div id="notify">
+                   <div class="input-field">
+                    <input id="lastname" name="lastname" type="text" class="validate">
+                    <label for="lastname">Benutzername</label>
+                   </div>
+                    <a href="#" class="btn">Suchen</a>
+                </div>
             </div>
         </div>
     </div>
@@ -114,7 +121,7 @@
 
     <div class="col l3 hide-on-med-and-down">
 
-        <div class="card medium hoverable">
+        <div class="card medium">
             <div class="card-content center">
                 <span class="card-title ">Beitrag teilen</span>
                 @using (Html.BeginForm("PostFeed", "Home"))

@@ -15,17 +15,19 @@ namespace XOVO.Models
         public DateTime CreationDateTime { get; set; }
         public string ImgPath { get; set; }
         public string FeedContent { get; set; }
+        public int LikeCount { get; set; }
 
         // ctors
-        public FeedItem() : this(0, 0, DateTime.MinValue, "", ""){ }
+        public FeedItem() : this(0, 0, DateTime.MinValue, "", "",0){ }
 
-        public FeedItem(int feedId, int userID, DateTime creationDateTime, string imgPath, string feedCont)
+        public FeedItem(int feedId, int userID, DateTime creationDateTime, string imgPath, string feedCont, int likeCount)
         {
             this.Id = feedId;
             this.UserForFeed = userID;
             this.CreationDateTime = creationDateTime;
             this.ImgPath = imgPath;
             this.FeedContent = feedCont;
+            this.LikeCount = likeCount;
         }
 
 
