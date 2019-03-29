@@ -1,4 +1,5 @@
-﻿@{ 
+﻿@using XOVO.Models;
+@{ 
     string color = Request.Cookies["layout_color"] != null ? Request.Cookies["layout_color"].Value.ToString() : "cyan";
     string profilepic = Session["Profilepic"] != null ? Convert.ToString(Session["Profilepic"]) : "/Content/img/placeholder.png";
     //string email = Convert.ToString(Session["Email"]);
@@ -115,24 +116,25 @@
 
         <div class="card medium hoverable">
             <div class="card-content center">
+                @Html.ValidationSummary()
                 <span class="card-title ">Beitrag teilen</span>
-                @using (Html.BeginForm("PostFeed", "Home"))
+                @using (Html.BeginForm("PostFeed", "Home", new { enctype = "multipart/form-data" }))
                 {
                     <div class="file-field input-field">
                         <div class="btn @color darken-1">
                             <span>Datei</span>
-                            <input type="file" id="files" name="ImgPath" multiple>
-                            
+                            <input type="file" id="imgPath1" name="imgPath1"/>
+
                         </div>
                         <div class="file-path-wrapper">
                             <input class="file-path validate" type="text" placeholder="Eine Datei hochladen">
                         </div>
                     </div>
-                        <div class="input-field" style="height: 100px;">
-                            <textarea id="feedText" name="FeedContent" class="materialize-textarea" data-length="500"></textarea>
-                            <label for="feedText">Beitrag</label>
-                        </div>
-                        
+                    <div class="input-field" style="height: 100px;">
+                        <textarea id="feedContent" name="feedContent" class="materialize-textarea" data-length="500"></textarea>
+                        <label for="feedText">Beitrag</label>
+                    </div>
+
                     <button class="btn @color darken-1 waves-effect waves-light center" type="submit" name="action">
                         posten
                         <i class="material-icons right">send</i>

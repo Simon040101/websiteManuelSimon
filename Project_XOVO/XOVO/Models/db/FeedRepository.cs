@@ -91,6 +91,6 @@ namespace XOVO.Models.db
             }
         }
 
-        private 
+         
     }
 }

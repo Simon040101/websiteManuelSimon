@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -47,52 +48,90 @@ namespace XOVO.Controllers
 
        
         [HttpPost]
-        public ActionResult PostFeed(FeedItem item)
+        public ActionResult PostFeed(string feedContent, HttpPostedFileBase imgPath1)
         {
-            try
+            // Parameter überprüfen
+
+            // falls Daten (Parameter) ok => DB-Teil
+            //                      nicht ok => Fehlermeldung
+
+
+            FeedRepository fr = new FeedRepository();
+            fr.Open();
+            
+
+            ValidatePostForm(item);
+
+
+            if (imgPath1 != null)
             {
-                FeedRepository fr = new FeedRepository();
-                fr.Open();
-
-                item.UserForFeed = (User)Session["User"];
-
-                bool test = fr.InsertFeedItem(item);
-
-                if (test == true)
+                try
                 {
-                    return View("Message", new Message("Hinzufügen", "", "Erfolgreich", ""));
+                    string path = Path.Combine(Server.MapPath("/Content/img/"), Path.GetFileName(imgPath1.FileName));
+                    imgPath1.SaveAs(path);
+                    ViewBag.Message = "File uploaded successfully";
                 }
-                else
+                catch (Exception ex)
                 {
-                    return View("Message", new Message("Hinzufügen", "", "Nicht erfolgreich", ""));
+                    ViewBag.Message = "ERROR:" + ex.Message.ToString();
                 }
+
             }
-            catch (Exception e)
+            else
             {
-                Console.WriteLine(e);
-                throw;
+                ViewBag.Message = "You have not specified a file.";
             }
 
-           
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    FeedItem fItem = new FeedItem();
+                    fItem.UserForFeed = (User)Session["User"];
+                    fItem.FeedContent = feedContent;
+                    fItem.ImgPath = "???";
+                    bool test = fr.InsertFeedItem(fItem);
+
+                    if (test == true)
+                    {
+                        return View("Message", new Message("Hinzufügen", "", "Erfolgreich", ""));
+                    }
+                    else
+                    {
+                        return View("Message", new Message("Hinzufügen", "", "Nicht erfolgreich", ""));
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
+
+                finally
+                {
+                    fr.Close();
+                }
+
+            }
+            
+
+            return View("Message", new Message("Posten", "", "Ungültige Eingabe", ""));
+
         }
 
 
         private void ValidatePostForm(FeedItem feedItemToValidate)
         {
-            FeedRepository frd = new FeedRepository();
-
-            frd.Open();
-
-
-         
-            if ((feedItemToValidate.FeedContent == null) || (feedItemToValidate.FeedContent.Trim().Length < 5))
+            if (((feedItemToValidate.FeedContent != null) && (feedItemToValidate.ImgPath != null))||((feedItemToValidate.FeedContent != null) && (feedItemToValidate.ImgPath == null )))
             {
-                ModelState.AddModelError("Textarea", "Ihr Text muss länger als 5 Buchstaben sein");
+                if ((feedItemToValidate.FeedContent.Trim().Length < 5))
+                {
+                    ModelState.AddModelError("Textarea", "Ihr Text muss länger als 5 Buchstaben sein");
+                }
             }
-            if ((feedItemToValidate.ImgPath == null))
-            {
-                ModelState.AddModelError("Datei", "Dateipfad existiert nicht");
-            }
+
+            
+
         }
         //private List<FeedItem> GetAllFeedItems()
         //{
