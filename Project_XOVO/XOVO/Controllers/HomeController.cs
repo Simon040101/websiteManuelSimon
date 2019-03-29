@@ -81,6 +81,7 @@ namespace XOVO.Controllers
             {
                 ViewBag.Message = "You have not specified a file.";
             }
+                item.UserForFeed = Convert.ToInt32((Session["UserID"]));
 
             if (ModelState.IsValid)
             {
@@ -107,15 +108,46 @@ namespace XOVO.Controllers
                     throw;
                 }
 
-                finally
-                {
-                    fr.Close();
-                }
+           
+        }
 
-            }
+        
+        public ActionResult LikeFeed(int id)
+        {
             
+            int userID = Convert.ToInt32(Session["UserID"]);
 
-            return View("Message", new Message("Posten", "", "Ungültige Eingabe", ""));
+            try
+            {
+                FeedRepository fr = new FeedRepository();
+                fr.Open();
+
+                bool success = fr.UserLikeFeed(userID, id);
+
+                if(success == true)
+                {
+                    return View("Message", new Message("Beitrag", "Vorgang wird bearbeitet", "Dein Like wurde registriert", ""));
+                }
+                else
+                {
+                    return View("Message", new Message("Beitrag", "Fehler", "Irgendetwas ist schief gelaufen", "Versuche es später erneut!"));
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+       
+
+
+        private void ValidatePostForm(FeedItem feedItemToValidate)
+        {
+            FeedRepository frd = new FeedRepository();
+
+            frd.Open();
 
         }
 
