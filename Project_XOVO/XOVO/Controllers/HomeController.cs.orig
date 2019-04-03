@@ -44,6 +44,75 @@ namespace XOVO.Controllers
             return RedirectToAction("login", "user");
         }
 
+<<<<<<< HEAD
+
+
+
+        //[HttpPost]
+        //public ActionResult PostFeed(string feedContent, HttpPostedFileBase imgPath1)
+        //{
+        //    // Parameter überprüfen
+
+        //    // falls Daten (Parameter) ok => DB-Teil
+        //    //                      nicht ok => Fehlermeldung
+
+
+        //    FeedRepository fr = new FeedRepository();
+        //    fr.Open();
+
+
+        //    ValidatePostForm(item);
+
+
+        //    if (imgPath1 != null)
+        //    {
+        //        try
+        //        {
+        //            string path = Path.Combine(Server.MapPath("/Content/img/"), Path.GetFileName(imgPath1.FileName));
+        //            imgPath1.SaveAs(path);
+        //            ViewBag.Message = "File uploaded successfully";
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            ViewBag.Message = "ERROR:" + ex.Message.ToString();
+        //        }
+
+        //    }
+        //    else
+        //    {
+        //        ViewBag.Message = "You have not specified a file.";
+        //    }
+        //    item.UserForFeed = Convert.ToInt32((Session["UserID"]));
+
+        //    if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //            FeedItem fItem = new FeedItem();
+        //            fItem.UserForFeed = Convert.ToInt32(Session["User"]);
+        //            fItem.FeedContent = feedContent;
+        //            fItem.ImgPath = "???";
+        //            bool test = fr.InsertFeedItem(fItem);
+
+        //            if (test == true)
+        //            {
+        //                return View("Message", new Message("Hinzufügen", "", "Erfolgreich", ""));
+        //            }
+        //            else
+        //            {
+        //                return View("Message", new Message("Hinzufügen", "", "Nicht erfolgreich", ""));
+        //            }
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            Console.WriteLine(e);
+        //            throw;
+        //        }
+
+
+        //    }
+        //}
+=======
         [HttpPost]
         public ActionResult PostItem(HttpPostedFileBase imageFile, string feedContent)
         {
@@ -84,6 +153,7 @@ namespace XOVO.Controllers
                 throw;
             }
         }
+>>>>>>> 837b4b30c313f9f4d5a544645c51048d8657962f
 
         public ActionResult LikeFeed(int id)
         {
@@ -98,8 +168,12 @@ namespace XOVO.Controllers
 
                 if (success == true)
                 {
+<<<<<<< HEAD
+                    return View("Message", new Message("Beitrag", "Vorgang wird bearbeitet", "", ""));
+=======
                     return View("Message",
                         new Message("Beitrag", "Vorgang wird bearbeitet", "Dein Like wurde registriert", ""));
+>>>>>>> 837b4b30c313f9f4d5a544645c51048d8657962f
                 }
                 else
                 {
@@ -114,7 +188,14 @@ namespace XOVO.Controllers
             }
         }
 
+<<<<<<< HEAD
+       
+
+
+
+=======
         
+>>>>>>> 837b4b30c313f9f4d5a544645c51048d8657962f
 
         private void ValidatePostForm(HttpPostedFileBase imageFile, string feedContent)
         {

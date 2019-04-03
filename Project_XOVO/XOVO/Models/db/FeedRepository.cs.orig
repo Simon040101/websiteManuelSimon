@@ -34,6 +34,7 @@ namespace XOVO.Models.db
             }
         }
 
+<<<<<<< HEAD
         public bool CheckIfLiked(int uid, int fid)
         {
             try
@@ -59,6 +60,8 @@ namespace XOVO.Models.db
             }
         }
 
+=======
+>>>>>>> 837b4b30c313f9f4d5a544645c51048d8657962f
         public List<FeedItem> GetFeedItems()
         {
             List<FeedItem> allItems = new List<FeedItem>();
@@ -76,27 +79,31 @@ namespace XOVO.Models.db
                         {
                             // TODO? - aufgrund der user_id den kompletten User ermittl"creationDateTime"n
                             //      Problem - aktuelle Lösung belegt nur das ID-Feld des Users, die restlichen Felder des Users sind unbelegt.
+<<<<<<< HEAD
                             allItems.Add(
                                 new FeedItem(Convert.ToInt32(reader["feed_id"]), Convert.ToInt32(reader["user_id"]), Convert.ToDateTime(reader["creationDateTime"]),
                                         Convert.ToString(reader["imagePath"]), Convert.ToString(reader["content"]), 0));
-                        }
-                    }
-                }
-
-                for (int i = 0; i < allItems.Count; i++)
-                {
-                    allItems[i].LikeCount = CountLike(allItems[i].Id);
+=======
                             allItems.Add(new FeedItem(Convert.ToInt32(reader["feed_id"]),
                                 Convert.ToInt32(reader["user_id"]), Convert.ToDateTime(reader["creationDateTime"]),
                                 Convert.ToString(reader["imagePath"]), Convert.ToString(reader["content"]),
                                 Convert.ToInt32(reader["likeCount"])));
+>>>>>>> 837b4b30c313f9f4d5a544645c51048d8657962f
                         }
                     }
                 }
 
+<<<<<<< HEAD
+                for (int i = 0; i < allItems.Count; i++)
+                {
+                    allItems[i].LikeCount = CountLike(allItems[i].Id);
+                }
+
+=======
+>>>>>>> 837b4b30c313f9f4d5a544645c51048d8657962f
                 return allItems.Count > 0 ? allItems : null;
             }
-            catch (MySqlException)
+            catch (MySqlException ex)
             {
                 throw;
             }
@@ -128,7 +135,7 @@ namespace XOVO.Models.db
 
                 return allItems.Count > 0 ? allItems : null;
             }
-            catch (MySqlException ex)
+            catch (MySqlException)
             {
                 throw;
             }
@@ -186,13 +193,22 @@ namespace XOVO.Models.db
                 DateTime dateToInsert;
                 dateToInsert = DateTime.Now;
                 MySqlCommand cmdInsert = this._connection.CreateCommand();
+<<<<<<< HEAD
                 cmdInsert.CommandText = "INSERT INTO feed VALUES(NULL, @id, @creationDateTime, @imgPath, @textarea)";
                 cmdInsert.Parameters.AddWithValue("id", itemToInsert.UserForFeed);
+=======
+                cmdInsert.CommandText =
+                    "INSERT INTO feed VALUES(NULL, @id, @creationDateTime, @imgPath, @textarea, 0)";
+                cmdInsert.Parameters.AddWithValue("id", itemToInsert.UserForFeedID);
+>>>>>>> 837b4b30c313f9f4d5a544645c51048d8657962f
                 cmdInsert.Parameters.AddWithValue("creationDateTime", dateToInsert);
                 cmdInsert.Parameters.AddWithValue("imgPath", itemToInsert.Image);
                 cmdInsert.Parameters.AddWithValue("textarea", itemToInsert.FeedContent);
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 837b4b30c313f9f4d5a544645c51048d8657962f
 
                 return cmdInsert.ExecuteNonQuery() == 1;
             }
@@ -245,7 +261,11 @@ namespace XOVO.Models.db
                     if (reader.HasRows)
                     {
                         reader.Read();
+<<<<<<< HEAD
                         return Convert.ToInt32(reader["likes"]);
+=======
+                        return (int) reader["likes"];
+>>>>>>> 837b4b30c313f9f4d5a544645c51048d8657962f
                     }
                 }
 

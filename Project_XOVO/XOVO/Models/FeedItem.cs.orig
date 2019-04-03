@@ -11,36 +11,31 @@ namespace XOVO.Models
         public int Id { get; set; }
 
         // properties
-<<<<<<< HEAD
-        public  User UserForFeed { get; set; }
+        public  int UserForFeedID { get; set; }
         public DateTime CreationDateTime { get; set; }
-        public string ImgPath { get; set; }
+        public string Image { get; set; }
         public string FeedContent { get; set; }
-=======
-        public  User User { get; set; }
-        public string Name { get; set; }
->>>>>>> 91886ead0a3339fe0eb907e906f5fc013e6b661d
+        public int LikeCount { get; set; }
 
         // ctors
-        public FeedItem() : this(0, null, DateTime.MinValue, "", ""){ }
+<<<<<<< HEAD
+        public FeedItem() : this(0, 0, DateTime.MinValue, "", "", 0){ }
 
-        public FeedItem(int feedId, User userForFeed, DateTime creationDateTime, string imgPath, string feedCont)
+        public FeedItem(int feedId, int userID, DateTime creationDateTime, string imgPath, string feedCont, int likecount)
+=======
+        public FeedItem() : this(0, 0, DateTime.MinValue, null, "",0){ }
+
+        public FeedItem(int feedId, int userID, DateTime creationDateTime, string image, string feedCont, int likeCount)
+>>>>>>> 837b4b30c313f9f4d5a544645c51048d8657962f
         {
             this.Id = feedId;
-            this.UserForFeed = userForFeed;
+            this.UserForFeedID = userID;
             this.CreationDateTime = creationDateTime;
-            this.ImgPath = imgPath;
+            this.Image = image;
             this.FeedContent = feedCont;
+            this.LikeCount = likecount;
         }
-        public FeedItem(int feedId, int userIdForFeed, DateTime creationDateTime, string imgPath, string feedCont)
-        {
-            this.Id = feedId;
-            this.UserForFeed = new User();
-            this.UserForFeed.ID = userIdForFeed;
-            this.CreationDateTime = creationDateTime;
-            this.ImgPath = imgPath;
-            this.FeedContent = feedCont;
-        }
+
 
 
     }
