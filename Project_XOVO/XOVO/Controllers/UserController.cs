@@ -220,6 +220,7 @@ namespace XOVO.Controllers
                     Session["ProfilPic"] = u.Profilpicture;
                     Session["isAdmin"] = 0;
                     Session["User"] = u;
+                    
 
                     HttpCookie layout_Color = new HttpCookie("layout_color");
                     layout_Color.Value = u.Layout_color;

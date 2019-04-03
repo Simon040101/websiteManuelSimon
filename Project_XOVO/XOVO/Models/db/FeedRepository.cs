@@ -31,6 +31,32 @@ namespace XOVO.Models.db
                 this._connection.Close();
             }
         }
+
+        public bool CheckIfLiked(int uid, int fid)
+        {
+            try
+            {
+                MySqlCommand cmdGetAllItems = this._connection.CreateCommand();
+                cmdGetAllItems.CommandText = "SELECT * FROM userslikefeed where uid = @uid and fid = @fid";
+                cmdGetAllItems.Parameters.AddWithValue("uid", uid);
+                cmdGetAllItems.Parameters.AddWithValue("fid", fid);
+
+                using (MySqlDataReader reader = cmdGetAllItems.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         public List<FeedItem> GetFeedItems()
         {
             List<FeedItem> allItems = new List<FeedItem>();
@@ -50,13 +76,19 @@ namespace XOVO.Models.db
                             //      Problem - aktuelle Lösung belegt nur das ID-Feld des Users, die restlichen Felder des Users sind unbelegt.
                             allItems.Add(
                                 new FeedItem(Convert.ToInt32(reader["feed_id"]), Convert.ToInt32(reader["user_id"]), Convert.ToDateTime(reader["creationDateTime"]),
-                                        Convert.ToString(reader["imagePath"]), Convert.ToString(reader["content"]), Convert.ToInt32(reader["likeCount"])));
+                                        Convert.ToString(reader["imagePath"]), Convert.ToString(reader["content"]), 0));
                         }
                     }
                 }
+
+                for (int i = 0; i < allItems.Count; i++)
+                {
+                    allItems[i].LikeCount = CountLike(allItems[i].Id);
+                }
+
                 return allItems.Count > 0 ? allItems : null;
             }
-            catch (MySqlException)
+            catch (MySqlException ex)
             {
                 throw;
             }
@@ -121,12 +153,11 @@ namespace XOVO.Models.db
                 DateTime dateToInsert;
                 dateToInsert = DateTime.Now;
                 MySqlCommand cmdInsert = this._connection.CreateCommand();
-                cmdInsert.CommandText = "INSERT INTO feed VALUES(NULL, @id, @creationDateTime, @imgPath, @textarea, @likecount)";
+                cmdInsert.CommandText = "INSERT INTO feed VALUES(NULL, @id, @creationDateTime, @imgPath, @textarea)";
                 cmdInsert.Parameters.AddWithValue("id", itemToInsert.UserForFeed);
                 cmdInsert.Parameters.AddWithValue("creationDateTime", dateToInsert);
                 cmdInsert.Parameters.AddWithValue("imgPath", itemToInsert.ImgPath);
                 cmdInsert.Parameters.AddWithValue("textarea", itemToInsert.FeedContent);
-                cmdInsert.Parameters.AddWithValue("likecount", itemToInsert.LikeCount);
 
 
 
@@ -143,12 +174,24 @@ namespace XOVO.Models.db
         {
             try
             {
-                MySqlCommand cmdLike = _connection.CreateCommand();
-                cmdLike.CommandText = "Insert into UsersLikeFeed Values (@u_id, @f_id)";
-                cmdLike.Parameters.AddWithValue("u_id", userID);
-                cmdLike.Parameters.AddWithValue("f_id", feedID);
+                if (CheckIfLiked(userID, feedID) == false)
+                {
+                    MySqlCommand cmdLike = _connection.CreateCommand();
+                    cmdLike.CommandText = "Insert into UsersLikeFeed Values (@u_id, @f_id)";
+                    cmdLike.Parameters.AddWithValue("u_id", userID);
+                    cmdLike.Parameters.AddWithValue("f_id", feedID);
 
-                return cmdLike.ExecuteNonQuery() == 1;
+                    return cmdLike.ExecuteNonQuery() == 1;
+                }
+                else
+                {
+                    MySqlCommand cmdDislike = _connection.CreateCommand();
+                    cmdDislike.CommandText = "Delete from userslikefeed where uid = @id";
+                    cmdDislike.Parameters.AddWithValue("id", userID);
+
+                    return cmdDislike.ExecuteNonQuery() == 1;
+                }
+
             }
             catch (Exception)
             {
@@ -169,7 +212,7 @@ namespace XOVO.Models.db
                     if (reader.HasRows)
                     {
                         reader.Read();
-                        return (int)reader["likes"];
+                        return Convert.ToInt32(reader["likes"]);
                     }
                 }
 

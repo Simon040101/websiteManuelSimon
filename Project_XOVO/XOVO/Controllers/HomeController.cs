@@ -46,70 +46,71 @@ namespace XOVO.Controllers
 
 
 
-       
-        [HttpPost]
-        public ActionResult PostFeed(string feedContent, HttpPostedFileBase imgPath1)
-        {
-            // Parameter überprüfen
 
-            // falls Daten (Parameter) ok => DB-Teil
-            //                      nicht ok => Fehlermeldung
+        //[HttpPost]
+        //public ActionResult PostFeed(string feedContent, HttpPostedFileBase imgPath1)
+        //{
+        //    // Parameter überprüfen
 
-
-            FeedRepository fr = new FeedRepository();
-            fr.Open();
-            
-
-            ValidatePostForm(item);
+        //    // falls Daten (Parameter) ok => DB-Teil
+        //    //                      nicht ok => Fehlermeldung
 
 
-            if (imgPath1 != null)
-            {
-                try
-                {
-                    string path = Path.Combine(Server.MapPath("/Content/img/"), Path.GetFileName(imgPath1.FileName));
-                    imgPath1.SaveAs(path);
-                    ViewBag.Message = "File uploaded successfully";
-                }
-                catch (Exception ex)
-                {
-                    ViewBag.Message = "ERROR:" + ex.Message.ToString();
-                }
+        //    FeedRepository fr = new FeedRepository();
+        //    fr.Open();
 
-            }
-            else
-            {
-                ViewBag.Message = "You have not specified a file.";
-            }
-                item.UserForFeed = Convert.ToInt32((Session["UserID"]));
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    FeedItem fItem = new FeedItem();
-                    fItem.UserForFeed = (User)Session["User"];
-                    fItem.FeedContent = feedContent;
-                    fItem.ImgPath = "???";
-                    bool test = fr.InsertFeedItem(fItem);
+        //    ValidatePostForm(item);
 
-                    if (test == true)
-                    {
-                        return View("Message", new Message("Hinzufügen", "", "Erfolgreich", ""));
-                    }
-                    else
-                    {
-                        return View("Message", new Message("Hinzufügen", "", "Nicht erfolgreich", ""));
-                    }
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                    throw;
-                }
 
-           
-        }
+        //    if (imgPath1 != null)
+        //    {
+        //        try
+        //        {
+        //            string path = Path.Combine(Server.MapPath("/Content/img/"), Path.GetFileName(imgPath1.FileName));
+        //            imgPath1.SaveAs(path);
+        //            ViewBag.Message = "File uploaded successfully";
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            ViewBag.Message = "ERROR:" + ex.Message.ToString();
+        //        }
+
+        //    }
+        //    else
+        //    {
+        //        ViewBag.Message = "You have not specified a file.";
+        //    }
+        //    item.UserForFeed = Convert.ToInt32((Session["UserID"]));
+
+        //    if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //            FeedItem fItem = new FeedItem();
+        //            fItem.UserForFeed = Convert.ToInt32(Session["User"]);
+        //            fItem.FeedContent = feedContent;
+        //            fItem.ImgPath = "???";
+        //            bool test = fr.InsertFeedItem(fItem);
+
+        //            if (test == true)
+        //            {
+        //                return View("Message", new Message("Hinzufügen", "", "Erfolgreich", ""));
+        //            }
+        //            else
+        //            {
+        //                return View("Message", new Message("Hinzufügen", "", "Nicht erfolgreich", ""));
+        //            }
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            Console.WriteLine(e);
+        //            throw;
+        //        }
+
+
+        //    }
+        //}
 
         
         public ActionResult LikeFeed(int id)
@@ -126,7 +127,7 @@ namespace XOVO.Controllers
 
                 if(success == true)
                 {
-                    return View("Message", new Message("Beitrag", "Vorgang wird bearbeitet", "Dein Like wurde registriert", ""));
+                    return View("Message", new Message("Beitrag", "Vorgang wird bearbeitet", "", ""));
                 }
                 else
                 {
@@ -143,13 +144,6 @@ namespace XOVO.Controllers
        
 
 
-        private void ValidatePostForm(FeedItem feedItemToValidate)
-        {
-            FeedRepository frd = new FeedRepository();
-
-            frd.Open();
-
-        }
 
 
         private void ValidatePostForm(FeedItem feedItemToValidate)
