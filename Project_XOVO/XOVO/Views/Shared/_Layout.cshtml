@@ -125,12 +125,12 @@
             <div class="card-content center">
                 @Html.ValidationSummary()
                 <span class="card-title ">Beitrag teilen</span>
-                @using (Html.BeginForm("PostFeed", "Home", new { enctype = "multipart/form-data" }))
+                @using (Html.BeginForm("PostItem", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
                 {
                     <div class="file-field input-field">
                         <div class="btn @color darken-1">
                             <span>Datei</span>
-                            <input type="file" id="imgPath1" name="imgPath1"/>
+                            <input type="file" id="imageFile" name="imageFile"/>
 
                         </div>
                         <div class="file-path-wrapper">
@@ -142,7 +142,7 @@
                         <label for="feedText">Beitrag</label>
                     </div>
 
-                    <button class="btn @color darken-1 waves-effect waves-light center" type="submit" name="action">
+                    <button class="btn @color darken-1 waves-effect waves-light center" type="submit" name="action" value="PostItem">
                         posten
                         <i class="material-icons right">send</i>
                     </button>
