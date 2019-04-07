@@ -10,7 +10,7 @@ namespace XOVO.Models.db
 {
     public class FeedRepository : IFeedRepository
     {
-        private string _connectionString = "Server=localhost;Database=XOVO;Uid=root;Pwd=alpine;SslMode=none";
+        private string _connectionString = "Server=localhost;Database=XOVO;Uid=root;SslMode=none";
         private MySqlConnection _connection;
 
         public void Open()
@@ -86,20 +86,16 @@ namespace XOVO.Models.db
                 for (int i = 0; i < allItems.Count; i++)
                 {
                     allItems[i].LikeCount = CountLike(allItems[i].Id);
-                            allItems.Add(new FeedItem(Convert.ToInt32(reader["feed_id"]),
-                                Convert.ToInt32(reader["user_id"]), Convert.ToDateTime(reader["creationDateTime"]),
-                                Convert.ToString(reader["imagePath"]), Convert.ToString(reader["content"]),
-                                Convert.ToInt32(reader["likeCount"])));
-                        }
-                    }
                 }
 
                 return allItems.Count > 0 ? allItems : null;
             }
+
             catch (MySqlException)
             {
                 throw;
             }
+            
         }
 
         public List<FeedItem> GetFeedItemsByID(int id)
@@ -187,7 +183,7 @@ namespace XOVO.Models.db
                 dateToInsert = DateTime.Now;
                 MySqlCommand cmdInsert = this._connection.CreateCommand();
                 cmdInsert.CommandText = "INSERT INTO feed VALUES(NULL, @id, @creationDateTime, @imgPath, @textarea)";
-                cmdInsert.Parameters.AddWithValue("id", itemToInsert.UserForFeed);
+                cmdInsert.Parameters.AddWithValue("id", itemToInsert.UserForFeedID);
                 cmdInsert.Parameters.AddWithValue("creationDateTime", dateToInsert);
                 cmdInsert.Parameters.AddWithValue("imgPath", itemToInsert.Image);
                 cmdInsert.Parameters.AddWithValue("textarea", itemToInsert.FeedContent);
@@ -219,8 +215,9 @@ namespace XOVO.Models.db
                 else
                 {
                     MySqlCommand cmdDislike = _connection.CreateCommand();
-                    cmdDislike.CommandText = "Delete from userslikefeed where uid = @id";
+                    cmdDislike.CommandText = "Delete from userslikefeed where uid = @id and fid= @fid";
                     cmdDislike.Parameters.AddWithValue("id", userID);
+                    cmdDislike.Parameters.AddWithValue("fid", feedID);
 
                     return cmdDislike.ExecuteNonQuery() == 1;
                 }
@@ -253,6 +250,41 @@ namespace XOVO.Models.db
             }
             catch (Exception)
             {
+                throw;
+            }
+        }
+
+        public bool UserCommentFeed(int userID, int feedID, string Comment)
+        {
+            try
+            {
+                MySqlCommand cmdComment = _connection.CreateCommand();
+                cmdComment.CommandText = "Insert into UserCommentFeed Values (@u_id, @f_id, @content, null)";
+                cmdComment.Parameters.AddWithValue("u_id", userID);
+                cmdComment.Parameters.AddWithValue("f_id", feedID);
+                cmdComment.Parameters.AddWithValue("content", Comment);
+
+                return cmdComment.ExecuteNonQuery() == 1;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public bool DeleteFeed(int id)
+        {
+            try
+            {
+                MySqlCommand cmdLike = _connection.CreateCommand();
+                cmdLike.CommandText = "Delete from Feed where feed_id = @id";
+                cmdLike.Parameters.AddWithValue("id", id);
+                return cmdLike.ExecuteNonQuery() == 1;
+            }
+            catch (Exception)
+            {
+
                 throw;
             }
         }

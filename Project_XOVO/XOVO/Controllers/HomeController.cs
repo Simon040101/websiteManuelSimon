@@ -85,6 +85,35 @@ namespace XOVO.Controllers
             }
         }
 
+        public ActionResult CommentFeed(int id, string Comment)
+        {
+            int userID = Convert.ToInt32(Session["UserID"]);
+
+            try
+            {
+                FeedRepository fr = new FeedRepository();
+                fr.Open();
+
+                bool success = fr.UserCommentFeed(userID, id, Comment);
+
+                if (success == true)
+                {
+                    return Redirect(Request.UrlReferrer.ToString());
+                }
+                else
+                {
+                    return View("Message",
+                        new Message("Beitrag", "Fehler", "Irgendetwas ist schief gelaufen",
+                            "Versuche es später erneut!"));
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+
         public ActionResult LikeFeed(int id)
         {
             int userID = Convert.ToInt32(Session["UserID"]);
@@ -98,8 +127,35 @@ namespace XOVO.Controllers
 
                 if (success == true)
                 {
+                    return Redirect(Request.UrlReferrer.ToString());
+                }
+                else 
+                {
                     return View("Message",
-                        new Message("Beitrag", "Vorgang wird bearbeitet", "Dein Like wurde registriert", ""));
+                        new Message("Beitrag", "Fehler", "Irgendetwas ist schief gelaufen",
+                            "Versuche es später erneut!"));
+                }
+
+                
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public ActionResult Delete(int id)
+        {
+            try
+            {
+                FeedRepository fr = new FeedRepository();
+                fr.Open();
+
+                bool success = fr.DeleteFeed(id);
+
+                if (success == true)
+                {
+                    return Redirect(Request.UrlReferrer.ToString());
                 }
                 else
                 {
@@ -108,10 +164,12 @@ namespace XOVO.Controllers
                             "Versuche es später erneut!"));
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+
                 throw;
             }
+            
         }
 
         

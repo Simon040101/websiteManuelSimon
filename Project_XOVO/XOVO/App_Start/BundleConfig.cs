@@ -20,7 +20,6 @@ namespace XOVO
 
             bundles.Add(new ScriptBundle("~/bundles/colorpicker/").Include("~/Content/js/bootstrap-colorpicker.js"));
 
-            bundles.Add(new StyleBundle("~/color/").Include("~/Content/css/bootstrap-colorpicker.css"));
         }
     }
 }

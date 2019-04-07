@@ -1,28 +1,33 @@
-﻿
+﻿    <div class="card">
+        <div class="card-image waves-effect waves-block waves-light">
+            <img class="activator" src="@Model.Image">
+        </div>
+        <div class="card-content">
+            <span class="card-title activator grey-text text-darken-4">@Model.UserForFeedID<i class="material-icons right">comment</i></span>
+            <p>@Model.FeedContent</p>
+        </div>
+        <div class="card-reveal">
+            <span class="card-title grey-text text-darken-4">Kommentare<i class="material-icons right">close</i></span>
+            <form action="/home/commentfeed/@Model.Id" method="post">
+                <fieldset class="form-group">
+                    <input type="text"
+                           class="form-control"
+                           id="Comment"
+                           name="Comment"
+                           placeholder="Kommentar hinzufügen">
+                    <button class="btn waves-effect waves-light" type="submit" name="action">Senden
+                    <i class="material-icons right">send</i>
+                    </button>
+                </fieldset>
+            </form>
+            <p>Hier werden in Kürze die Kommentare stehen</p>
 
-<div class="card hoverable" style="border:solid">
-
-    <div class="card-image">
-        <img src="@Model.Image">
-        <span class="card-title">@Model.UserForFeedID</span>
+        </div>
+        <div class="card-action">
+           <a href="/home/likefeed/@Model.Id"><i class="material-icons">thumb_up</i></a><p>@Model.LikeCount</p>
+            @if (Convert.ToInt32(Session["isAdmin"]) == 0)
+            {
+                <a href="/home/delete/@Model.Id"><i class="material-icons">delete</i></a>
+            }
+        </div>
     </div>
-
-    <div class="card-content">
-        <p>@Model.FeedContent</p>
-    </div>
-    <div class="card-action">
-        <a href="/home/likefeed/@Model.Id"><i class="material-icons">thumb_up</i></a>
-        <i>@Model.LikeCount</i>
-        <i>@Model.CreationDateTime</i>
-        <a href="#" class="right"><i class="material-icons">share</i></a>
-    </div>
-    <form>
-        <fieldset class="form-group">
-            <input type="text"
-                   class="form-control"
-                   id="Comment"
-                   placeholder="Kommentar hinzufügen">
-                <a href="#" class="btn-floating blue"><i class="material-icons">send</i></a>
-        </fieldset>
-    </form>
-</div>

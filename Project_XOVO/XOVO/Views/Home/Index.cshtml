@@ -11,10 +11,10 @@
 }
 else
 {
-    <div id="card">
+    <div>
         @foreach (FeedItem fi in Model)
         {
-        @Html.Partial("FeedItem", fi)
+            @Html.Partial("FeedItem", fi)
         }
     </div>
 }

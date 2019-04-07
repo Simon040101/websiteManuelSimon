@@ -16,6 +16,7 @@ namespace XOVO.Models
         public string Image { get; set; }
         public string FeedContent { get; set; }
         public int LikeCount { get; set; }
+       
 
         // ctors
         public FeedItem() : this(0, 0, DateTime.MinValue, null, "",0){ }
@@ -27,7 +28,7 @@ namespace XOVO.Models
             this.CreationDateTime = creationDateTime;
             this.Image = image;
             this.FeedContent = feedCont;
-            this.LikeCount = likecount;
+            this.LikeCount = likeCount;
         }
 
 

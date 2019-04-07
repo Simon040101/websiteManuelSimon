@@ -285,7 +285,7 @@ namespace XOVO.Controllers
             return View(u);
         }
         [HttpPost]
-        public ActionResult Registration(User user)
+        public ActionResult Registration(HttpPostedFileBase Profilpicture, User user)
         {
             if (user == null)
             {
@@ -293,6 +293,13 @@ namespace XOVO.Controllers
             }
 
             ValidateRegistrationForm(user);
+
+            if (Profilpicture != null)
+            {
+                Profilpicture.SaveAs(Server.MapPath("~/Content/img/") + Profilpicture.FileName);
+                /// TODO: testen
+                user.Profilpicture = "/Content/img/" + Profilpicture.FileName;
+            }
 
             if (ModelState.IsValid)
             {

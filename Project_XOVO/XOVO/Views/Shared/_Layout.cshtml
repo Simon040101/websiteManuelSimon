@@ -1,175 +1,182 @@
 ﻿@using XOVO.Models;
-@{ 
+@{
     string color = Request.Cookies["layout_color"] != null ? Request.Cookies["layout_color"].Value.ToString() : "cyan";
     string profilepic = Session["Profilepic"] != null ? Convert.ToString(Session["Profilepic"]) : "/Content/img/placeholder.png";
     //string email = Convert.ToString(Session["Email"]);
     //string username = Convert.ToString(Session["Username"]);
 
-    User user = (User)Session["User"];
-
-
-
+    User user = (User) Session["User"];
 }
 
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>@ViewBag.Title - stay together </title>
-    @Styles.Render("~/main/css/")
-    @Styles.Render("~/color/")
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+    @Styles.Render("~/main/css/")
+    @*ink rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">*@
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    @*<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>*@
 </head>
 
 <body>
 
-    <ul id="slide-out" class="sidenav">
-        <li>
-            <div class="user-view">
-                <div class="background">
-                       <img src="~/Content/img/background_sidenav.png">
-                </div>
-                    @if (Convert.ToInt32(Session["isAdmin"]) != 2)
-                    {
-                    <a href="#user"><img class="circle" src="@profilepic"></a>
-                    <a href="#name"><span class="white-text name">@user.Username</span></a>
-                    <a href="#email"><span class="white-text email">@user.Email</span></a>
-                    }
-                    @if (Convert.ToInt32(Session["isAdmin"]) == 0)
-                    {
-                        <span class="white-text">Adminrechte</span>
-                    }
-                    @if(Convert.ToInt32(Session["isAdmin"]) == 2)
-                    {
-                        <span class="white-text">Bitte Melden Sie sich an</span>
-                    }
-
-                </div>
-            </li>
+<ul id="slide-out" class="sidenav">
+    <li>
+        <div class="user-view">
+            <div class="background">
+                <img src="~/Content/img/background_sidenav.png">
+            </div>
             @if (Convert.ToInt32(Session["isAdmin"]) != 2)
             {
-            <li><a class="subheader">Daten bearbeiten</a></li>
-            <li><a href="/user/changedata"><i class="material-icons">insert_emoticon</i>Profildaten ändern</a></li>
-            <li><a href="/user/changelayout"><i class="material-icons">work</i>Webseite bearbeiten</a></li>
-
-            if (Convert.ToInt32(Session["isAdmin"]) == 0)
-            {
-                <li><div class="divider"></div></li>
-                <li><a class="subheader">Administratoreinstellungen</a></li>
-                <li><a href="/user/usermanagement"><i class="material-icons">lock</i>Benutzerverwaltung</a></li>
-
+                <a href="#user">
+                    <img class="circle" src="@profilepic">
+                </a>
+                <a href="#name">
+                    <span class="white-text name">@user.Username</span>
+                </a>
+                <a href="#email">
+                    <span class="white-text email">@user.Email</span>
+                </a>
             }
-
-                    <li><div class="divider"></div></li>
-                    <li><a href="/user/logout"><i class="material-icons">logout</i>Abmelden</a></li>
+            @if (Convert.ToInt32(Session["isAdmin"]) == 0)
+            {
+                <span class="white-text">Adminrechte</span>
             }
             @if (Convert.ToInt32(Session["isAdmin"]) == 2)
             {
-                <li><a class="subheader">Anmelden</a></li>
-                <li><a href="/user/login"><i class="material-icons">arrow_forward</i>Anmelden</a></li>
-                <li><a href="/user/registration"><i class="material-icons">work</i>Registrieren</a></li>
+                <span class="white-text">Bitte Melden Sie sich an</span>
             }
 
-                </ul>
-                
+        </div>
+    </li>
+    @if (Convert.ToInt32(Session["isAdmin"]) != 2)
+    {
+        <li>
+            <a class="subheader">Daten bearbeiten</a>
+        </li>
+        <li>
+            <a href="/user/changedata"><i class="material-icons">insert_emoticon</i>Profildaten ändern</a>
+        </li>
+        <li>
+            <a href="/user/changelayout"><i class="material-icons">work</i>Webseite bearbeiten</a>
+        </li>
+
+        if (Convert.ToInt32(Session["isAdmin"]) == 0)
+        {
+            <li>
+                <div class="divider"></div>
+            </li>
+            <li>
+                <a class="subheader">Administratoreinstellungen</a>
+            </li>
+            <li>
+                <a href="/user/usermanagement"><i class="material-icons">lock</i>Benutzerverwaltung</a>
+            </li>
+        }
+
+        <li>
+            <div class="divider"></div>
+        </li>
+        <li>
+            <a href="/user/logout"><i class="material-icons">logout</i>Abmelden</a>
+        </li>
+    }
+    @if (Convert.ToInt32(Session["isAdmin"]) == 2)
+    {
+        <li>
+            <a class="subheader">Anmelden</a>
+        </li>
+        <li>
+            <a href="/user/login"><i class="material-icons">arrow_forward</i>Anmelden</a>
+        </li>
+        <li>
+            <a href="/user/registration"><i class="material-icons">work</i>Registrieren</a>
+        </li>
+    }
+
+</ul>
+
 
 <header>
-    <nav class="@color darken-1">
-        <div class="nav-wrapper">
-            <div class="navbar-fixed">
+    <div class="navbar-fixed">
+        <nav class="@color darken-1">
+            <div class="nav-wrapper">
                 @Html.ActionLink("XOVO", "Index", "Home", null, new {@class = "brand-logo center"})
                 <a href="#" data-target="slide-out" class="sidenav-trigger show-on-medium-and-up">
                     <i class="material-icons">menu</i>
                 </a>
             </div>
-            
-        </div>
-    </nav>
+        </nav>
+    </div>
 </header>
 
-
-<div class="row">
-    <div class="col l3 hide-on-med-and-down">
-        <div class="card medium">
-            <div class="card-tabs">
-                <ul class="tabs tabs-fixed-width">
-                    <li class="tab @color darken-1">
-                        <a class="active white-text" href="#friends">Freunde</a>
-                    </li>
-                    <li class="tab @color darken-1">
-                        <a class="white-text" href="#notify">Nach Personen suchen</a>
-                    </li>
-                </ul>
+<main>
+    <div class="row">
+        <div class="col l3 hide-on-med-and-down">
+            <div class="card">
+                <div class="card-tabs">
+                    <ul class="tabs tabs-fixed-width">
+                        <li class="tab"><a class="active white-text @color darken-1" href="#friends">Freunde</a></li>
+                        <li class="tab"><a class="@color white-text darken-1" href="#searchPerson">Nach Personen suchen</a></li>
+                    </ul>
+                </div>
+                <div class="card-content">
+                    <div id="friends"></div>
+                    <div id="searchPerson"></div>
+                </div>
             </div>
-            <div class="card-content grey lighten-5">
-                <div id="friends">Vorname Nachname</div>
-                <div id="notify">
-                   <div class="input-field">
-                    <input id="lastname" name="lastname" type="text" class="validate">
-                    <label for="lastname">Benutzername</label>
-                   </div>
-                    <a href="#" class="btn">Suchen</a>
+        </div>
+
+        <div class="col s12 m12 l6">
+            @RenderBody()
+        </div>
+
+        <div class="col l3 hide-on-med-and-down">
+            <div class="card">
+                <div class="card-content center">
+                    @Html.ValidationSummary()
+                    <span class="card-title">Beitrag teilen</span>
+                    @using (Html.BeginForm("PostItem", "Home", FormMethod.Post, new {enctype = "multipart/form-data"}))
+                    {
+                        <div class="file-field input-field">
+                            <div class="btn @color darken-1">
+                                <span>Datei</span>
+                                <input type="file" id="imageFile" name="imageFile"/>
+                            </div>
+                            <div class="file-path-wrapper">
+                                <input class="file-path validate" type="text" placeholder="Eine Datei hochladen">
+                            </div>
+                        </div>
+                        <div class="input-field">
+                            <textarea id="feedContent" name="feedContent" class="materialize-textarea" data-length="500"></textarea>
+                            <label for="feedContent">Beitrag</label>
+                        </div>
+
+                        <button class="btn @color darken-1 waves-effect waves-light center" type="submit" name="action" value="PostItem">
+                            posten
+                            <i class="material-icons right">send</i>
+                        </button>
+                    }
                 </div>
             </div>
         </div>
     </div>
-    <div class="col s12 l6">
-        @RenderBody()
-
-    </div>
-
-
-    <div class="col l3 hide-on-med-and-down">
-
-        <div class="card medium">
-            <div class="card-content center">
-                @Html.ValidationSummary()
-                <span class="card-title ">Beitrag teilen</span>
-                @using (Html.BeginForm("PostItem", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
-                {
-                    <div class="file-field input-field">
-                        <div class="btn @color darken-1">
-                            <span>Datei</span>
-                            <input type="file" id="imageFile" name="imageFile"/>
-
-                        </div>
-                        <div class="file-path-wrapper">
-                            <input class="file-path validate" type="text" placeholder="Eine Datei hochladen">
-                        </div>
-                    </div>
-                    <div class="input-field" style="height: 100px;">
-                        <textarea id="feedContent" name="feedContent" class="materialize-textarea" data-length="500"></textarea>
-                        <label for="feedText">Beitrag</label>
-                    </div>
-
-                    <button class="btn @color darken-1 waves-effect waves-light center" type="submit" name="action" value="PostItem">
-                        posten
-                        <i class="material-icons right">send</i>
-                    </button>
-                }
-
-            </div>
-
-        </div>
-    </div>
-
-
-</div>
+</main>
 
 <footer class="page-footer @color darken-1">
     <div class="footer-copyright">
-        &copy; XOVO @DateTime.Now.Year
-        <a href="#" class="grey-text text-lighten-4 right">Über uns</a>
+        <div class="container">
+            &copy; XOVO @DateTime.Now.Year
+            <a href="#" class="grey-text text-lighten-4 right">Über uns</a>
+        </div>
     </div>
 </footer>
 
 
 @Scripts.Render("~/bundles/jquery")
 @Scripts.Render("~/bundles/materialize")
-@Scripts.Render("~/bundles/colorpicker/")
 <script>
     $(document).ready(function() {
         $('.dropdown-trigger').dropdown
