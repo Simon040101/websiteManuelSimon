@@ -19,6 +19,8 @@ namespace XOVO.Models.db
         int CountLike(int feedID);
         bool UserCommentFeed(int UserID, int feedID, string comment);
         bool DeleteFeed(int id);
+        List<Comment> GetAllComments(int feedID);
+
 
     }
 }

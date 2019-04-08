@@ -28,7 +28,7 @@ namespace XOVO.Controllers
 
                         return View(zr.GetFeedItems());
                     }
-                    catch (MySqlException)
+                    catch (MySqlException ex)
                     {
                         return View("Message",
                             new Message("Datenbankfehler", "", "Probleme mit der Datenbank.",

@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Web;
 using MySql.Data.MySqlClient;
+using MySqlX.XDevAPI;
 using XOVO.Models;
 
 namespace XOVO.Models.db
@@ -78,7 +79,7 @@ namespace XOVO.Models.db
                             //      Problem - aktuelle Lösung belegt nur das ID-Feld des Users, die restlichen Felder des Users sind unbelegt.
                             allItems.Add(
                                 new FeedItem(Convert.ToInt32(reader["feed_id"]), Convert.ToInt32(reader["user_id"]), Convert.ToDateTime(reader["creationDateTime"]),
-                                        Convert.ToString(reader["imagePath"]), Convert.ToString(reader["content"]), 0));
+                                        Convert.ToString(reader["imagePath"]), Convert.ToString(reader["content"]), 0, null));
                         }
                     }
                 }
@@ -87,11 +88,20 @@ namespace XOVO.Models.db
                 {
                     allItems[i].LikeCount = CountLike(allItems[i].Id);
                 }
+                for (int i = 0; i < allItems.Count; i++)
+                {
+                    allItems[i].Comments = GetAllComments(allItems[i].Id);
+                }
+
+                foreach (var feedItem in allItems)
+                {
+                    feedItem.Comments = GetAllComments(feedItem.Id);
+                }
 
                 return allItems.Count > 0 ? allItems : null;
             }
 
-            catch (MySqlException)
+            catch (MySqlException ex)
             {
                 throw;
             }
@@ -117,7 +127,7 @@ namespace XOVO.Models.db
                             allItems.Add(new FeedItem(Convert.ToInt32(reader["feed_id"]),
                                 Convert.ToInt32(reader["user_id"]), Convert.ToDateTime(reader["creationDateTime"]),
                                 Convert.ToString(reader["imagePath"]), Convert.ToString(reader["content"]),
-                                Convert.ToInt32(reader["likeCount"])));
+                                Convert.ToInt32(reader["likeCount"]), GetAllComments(Convert.ToInt32(reader["feed_id"]))));
                         }
                     }
                 }
@@ -285,6 +295,40 @@ namespace XOVO.Models.db
             catch (Exception)
             {
 
+                throw;
+            }
+        }
+
+        public List<Comment> GetAllComments(int feedID)
+        {
+            try
+            {
+                List<Comment> AllComments = new List<Comment>();
+
+                MySqlCommand cmdGetComments = this._connection.CreateCommand();
+                cmdGetComments.CommandText = "Select * from usercommentfeed where fid = @id";
+                cmdGetComments.Parameters.AddWithValue("id", feedID);
+
+                using (MySqlDataReader reader = cmdGetComments.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                           
+                            AllComments.Add(
+                                new Comment(Convert.ToInt32(reader["uid"]), Convert.ToInt32(reader["fid"]), Convert.ToString(reader["content"])));
+                        }
+                    }
+                }
+
+                return AllComments.Count > 0 ? AllComments : null;
+
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
                 throw;
             }
         }
