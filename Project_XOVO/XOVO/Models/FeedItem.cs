@@ -16,11 +16,14 @@ namespace XOVO.Models
         public string Image { get; set; }
         public string FeedContent { get; set; }
         public int LikeCount { get; set; }
+        public List<Comment> Comments { get; set; }
+        
+       
 
         // ctors
-        public FeedItem() : this(0, 0, DateTime.MinValue, null, "",0){ }
+        public FeedItem() : this(0, 0, DateTime.MinValue, null, "",0, null){ }
 
-        public FeedItem(int feedId, int userID, DateTime creationDateTime, string image, string feedCont, int likeCount)
+        public FeedItem(int feedId, int userID, DateTime creationDateTime, string image, string feedCont, int likeCount, List<Comment> comments)
         {
             this.Id = feedId;
             this.UserForFeedID = userID;
@@ -28,6 +31,7 @@ namespace XOVO.Models
             this.Image = image;
             this.FeedContent = feedCont;
             this.LikeCount = likeCount;
+            this.Comments = comments;
         }
 
 

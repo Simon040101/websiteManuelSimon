@@ -4,13 +4,14 @@ using System.Data;
 using System.Linq;
 using System.Web;
 using MySql.Data.MySqlClient;
+using MySqlX.XDevAPI;
 using XOVO.Models;
 
 namespace XOVO.Models.db
 {
     public class FeedRepository : IFeedRepository
     {
-        private string _connectionString = "Server=localhost;Database=XOVO;Uid=root;Pwd=alpine;SslMode=none";
+        private string _connectionString = "Server=localhost;Database=XOVO;Uid=root;SslMode=none";
         private MySqlConnection _connection;
 
         public void Open()
@@ -78,7 +79,7 @@ namespace XOVO.Models.db
                             //      Problem - aktuelle Lösung belegt nur das ID-Feld des Users, die restlichen Felder des Users sind unbelegt.
                             allItems.Add(
                                 new FeedItem(Convert.ToInt32(reader["feed_id"]), Convert.ToInt32(reader["user_id"]), Convert.ToDateTime(reader["creationDateTime"]),
-                                        Convert.ToString(reader["imagePath"]), Convert.ToString(reader["content"]), 0));
+                                        Convert.ToString(reader["imagePath"]), Convert.ToString(reader["content"]), 0, null));
                         }
                     }
                 }
@@ -87,13 +88,24 @@ namespace XOVO.Models.db
                 {
                     allItems[i].LikeCount = CountLike(allItems[i].Id);
                 }
+                for (int i = 0; i < allItems.Count; i++)
+                {
+                    allItems[i].Comments = GetAllComments(allItems[i].Id);
+                }
+
+                foreach (var feedItem in allItems)
+                {
+                    feedItem.Comments = GetAllComments(feedItem.Id);
+                }
 
                 return allItems.Count > 0 ? allItems : null;
             }
-            catch (MySqlException)
+
+            catch (MySqlException ex)
             {
                 throw;
             }
+            
         }
 
         public List<FeedItem> GetFeedItemsByID(int id)
@@ -115,7 +127,7 @@ namespace XOVO.Models.db
                             allItems.Add(new FeedItem(Convert.ToInt32(reader["feed_id"]),
                                 Convert.ToInt32(reader["user_id"]), Convert.ToDateTime(reader["creationDateTime"]),
                                 Convert.ToString(reader["imagePath"]), Convert.ToString(reader["content"]),
-                                Convert.ToInt32(reader["likeCount"])));
+                                Convert.ToInt32(reader["likeCount"]), GetAllComments(Convert.ToInt32(reader["feed_id"]))));
                         }
                     }
                 }
@@ -213,8 +225,9 @@ namespace XOVO.Models.db
                 else
                 {
                     MySqlCommand cmdDislike = _connection.CreateCommand();
-                    cmdDislike.CommandText = "Delete from userslikefeed where uid = @id";
+                    cmdDislike.CommandText = "Delete from userslikefeed where uid = @id and fid= @fid";
                     cmdDislike.Parameters.AddWithValue("id", userID);
+                    cmdDislike.Parameters.AddWithValue("fid", feedID);
 
                     return cmdDislike.ExecuteNonQuery() == 1;
                 }
@@ -247,6 +260,75 @@ namespace XOVO.Models.db
             }
             catch (Exception)
             {
+                throw;
+            }
+        }
+
+        public bool UserCommentFeed(int userID, int feedID, string Comment)
+        {
+            try
+            {
+                MySqlCommand cmdComment = _connection.CreateCommand();
+                cmdComment.CommandText = "Insert into UserCommentFeed Values (@u_id, @f_id, @content, null)";
+                cmdComment.Parameters.AddWithValue("u_id", userID);
+                cmdComment.Parameters.AddWithValue("f_id", feedID);
+                cmdComment.Parameters.AddWithValue("content", Comment);
+
+                return cmdComment.ExecuteNonQuery() == 1;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public bool DeleteFeed(int id)
+        {
+            try
+            {
+                MySqlCommand cmdLike = _connection.CreateCommand();
+                cmdLike.CommandText = "Delete from Feed where feed_id = @id";
+                cmdLike.Parameters.AddWithValue("id", id);
+                return cmdLike.ExecuteNonQuery() == 1;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public List<Comment> GetAllComments(int feedID)
+        {
+            try
+            {
+                List<Comment> AllComments = new List<Comment>();
+
+                MySqlCommand cmdGetComments = this._connection.CreateCommand();
+                cmdGetComments.CommandText = "Select * from usercommentfeed where fid = @id";
+                cmdGetComments.Parameters.AddWithValue("id", feedID);
+
+                using (MySqlDataReader reader = cmdGetComments.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                           
+                            AllComments.Add(
+                                new Comment(Convert.ToInt32(reader["uid"]), Convert.ToInt32(reader["fid"]), Convert.ToString(reader["content"])));
+                        }
+                    }
+                }
+
+                return AllComments.Count > 0 ? AllComments : null;
+
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
                 throw;
             }
         }

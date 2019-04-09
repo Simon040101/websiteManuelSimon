@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/Layout_login_registration.cshtml";
 }
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Registration", "User", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <div class="card hoverable">
         <div class="card-content">
