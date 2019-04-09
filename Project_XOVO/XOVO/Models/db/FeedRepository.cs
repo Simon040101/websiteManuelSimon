@@ -86,12 +86,6 @@ namespace XOVO.Models.db
                 for (int i = 0; i < allItems.Count; i++)
                 {
                     allItems[i].LikeCount = CountLike(allItems[i].Id);
-                            allItems.Add(new FeedItem(Convert.ToInt32(reader["feed_id"]),
-                                Convert.ToInt32(reader["user_id"]), Convert.ToDateTime(reader["creationDateTime"]),
-                                Convert.ToString(reader["imagePath"]), Convert.ToString(reader["content"]),
-                                Convert.ToInt32(reader["likeCount"])));
-                        }
-                    }
                 }
 
                 return allItems.Count > 0 ? allItems : null;
@@ -187,7 +181,7 @@ namespace XOVO.Models.db
                 dateToInsert = DateTime.Now;
                 MySqlCommand cmdInsert = this._connection.CreateCommand();
                 cmdInsert.CommandText = "INSERT INTO feed VALUES(NULL, @id, @creationDateTime, @imgPath, @textarea)";
-                cmdInsert.Parameters.AddWithValue("id", itemToInsert.UserForFeed);
+                cmdInsert.Parameters.AddWithValue("id", itemToInsert.UserForFeedID);
                 cmdInsert.Parameters.AddWithValue("creationDateTime", dateToInsert);
                 cmdInsert.Parameters.AddWithValue("imgPath", itemToInsert.Image);
                 cmdInsert.Parameters.AddWithValue("textarea", itemToInsert.FeedContent);

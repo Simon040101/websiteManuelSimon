@@ -107,11 +107,14 @@
             <div class="card-content grey lighten-5">
                 <div id="friends">Vorname Nachname</div>
                 <div id="notify">
-                   <div class="input-field">
-                    <input id="lastname" name="lastname" type="text" class="validate">
-                    <label for="lastname">Benutzername</label>
-                   </div>
-                    <a href="#" class="btn">Suchen</a>
+                @using (Html.BeginForm("UserBox", "User", FormMethod.Get))
+                {
+                    <div class="input-field">
+                        <input id="username" name="username" type="text" class="validate">
+                        <label for="username">Benutzername</label>
+                    </div>
+                    <input type="submit" class="waves-effect waves-light btn @color" value="Suchen"/>
+                }
                 </div>
             </div>
         </div>

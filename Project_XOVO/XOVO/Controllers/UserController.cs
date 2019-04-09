@@ -195,6 +195,31 @@ namespace XOVO.Controllers
         }
 
         [HttpGet]
+        public ActionResult UserBox(string username = "")
+        {
+            if ((Session["isAdmin"] != null) && (Convert.ToInt32(Session["isAdmin"]) == 0))
+            {
+                List<User> usersToDisplay;
+
+                if (username == "")
+                {
+                    usersToDisplay = LoadUsers();
+                }
+                else
+                {
+                    usersToDisplay = SearchUserByUsername(username);
+                }
+
+                return View(usersToDisplay);
+
+            }
+            else
+            {
+                return View("Message", new Message("Achtung", "fehlende Berechtigung", "Sie sind nicht berechtigt die Seite aufzurufen", ""));
+            }
+        }
+
+        [HttpGet]
          public ActionResult Login()
         {
             return View(new Login());
@@ -343,6 +368,14 @@ namespace XOVO.Controllers
 
             return ur.SearchUser(firstname, lastname);
 
+        }
+
+        private List<User> SearchUserByUsername(string username)
+        {
+            UserRepositiory ur = new UserRepositiory();
+            ur.Open();
+
+            return ur.SearchUserByUsername(username);
         }
 
         private void ValidateChangeDataForm(User userToChange)

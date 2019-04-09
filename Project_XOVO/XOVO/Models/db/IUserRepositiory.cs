@@ -24,6 +24,7 @@ namespace XOVO.Models.db
         bool CheckDoubleEmail(User user);
         bool ChangeData(User user);
         User GetUser(string emailOrUsername, string passwort);
+        List<User> SearchUserByUsername(string username);
         User GetUserById(int id);
         bool ChangeLayout(User user);
         string GetLayoutColor(int id);

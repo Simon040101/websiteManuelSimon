@@ -316,6 +316,8 @@ namespace XOVO.Models.db
             }
         }
 
+        
+
         public User GetUserById(int id)
         {
             try
@@ -422,6 +424,53 @@ namespace XOVO.Models.db
                 throw;
             }
         }
+
+        public List<User> SearchUserByUsername(string username)
+        {
+            List<User> foundUser = new List<User>();
+            try
+            {
+                MySqlCommand cmdSearchUser = this._connection.CreateCommand();
+                if (username.Trim() != "")
+                {
+                    cmdSearchUser.CommandText = "SELECT * FROM users WHERE (username LIKE Concat('%', @username, '%'))";
+                    cmdSearchUser.Parameters.AddWithValue("username", username);
+                }
+                else
+                {
+                    cmdSearchUser.CommandText = "SELECT * FROM users";
+                }
+
+
+
+                using (MySqlDataReader reader = cmdSearchUser.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+
+                            foundUser.Add(
+                                new User
+                                {
+                                    Username = Convert.ToString(reader["username"])
+                                });
+                        }
+
+
+                    }
+
+                    return foundUser.Count > 0 ? foundUser : null;
+                }
+            }
+            catch (MySqlException)
+            {
+                throw;
+            }
+        }
+
+
+
 
         public string GetBackgroundLogin(int id)
         {
@@ -555,5 +604,7 @@ namespace XOVO.Models.db
                 throw;
             }
         }
+
+        
     }
 }

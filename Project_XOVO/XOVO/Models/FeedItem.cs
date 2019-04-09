@@ -27,7 +27,7 @@ namespace XOVO.Models
             this.CreationDateTime = creationDateTime;
             this.Image = image;
             this.FeedContent = feedCont;
-            this.LikeCount = likecount;
+            this.LikeCount = likeCount;
         }
 
 
