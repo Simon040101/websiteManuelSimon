@@ -356,6 +356,13 @@ namespace XOVO.Controllers
             return View(user);
         }
 
+        [HttpGet]
+        public ActionResult UserProfile()
+        {
+            User u = (User) Session["User"];
+            return View(u);
+        }
+
         private List<User> LoadUsers()
         {
 

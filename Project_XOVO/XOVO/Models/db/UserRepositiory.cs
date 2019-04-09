@@ -316,8 +316,6 @@ namespace XOVO.Models.db
             }
         }
 
-        
-
         public User GetUserById(int id)
         {
             try
@@ -469,9 +467,6 @@ namespace XOVO.Models.db
             }
         }
 
-
-
-
         public string GetBackgroundLogin(int id)
         {
             try
@@ -551,7 +546,6 @@ namespace XOVO.Models.db
                 throw;
             }
         }
-
 
         public bool ChangeLayout(User user)
         {

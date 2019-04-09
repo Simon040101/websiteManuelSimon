@@ -10,10 +10,8 @@ namespace XOVO.Models.db
     {
         void Open();
         void Close();
-
         List<FeedItem> GetFeedItems();
         List<FeedItem> GetFeedItemsByID(int id);
-
         bool InsertFeedItem(FeedItem itemToInsert);
         bool UserLikeFeed(int UserID, int feedID);
         int CountLike(int feedID);

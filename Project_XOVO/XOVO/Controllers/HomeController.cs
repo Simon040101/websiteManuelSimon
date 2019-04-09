@@ -52,32 +52,37 @@ namespace XOVO.Controllers
             
             try
             {
-                FeedItem fItem = new FeedItem();
-                FeedRepository fr = new FeedRepository();
-                fr.Open();
-
-                if (imageFile != null)
+                if (ModelState.IsValid)
                 {
-                    imageFile.SaveAs(Server.MapPath("~/Content/img/") + imageFile.FileName);
-                    /// TODO: testen
-                    fItem.Image = "/Content/img/" + imageFile.FileName;
-                }
-                fItem.UserForFeedID = Convert.ToInt32(Session["UserID"]);
-                fItem.FeedContent = feedContent;
+                    FeedItem fItem = new FeedItem();
+                    FeedRepository fr = new FeedRepository();
+                    fr.Open();
 
-                bool posted = fr.InsertFeedItem(fItem);
+                    if (imageFile != null)
+                    {
+                        imageFile.SaveAs(Server.MapPath("~/Content/img/") + imageFile.FileName);
+                        /// TODO: testen
+                        fItem.Image = "/Content/img/" + imageFile.FileName;
+                    }
 
-                if (posted == true)
-                {
-                    return View("Message", new Message("Posten", "", "Beitrag wurde erfolgreich gepostet!", ""));
-                }
+                    fItem.UserForFeedID = Convert.ToInt32(Session["UserID"]);
+                    fItem.FeedContent = feedContent;
 
-                else
-                {
-                    return View("Message", new Message("Posten", "", "Beitrag konnte nicht gepostet werden!", ""));
+                    bool posted = fr.InsertFeedItem(fItem);
+
+                    if (posted == true)
+                    {
+                        return View("Message", new Message("Posten", "", "Beitrag wurde erfolgreich gepostet!", ""));
+                    }
+
+                    else
+                    {
+                        return View("Message", new Message("Posten", "", "Beitrag konnte nicht gepostet werden!", ""));
+                    }
                 }
 
                 return View("Index");
+                
             }
             catch (Exception)
             {
@@ -185,16 +190,5 @@ namespace XOVO.Controllers
                 }
             }
         }
-        //private List<FeedItem> GetAllFeedItems()
-        //{
-
-        //    return new List<FeedItem>()
-        //    {
-        //        new FeedItem() {Name = "feed1"},
-        //        new FeedItem() {Name = "feed2"},
-        //        new FeedItem() {Name = "feed3"},
-        //        new FeedItem() {Name = "feed4"},
-        //    };
-        //}
     }
 }
