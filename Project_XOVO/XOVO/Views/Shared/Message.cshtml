@@ -2,31 +2,19 @@
 
 @{
     ViewBag.Title = "XOVO";
-
-
 }
-
-
-@if (Model != null)
-{
     <h4>@Model.Header</h4>
-    if (Model.AdditionalHeader?.Trim() != "")
+    @if (Model.AdditionalHeader?.Trim() != "")
     {
         <h5>@Model.AdditionalHeader</h5>
     }
     <p>
         @Model.MessageText
     </p>
-    if (Model.Solution?.Trim() != "")
+    @if (Model.Solution?.Trim() != "")
     { 
         @Model.Solution
     }
-}
-else
-{
-    <p>
-        Keine Meldung angegeben!
-    </p>
-}
+
 
 

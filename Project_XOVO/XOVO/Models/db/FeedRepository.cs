@@ -11,7 +11,7 @@ namespace XOVO.Models.db
 {
     public class FeedRepository : IFeedRepository
     {
-        private string _connectionString = "Server=localhost;Database=XOVO;Uid=root;SslMode=none";
+        private string _connectionString = "Server=localhost;Database=XOVO;Uid=root;Pwd=alpine;SslMode=none";
         private MySqlConnection _connection;
 
         public void Open()
@@ -78,19 +78,19 @@ namespace XOVO.Models.db
                             // TODO? - aufgrund der user_id den kompletten User ermittl"creationDateTime"n
                             //      Problem - aktuelle Lösung belegt nur das ID-Feld des Users, die restlichen Felder des Users sind unbelegt.
                             allItems.Add(
-                                new FeedItem(Convert.ToInt32(reader["feed_id"]), Convert.ToInt32(reader["user_id"]), Convert.ToDateTime(reader["creationDateTime"]),
+                                new FeedItem(Convert.ToInt32(reader["feed_id"]), Convert.ToString(reader["username"]), Convert.ToInt32(reader["user_id"]), Convert.ToDateTime(reader["creationDateTime"]),
                                         Convert.ToString(reader["imagePath"]), Convert.ToString(reader["content"]), 0, null));
                         }
                     }
                 }
 
-                for (int i = 0; i < allItems.Count; i++)
+                foreach (var t in allItems)
                 {
-                    allItems[i].LikeCount = CountLike(allItems[i].Id);
+                    t.LikeCount = CountLike(t.Id);
                 }
-                for (int i = 0; i < allItems.Count; i++)
+                foreach (var t in allItems)
                 {
-                    allItems[i].Comments = GetAllComments(allItems[i].Id);
+                    t.Comments = GetAllComments(t.Id);
                 }
 
                 foreach (var feedItem in allItems)
@@ -124,7 +124,7 @@ namespace XOVO.Models.db
                     {
                         while (reader.Read())
                         {
-                            allItems.Add(new FeedItem(Convert.ToInt32(reader["feed_id"]),
+                            allItems.Add(new FeedItem(Convert.ToInt32(reader["feed_id"]), Convert.ToString(reader["username"]),
                                 Convert.ToInt32(reader["user_id"]), Convert.ToDateTime(reader["creationDateTime"]),
                                 Convert.ToString(reader["imagePath"]), Convert.ToString(reader["content"]),
                                 Convert.ToInt32(reader["likeCount"]), GetAllComments(Convert.ToInt32(reader["feed_id"]))));
@@ -187,13 +187,16 @@ namespace XOVO.Models.db
                 return false;
             }
 
+            
+
             try
             {
                 DateTime dateToInsert;
                 dateToInsert = DateTime.Now;
                 MySqlCommand cmdInsert = this._connection.CreateCommand();
-                cmdInsert.CommandText = "INSERT INTO feed VALUES(NULL, @id, @creationDateTime, @imgPath, @textarea)";
-                cmdInsert.Parameters.AddWithValue("id", itemToInsert.UserForFeedID);
+                cmdInsert.CommandText = "INSERT INTO feed VALUES(NULL ,@username, @user_id, @creationDateTime, @imgPath, @textarea)";
+                cmdInsert.Parameters.AddWithValue("username", itemToInsert.Username);
+                cmdInsert.Parameters.AddWithValue("user_id", itemToInsert.UserForFeedID);
                 cmdInsert.Parameters.AddWithValue("creationDateTime", dateToInsert);
                 cmdInsert.Parameters.AddWithValue("imgPath", itemToInsert.Image);
                 cmdInsert.Parameters.AddWithValue("textarea", itemToInsert.FeedContent);
@@ -203,7 +206,7 @@ namespace XOVO.Models.db
                 return cmdInsert.ExecuteNonQuery() == 1;
             }
 
-            catch (MySqlException)
+            catch (MySqlException ex)
             {
                 throw;
             }
@@ -264,19 +267,19 @@ namespace XOVO.Models.db
             }
         }
 
-        public bool UserCommentFeed(int userID, int feedID, string Comment)
+        public bool UserCommentFeed(string username, int feedID, string Comment)
         {
             try
             {
                 MySqlCommand cmdComment = _connection.CreateCommand();
-                cmdComment.CommandText = "Insert into UserCommentFeed Values (@u_id, @f_id, @content, null)";
-                cmdComment.Parameters.AddWithValue("u_id", userID);
+                cmdComment.CommandText = "Insert into UserCommentFeed Values (@username, @f_id, @content, null)";
+                cmdComment.Parameters.AddWithValue("username", username);
                 cmdComment.Parameters.AddWithValue("f_id", feedID);
                 cmdComment.Parameters.AddWithValue("content", Comment);
 
                 return cmdComment.ExecuteNonQuery() == 1;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
                 throw;
@@ -317,7 +320,7 @@ namespace XOVO.Models.db
                         {
                            
                             AllComments.Add(
-                                new Comment(Convert.ToInt32(reader["uid"]), Convert.ToInt32(reader["fid"]), Convert.ToString(reader["content"])));
+                                new Comment(Convert.ToString(reader["username"]), Convert.ToInt32(reader["fid"]), Convert.ToString(reader["content"])));
                         }
                     }
                 }

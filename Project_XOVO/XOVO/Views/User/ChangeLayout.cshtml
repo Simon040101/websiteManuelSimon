@@ -3,13 +3,12 @@
     ViewBag.Title = "Design ändern";
 }
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("ChangeLayout", "User", FormMethod.Post))
 {
     <div class="card hoverable">
         <div class="card-content">
             <div>
                 <span class="card-title">Layout ändern</span>
-                <form>
                     <div class="input-field">
                         <select name="layout_color">
                             <option value="" disabled selected>Wählen Sie Ihre Farbe</option>
@@ -38,7 +37,6 @@
                         Speichern
                         <i class="material-icons right">save</i>
                     </button>
-                    </form>
                 <div class="card-action">
                     
 

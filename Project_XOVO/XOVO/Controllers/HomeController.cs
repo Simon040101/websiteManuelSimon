@@ -60,12 +60,14 @@ namespace XOVO.Controllers
 
                     if (imageFile != null)
                     {
-                        imageFile.SaveAs(Server.MapPath("~/Content/img/") + imageFile.FileName);
-                        /// TODO: testen
-                        fItem.Image = "/Content/img/" + imageFile.FileName;
+                        imageFile.SaveAs(Server.MapPath("~/Content/img/PostedImg/") + imageFile.FileName);
+                        fItem.Image = "/Content/img/PostedImg/" + imageFile.FileName;
                     }
 
+                    User u = (User) Session["User"];
+
                     fItem.UserForFeedID = Convert.ToInt32(Session["UserID"]);
+                    fItem.Username = u.Username;
                     fItem.FeedContent = feedContent;
 
                     bool posted = fr.InsertFeedItem(fItem);
@@ -81,25 +83,28 @@ namespace XOVO.Controllers
                     }
                 }
 
-                return View("Index");
+                
                 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 throw;
             }
+            return View("Index");
         }
-
+        [HttpPost]
         public ActionResult CommentFeed(int id, string Comment)
         {
-            int userID = Convert.ToInt32(Session["UserID"]);
+            User u = (User)(Session["User"]);
+
+            string username = u.Username;
 
             try
             {
                 FeedRepository fr = new FeedRepository();
                 fr.Open();
 
-                bool success = fr.UserCommentFeed(userID, id, Comment);
+                bool success = fr.UserCommentFeed(username, id, Comment);
 
                 if (success == true)
                 {
@@ -108,7 +113,7 @@ namespace XOVO.Controllers
                 else
                 {
                     return View("Message",
-                        new Message("Beitrag", "Fehler", "Irgendetwas ist schief gelaufen",
+                        new Message("Kommentar", "Fehler", "Irgendetwas ist schief gelaufen",
                             "Versuche es später erneut!"));
                 }
             }
@@ -118,7 +123,7 @@ namespace XOVO.Controllers
                 throw;
             }
         }
-
+        
         public ActionResult LikeFeed(int id)
         {
             int userID = Convert.ToInt32(Session["UserID"]);
@@ -148,7 +153,6 @@ namespace XOVO.Controllers
                 throw;
             }
         }
-
         public ActionResult Delete(int id)
         {
             try
@@ -177,16 +181,14 @@ namespace XOVO.Controllers
             
         }
 
-        
-
         private void ValidatePostForm(HttpPostedFileBase imageFile, string feedContent)
         {
             if (((feedContent != null) && (imageFile != null)) ||
                 ((feedContent != null) && (imageFile == null)))
             {
-                if ((feedContent.Trim().Length < 5))
+                if ((feedContent.Trim().Length < 1))
                 {
-                    ModelState.AddModelError("Textarea", "Ihr Text muss länger als 5 Buchstaben sein");
+                    ModelState.AddModelError("Textarea", "Ihr Text muss länger als 1 Buchstabe sein");
                 }
             }
         }

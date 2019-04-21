@@ -12,10 +12,12 @@ namespace XOVO.Models.db
         void Close();
         List<FeedItem> GetFeedItems();
         List<FeedItem> GetFeedItemsByID(int id);
+        bool CheckIfLiked(int uid, int fid);
+        User GetUserById(int id);
         bool InsertFeedItem(FeedItem itemToInsert);
         bool UserLikeFeed(int UserID, int feedID);
         int CountLike(int feedID);
-        bool UserCommentFeed(int UserID, int feedID, string comment);
+        bool UserCommentFeed(string Username, int feedID, string comment);
         bool DeleteFeed(int id);
         List<Comment> GetAllComments(int feedID);
 

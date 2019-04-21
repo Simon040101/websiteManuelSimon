@@ -1,13 +1,9 @@
 ﻿@using XOVO.Models;
 @{
     string color = Request.Cookies["layout_color"] != null ? Request.Cookies["layout_color"].Value.ToString() : "cyan";
-    string profilepic = Session["Profilepic"] != null ? Convert.ToString(Session["Profilepic"]) : "/Content/img/placeholder.png";
-    //string email = Convert.ToString(Session["Email"]);
-    //string username = Convert.ToString(Session["Username"]);
 
-    User user = (User) Session["User"];
+    User user = (User)Session["User"];
 }
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,13 +11,10 @@
     <title>@ViewBag.Title - stay together </title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     @Styles.Render("~/main/css/")
-    @*ink rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">*@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    @*<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>*@
 </head>
 
 <body>
-
 <ul id="slide-out" class="sidenav">
     <li>
         <div class="user-view">
@@ -30,15 +23,9 @@
             </div>
             @if (Convert.ToInt32(Session["isAdmin"]) != 2)
             {
-                <a href="#user">
-                    <img class="circle" src="@profilepic">
-                </a>
-                <a href="#name">
+                    <img class="circle" src="@user.Profilpicture">
                     <span class="white-text name">@user.Username</span>
-                </a>
-                <a href="#email">
-                    <span class="white-text email">@user.Email</span>
-                </a>
+                    <span class="white-text email">@user.Email</span> 
             }
             @if (Convert.ToInt32(Session["isAdmin"]) == 0)
             {
@@ -62,7 +49,6 @@
         <li>
             <a href="/user/changelayout"><i class="material-icons">work</i>Webseite bearbeiten</a>
         </li>
-
         if (Convert.ToInt32(Session["isAdmin"]) == 0)
         {
             <li>
@@ -75,7 +61,6 @@
                 <a href="/user/usermanagement"><i class="material-icons">lock</i>Benutzerverwaltung</a>
             </li>
         }
-
         <li>
             <div class="divider"></div>
         </li>
@@ -95,19 +80,16 @@
             <a href="/user/registration"><i class="material-icons">work</i>Registrieren</a>
         </li>
     }
-
 </ul>
 
 
 <header>
     <div class="navbar-fixed">
         <nav class="@color darken-1">
-            <div class="nav-wrapper">
                 @Html.ActionLink("XOVO", "Index", "Home", null, new {@class = "brand-logo center"})
-                <a href="#" data-target="slide-out" class="sidenav-trigger show-on-medium-and-up">
-                    <i class="material-icons">menu</i>
-                </a>
-            </div>
+            <a href="#" data-target="slide-out" class="sidenav-trigger show-on-medium-and-up">
+                <i class="material-icons">menu</i>
+            </a>
         </nav>
     </div>
 </header>
@@ -179,12 +161,6 @@
 @Scripts.Render("~/bundles/materialize")
 <script>
     $(document).ready(function() {
-        $('.dropdown-trigger').dropdown
-        (
-            {
-                coverTrigger: false
-            }
-        );
 
         $('.tabs').tabs();
         $('input#input_text, textarea#textarea').characterCounter();

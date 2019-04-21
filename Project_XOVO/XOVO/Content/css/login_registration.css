@@ -2,8 +2,6 @@
     display: flex;
     min-height: 100vh;
     flex-direction: column;
-    
-
 }
 
 main {
@@ -22,8 +20,6 @@ main {
     margin-bottom: auto;
     width:  25%;
     height: 60%;
-    
-
 }
 .card{
     height: auto;
