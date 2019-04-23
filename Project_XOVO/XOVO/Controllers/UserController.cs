@@ -52,7 +52,7 @@ namespace XOVO.Controllers
         [HttpGet]
         public ActionResult ChangeData()
         {
-            if ((Session["isAdmin"] != null) && (Convert.ToInt32(Session["isAdmin"]) != 3) && (Convert.ToInt32(Session["isAdmin"]) != 2))
+            if ((Session["isAdmin"] != null) && (Convert.ToInt32(Session["isAdmin"]) != 2))
             {
                 return View();
             }
@@ -151,25 +151,6 @@ namespace XOVO.Controllers
 
         }
 
-        /*
-        [HttpGet]
-        public ActionResult UserManagement()
-        {
-            if ((Session["isAdmin"] != null) && (Convert.ToInt32(Session["isAdmin"]) == 0))
-            {
-                List<User> users = LoadUsers();
-                // List<User> foundUser = SearchUsers(firstname, lastname);
-
-                return View(users);
-               
-            }
-            else
-            {
-                return View("Message", new Message("Achtung", "fehlende Berechtigung", "Sie sind nicht berechtigt die Seite aufzurufen", ""));
-            }
-        }
-        */
-
         [HttpGet]
         public ActionResult UserManagement(string firstname="", string lastname="")
         {
@@ -243,7 +224,6 @@ namespace XOVO.Controllers
                     Session["isAdmin"] = 0;
                     Session["UserID"] = u.ID;
                     Session["ProfilPic"] = u.Profilpicture;
-                    Session["isAdmin"] = 0;
                     Session["User"] = u;
                     
 
@@ -319,13 +299,6 @@ namespace XOVO.Controllers
 
             ValidateRegistrationForm(user);
 
-            if (Profilpicture != null)
-            {
-                Profilpicture.SaveAs(Server.MapPath("~/Content/img/") + Profilpicture.FileName);
-                /// TODO: testen
-                user.Profilpicture = "/Content/img/" + Profilpicture.FileName;
-            }
-
             if (ModelState.IsValid)
             {
                 try
@@ -355,7 +328,6 @@ namespace XOVO.Controllers
 
             return View(user);
         }
-
         [HttpGet]
         public ActionResult UserProfile()
         {

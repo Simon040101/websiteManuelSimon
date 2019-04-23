@@ -5,7 +5,7 @@
             <img class="activator" src="@Model.Image">
         </div>
         <div class="card-content">
-            <span class="card-title activator grey-text text-darken-4">@Model.UserForFeedID<i class="material-icons right">comment</i></a></span>
+            <span class="card-title activator grey-text text-darken-4">@Model.Username<i class="material-icons right">comment</i></span>
             <p>@Model.FeedContent</p>
         </div>
         <div class="card-reveal">
@@ -27,18 +27,18 @@
                 foreach (Comment c in Model.Comments)
                  {
                      <div class="divider"></div>
-                     <p>@c.UserID</p>
+                     <p>@c.UserName</p>
                      <p>@c.Content</p>
                      <br/>
                 }
             }
             else
             {
-                <p>Es sind noch keine Kommentare vorhanden</p>
+                <p>Es sind noch keine Kommentare vorhanden.</p>
             }
         </div>
         <div class="card-action">
-            <a href="/home/likefeed/@Model.Id"><i class="material-icons">thumb_up</i></a>@Model.LikeCount
+            <span><a href="/home/likefeed/@Model.Id"><i class="material-icons">thumb_up</i></a></span>@Model.LikeCount
             @if (Convert.ToInt32(Session["isAdmin"]) == 0)
             {
                 <div>

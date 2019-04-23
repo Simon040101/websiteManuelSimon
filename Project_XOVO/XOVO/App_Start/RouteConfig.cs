@@ -9,9 +9,11 @@ namespace XOVO
 {
     public class RouteConfig
     {
-        public static void RegisterRoutes(RouteCollection routes)
+        public static void RegisterRoutes(RouteCollection routes) /*Gibt an wie die Url aufgebaut ist*/
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+
+            routes.MapRoute("LoginRoute", "login", new { controller = "user", action="login"});
 
             routes.MapRoute(
                 name: "Default",

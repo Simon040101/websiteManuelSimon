@@ -11,76 +11,81 @@
             <div class="card-content white-text">
                 <span class="card-title">Profil bearbeiten</span>
                 <p>
-                    Sie können Ihr Profil bearbeiten! Schreiben Sie die neuen Werte in die Felder und klicken Sie auf akzeptieren. 
+                    Hey @user.Username! Hier kannst du dein Profil bearbeiten! Schreib einfach die neuen Werte in die Felder und klick auf akzeptieren. 
                     ACHTUNG: Dieser Vorgang kann nicht rückgängig gemacht werden. 
                 </p>
             </div>
         </div>
     </div>
 </div>
-@using (Html.BeginForm())
+@using (Html.BeginForm("ChangeData", "User", FormMethod.Post))
 {
     <div class="card hoverable">
         <div class="card-content">
             <div>
                 @Html.ValidationSummary()
                 <span class="card-title">Daten ändern</span>
-                <form>
-                    <div class="file-field input-field">
-                        <div class="btn">
-                            <span>Datei</span>
-                            <input type="file">
-                        </div>
-                        <div class="file-path-wrapper">
-                            <input class="file-path validate" type="text" name="Profilpicture">
-                            <label for="Profilpicture">Profilbild</label>
-                        </div>
+              
+                <div class="file-field input-field">
+                    <div class="btn">
+                        <span>Datei</span>
+                        <input type="file">
                     </div>
-
+                    <div class="file-path-wrapper">
+                        <input class="file-path validate" type="text" name="Profilpicture">
+                        <label for="Profilpicture">Profilbild</label>
+                    </div>
+                </div>
                     <div class="input-field">
-                        <select class="icons" name="Gender">
+                        <select class="" name="Gender">
                             <option value="" disabled selected>Wählen Sie Ihr Geschlecht</option>
                             <option value="male" data-icon="" class="left">Herr</option>
                             <option value="female" data-icon="" class="left">Frau</option>
                             <option value="notSpecified" data-icon="" class="left">sonstiges</option>
                         </select>
                     </div>
+
                     <div class="input-field">
                         <i class="material-icons prefix">person_pin</i>
                         <input value="@user.Firstname" type="text" id="firstname" name="Firstname" />
                         <label for="firstname">neuer Vorname</label>
                     </div>
+
                     <div class="input-field">
                         <i class="material-icons prefix">person_pin</i>
                         <input value="@user.Lastname" type="text" id="Lastname" name="Lastname" />
                         <label for="Lastname">neuer Nachname</label>
                     </div>
+
                     <div class="input-field">
                         <i class="material-icons prefix">insert_invitation</i>
                         <input value="@user.Birthdate" type="text" id="birthdate" name="Birthdate" class="datepicker">
                         <label for="birthdate">neues Geburtstdatum</label>
                     </div>
+
                     <div class="input-field">
                         <i class="material-icons prefix">email</i>
                         <input value="@user.Email" type="text" id="Email" name="Email" />
                         <label for="Email">neue Email</label>
                     </div>
+
                     <div class="input-field">
                         <i class="material-icons prefix">mood</i>
                         <input value="@user.Username" type="text" id="Username" name="Username" />
                         <label for="Username">neuer Benutzername</label>
                     </div>
+
                     <div class="input-field">
                         <i class="material-icons prefix">lock</i>
-                        <input value="@user.Password" type="password" id="Password" name="Password" />
+                        <input value="" type="password" id="Password" name="Password" />
                         <label for="Password">neues Passwort</label>
                     </div>
+
                     <div class="input-field">
                         <i class="material-icons prefix">lock</i>
-                        <input value="@user.PasswordWH" type="password" id="PasswordWH" name="PasswordWH" />
+                        <input value="" type="password" id="PasswordWH" name="PasswordWH" />
                         <label for="Password">neues Passwort erneut eingeben</label>
                     </div>
-                </form>
             </div>
             <div class="card-action">
                 <button class="btn waves-effect waves-light" type="submit" name="action">

@@ -4,13 +4,12 @@
     Layout = "~/Views/Shared/Layout_login_registration.cshtml";
 }
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Login", "User", FormMethod.Post))
 {
 <div class="card hoverable">
     <div class="card-content">
         <div>
         <span class="card-title">Login</span>
-        <form>
             <div class="input-field">
                 <input type="text" id="UsernameOrEmail" name="UsernameOrEmail" />
                 <label for="UsernameOrEmail">Benutzername</label>
@@ -20,7 +19,6 @@
                 <label for="pwd">Passwort</label>
             </div>
             <p>Wenn sie noch kein Konto haben klicken Sie <a href="/user/registration">hier</a></p>
-        </form>
     </div>
     <div class="card-action">
         <button class="btn waves-effect waves-light" type="submit" name="action">
