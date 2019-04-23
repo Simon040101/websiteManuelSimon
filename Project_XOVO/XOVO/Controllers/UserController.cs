@@ -63,10 +63,16 @@ namespace XOVO.Controllers
 
         }
         [HttpPost]
-        public ActionResult ChangeData(User user)
+        public ActionResult ChangeData(HttpPostedFileBase newProf, User user)
         {
             if ((Session["isAdmin"] != null) && (Convert.ToInt32(Session["isAdmin"]) != 2))
             {
+                if (newProf != null)
+                {
+                    newProf.SaveAs(Server.MapPath("~/Content/img/UserImg/" + newProf.FileName));
+                    user.Profilpicture = "/Content/img/UserImg/" + newProf.FileName;
+                }
+
                 ValidateChangeDataForm(user);
 
                 if (ModelState.IsValid)
@@ -290,11 +296,17 @@ namespace XOVO.Controllers
             return View(u);
         }
         [HttpPost]
-        public ActionResult Registration(HttpPostedFileBase Profilpicture, User user)
+        public ActionResult Registration(HttpPostedFileBase profImg, User user)
         {
             if (user == null)
             {
                 return View(user);
+            }
+
+            if (profImg != null)
+            {
+                profImg.SaveAs(Server.MapPath("~/Content/img/UserImg/" + profImg.FileName));
+                user.Profilpicture = "/Content/img/UserImg/" + profImg.FileName;
             }
 
             ValidateRegistrationForm(user);

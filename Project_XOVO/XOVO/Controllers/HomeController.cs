@@ -60,8 +60,8 @@ namespace XOVO.Controllers
 
                     if (imageFile != null)
                     {
-                        imageFile.SaveAs(Server.MapPath("~/Content/img/") + imageFile.FileName);
-                        fItem.Image = "/Content/img/" + imageFile.FileName;
+                        imageFile.SaveAs(Server.MapPath("~/Content/img/PostedImg/") + imageFile.FileName);
+                        fItem.Image = "/Content/img/PostedImg/" + imageFile.FileName;
                     }
 
                     User u = (User) Session["User"];
@@ -153,7 +153,6 @@ namespace XOVO.Controllers
                 throw;
             }
         }
-        
         public ActionResult Delete(int id)
         {
             try

@@ -23,7 +23,7 @@
             </div>
             @if (Convert.ToInt32(Session["isAdmin"]) != 2)
             {
-                    <img class="circle" src="/Content/img/placeholder.png">
+                    <img class="circle" src="@user.Profilpicture">
                     <span class="white-text name">@user.Username</span>
                     <span class="white-text email">@user.Email</span> 
             }

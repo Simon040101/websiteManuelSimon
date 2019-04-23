@@ -18,7 +18,7 @@
         </div>
     </div>
 </div>
-@using (Html.BeginForm("ChangeData", "User", FormMethod.Post))
+@using (Html.BeginForm("ChangeData", "User", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <div class="card hoverable">
         <div class="card-content">
@@ -28,12 +28,11 @@
               
                 <div class="file-field input-field">
                     <div class="btn">
-                        <span>Datei</span>
-                        <input type="file">
+                        <span>Profilbild</span>
+                        <input type="file" id="newProf" name="newProf"/>
                     </div>
                     <div class="file-path-wrapper">
-                        <input class="file-path validate" type="text" name="Profilpicture">
-                        <label for="Profilpicture">Profilbild</label>
+                        <input class="file-path validate" type="text" placeholder="Eine Datei hochladen">
                     </div>
                 </div>
                     <div class="input-field">
