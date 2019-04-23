@@ -1,6 +1,11 @@
-create database XOVO collate utf8_general_ci;
 
-use XOVO;
+drop table if exists UserCommentFeed;
+drop table if exists UsersLikeFeed;
+drop table if exists feed;
+drop table if exists friends;
+drop table if exists users;
+
+
 
 create table users(
 
@@ -18,18 +23,44 @@ create table users(
     profilpic varchar(100),
     
     constraint id_PK primary key(id)
-
-
-
+    
 )engine = InnoDB;
 
+create table Feed(
+	feed_id int not null auto_increment,
+    username varchar(100),
+	user_id int not null,
+	creationDateTime datetime,
+	imagePath varchar(300),
+	content text,
 
-insert into users values (1, "Simon", "Raass", "2001-04-01" , 0, "Simon", "Simon@swp.at", sha2("123456789", 256), 0, "blue", "/Content/img/background_login_registration.jpg");
+	constraint feed_id_PK primary key(feed_id),
+	constraint user_id_FK foreign key(user_id) references users(id) 
+)engine = InnoDB;
+
+create table UsersLikeFeed(
+	uid int,
+    fid int,
+    
+    Constraint FK_user_like foreign key (uid) references users(id) on delete cascade on update cascade,
+    Constraint FK_feed_like foreign key (fid) references feed(feed_id) on delete cascade on update cascade,
+    Primary key (uid, fid)
+)engine = InnoDB;
+
+create table UserCommentFeed(
+	username varchar(100), 
+    fid int,
+    content varchar(100),
+    comment_id int not null auto_increment,
+    
+    Constraint FK_feed_comment foreign key (fid) references feed(feed_id) on delete cascade on update cascade,
+    primary key (comment_id	)
+)engine = InnoDB;
 
 select * from users;
+select * from feed;
+select * from userslikefeed;
+select * from usercommentfeed;
 
-delete from users where id="2";
 
-alter table users auto_increment = 1;
-
-drop table users;
+insert into users values (2, "Simon", "Raass", "2001-04-01" , 0, "Simon", "Simon@swp.at", sha2("123456789", 256), 0, "blue", "/Content/img/background_login_registration.jpg", "/Content/img/placeholder.png");
