@@ -28,7 +28,7 @@ namespace XOVO.Controllers
 
                         return View(zr.GetFeedItems());
                     }
-                    catch (MySqlException)
+                    catch (MySqlException ex)
                     {
                         return View("Message",
                             new Message("Datenbankfehler", "", "Probleme mit der Datenbank.",
@@ -44,75 +44,6 @@ namespace XOVO.Controllers
             return RedirectToAction("login", "user");
         }
 
-<<<<<<< HEAD
-
-
-
-        //[HttpPost]
-        //public ActionResult PostFeed(string feedContent, HttpPostedFileBase imgPath1)
-        //{
-        //    // Parameter überprüfen
-
-        //    // falls Daten (Parameter) ok => DB-Teil
-        //    //                      nicht ok => Fehlermeldung
-
-
-        //    FeedRepository fr = new FeedRepository();
-        //    fr.Open();
-
-
-        //    ValidatePostForm(item);
-
-
-        //    if (imgPath1 != null)
-        //    {
-        //        try
-        //        {
-        //            string path = Path.Combine(Server.MapPath("/Content/img/"), Path.GetFileName(imgPath1.FileName));
-        //            imgPath1.SaveAs(path);
-        //            ViewBag.Message = "File uploaded successfully";
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            ViewBag.Message = "ERROR:" + ex.Message.ToString();
-        //        }
-
-        //    }
-        //    else
-        //    {
-        //        ViewBag.Message = "You have not specified a file.";
-        //    }
-        //    item.UserForFeed = Convert.ToInt32((Session["UserID"]));
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            FeedItem fItem = new FeedItem();
-        //            fItem.UserForFeed = Convert.ToInt32(Session["User"]);
-        //            fItem.FeedContent = feedContent;
-        //            fItem.ImgPath = "???";
-        //            bool test = fr.InsertFeedItem(fItem);
-
-        //            if (test == true)
-        //            {
-        //                return View("Message", new Message("Hinzufügen", "", "Erfolgreich", ""));
-        //            }
-        //            else
-        //            {
-        //                return View("Message", new Message("Hinzufügen", "", "Nicht erfolgreich", ""));
-        //            }
-        //        }
-        //        catch (Exception e)
-        //        {
-        //            Console.WriteLine(e);
-        //            throw;
-        //        }
-
-
-        //    }
-        //}
-=======
         [HttpPost]
         public ActionResult PostItem(HttpPostedFileBase imageFile, string feedContent)
         {
@@ -121,40 +52,83 @@ namespace XOVO.Controllers
             
             try
             {
-                FeedItem fItem = new FeedItem();
-                FeedRepository fr = new FeedRepository();
-                fr.Open();
-
-                if (imageFile != null)
+                if (ModelState.IsValid)
                 {
-                    imageFile.SaveAs(Server.MapPath("~/Content/img/") + imageFile.FileName);
-                    /// TODO: testen
-                    fItem.Image = "/Content/img/" + imageFile.FileName;
+                    FeedItem fItem = new FeedItem();
+                    FeedRepository fr = new FeedRepository();
+                    fr.Open();
+
+                    if (imageFile != null)
+                    {
+<<<<<<< HEAD
+                        imageFile.SaveAs(Server.MapPath("~/Content/img/") + imageFile.FileName);
+                        fItem.Image = "/Content/img/" + imageFile.FileName;
+=======
+                        imageFile.SaveAs(Server.MapPath("~/Content/img/PostedImg/") + imageFile.FileName);
+                        fItem.Image = "/Content/img/PostedImg/" + imageFile.FileName;
+>>>>>>> 617f4a877a2985f2221281f73d20eab4578ba47f
+                    }
+
+                    User u = (User) Session["User"];
+
+                    fItem.UserForFeedID = Convert.ToInt32(Session["UserID"]);
+                    fItem.Username = u.Username;
+                    fItem.FeedContent = feedContent;
+
+                    bool posted = fr.InsertFeedItem(fItem);
+
+                    if (posted == true)
+                    {
+                        return View("Message", new Message("Posten", "", "Beitrag wurde erfolgreich gepostet!", ""));
+                    }
+
+                    else
+                    {
+                        return View("Message", new Message("Posten", "", "Beitrag konnte nicht gepostet werden!", ""));
+                    }
                 }
-                fItem.UserForFeedID = Convert.ToInt32(Session["UserID"]);
-                fItem.FeedContent = feedContent;
 
-                bool posted = fr.InsertFeedItem(fItem);
-
-                if (posted == true)
-                {
-                    return View("Message", new Message("Posten", "", "Beitrag wurde erfolgreich gepostet!", ""));
-                }
-
-                else
-                {
-                    return View("Message", new Message("Posten", "", "Beitrag konnte nicht gepostet werden!", ""));
-                }
-
-                return View("Index");
+                
+                
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 throw;
             }
+            return View("Index");
         }
->>>>>>> 837b4b30c313f9f4d5a544645c51048d8657962f
+        [HttpPost]
+        public ActionResult CommentFeed(int id, string Comment)
+        {
+            User u = (User)(Session["User"]);
 
+            string username = u.Username;
+
+            try
+            {
+                FeedRepository fr = new FeedRepository();
+                fr.Open();
+
+                bool success = fr.UserCommentFeed(username, id, Comment);
+
+                if (success == true)
+                {
+                    return Redirect(Request.UrlReferrer.ToString());
+                }
+                else
+                {
+                    return View("Message",
+                        new Message("Kommentar", "Fehler", "Irgendetwas ist schief gelaufen",
+                            "Versuche es später erneut!"));
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+        
         public ActionResult LikeFeed(int id)
         {
             int userID = Convert.ToInt32(Session["UserID"]);
@@ -168,12 +142,38 @@ namespace XOVO.Controllers
 
                 if (success == true)
                 {
-<<<<<<< HEAD
-                    return View("Message", new Message("Beitrag", "Vorgang wird bearbeitet", "", ""));
-=======
+                    return Redirect(Request.UrlReferrer.ToString());
+                }
+                else 
+                {
                     return View("Message",
-                        new Message("Beitrag", "Vorgang wird bearbeitet", "Dein Like wurde registriert", ""));
->>>>>>> 837b4b30c313f9f4d5a544645c51048d8657962f
+                        new Message("Beitrag", "Fehler", "Irgendetwas ist schief gelaufen",
+                            "Versuche es später erneut!"));
+                }
+
+                
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+<<<<<<< HEAD
+        
+=======
+>>>>>>> 617f4a877a2985f2221281f73d20eab4578ba47f
+        public ActionResult Delete(int id)
+        {
+            try
+            {
+                FeedRepository fr = new FeedRepository();
+                fr.Open();
+
+                bool success = fr.DeleteFeed(id);
+
+                if (success == true)
+                {
+                    return Redirect(Request.UrlReferrer.ToString());
                 }
                 else
                 {
@@ -182,42 +182,24 @@ namespace XOVO.Controllers
                             "Versuche es später erneut!"));
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+
                 throw;
             }
+            
         }
-
-<<<<<<< HEAD
-       
-
-
-
-=======
-        
->>>>>>> 837b4b30c313f9f4d5a544645c51048d8657962f
 
         private void ValidatePostForm(HttpPostedFileBase imageFile, string feedContent)
         {
             if (((feedContent != null) && (imageFile != null)) ||
                 ((feedContent != null) && (imageFile == null)))
             {
-                if ((feedContent.Trim().Length < 5))
+                if ((feedContent.Trim().Length < 1))
                 {
-                    ModelState.AddModelError("Textarea", "Ihr Text muss länger als 5 Buchstaben sein");
+                    ModelState.AddModelError("Textarea", "Ihr Text muss länger als 1 Buchstabe sein");
                 }
             }
         }
-        //private List<FeedItem> GetAllFeedItems()
-        //{
-
-        //    return new List<FeedItem>()
-        //    {
-        //        new FeedItem() {Name = "feed1"},
-        //        new FeedItem() {Name = "feed2"},
-        //        new FeedItem() {Name = "feed3"},
-        //        new FeedItem() {Name = "feed4"},
-        //    };
-        //}
     }
 }

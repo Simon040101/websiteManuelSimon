@@ -52,7 +52,7 @@ namespace XOVO.Controllers
         [HttpGet]
         public ActionResult ChangeData()
         {
-            if ((Session["isAdmin"] != null) && (Convert.ToInt32(Session["isAdmin"]) != 3) && (Convert.ToInt32(Session["isAdmin"]) != 2))
+            if ((Session["isAdmin"] != null) && (Convert.ToInt32(Session["isAdmin"]) != 2))
             {
                 return View();
             }
@@ -63,10 +63,16 @@ namespace XOVO.Controllers
 
         }
         [HttpPost]
-        public ActionResult ChangeData(User user)
+        public ActionResult ChangeData(HttpPostedFileBase newProf, User user)
         {
             if ((Session["isAdmin"] != null) && (Convert.ToInt32(Session["isAdmin"]) != 2))
             {
+                if (newProf != null)
+                {
+                    newProf.SaveAs(Server.MapPath("~/Content/img/UserImg/" + newProf.FileName));
+                    user.Profilpicture = "/Content/img/UserImg/" + newProf.FileName;
+                }
+
                 ValidateChangeDataForm(user);
 
                 if (ModelState.IsValid)
@@ -151,25 +157,6 @@ namespace XOVO.Controllers
 
         }
 
-        /*
-        [HttpGet]
-        public ActionResult UserManagement()
-        {
-            if ((Session["isAdmin"] != null) && (Convert.ToInt32(Session["isAdmin"]) == 0))
-            {
-                List<User> users = LoadUsers();
-                // List<User> foundUser = SearchUsers(firstname, lastname);
-
-                return View(users);
-               
-            }
-            else
-            {
-                return View("Message", new Message("Achtung", "fehlende Berechtigung", "Sie sind nicht berechtigt die Seite aufzurufen", ""));
-            }
-        }
-        */
-
         [HttpGet]
         public ActionResult UserManagement(string firstname="", string lastname="")
         {
@@ -183,6 +170,31 @@ namespace XOVO.Controllers
                 else
                 {
                     usersToDisplay = SearchUsers(firstname, lastname);
+                }
+
+                return View(usersToDisplay);
+
+            }
+            else
+            {
+                return View("Message", new Message("Achtung", "fehlende Berechtigung", "Sie sind nicht berechtigt die Seite aufzurufen", ""));
+            }
+        }
+
+        [HttpGet]
+        public ActionResult UserBox(string username = "")
+        {
+            if ((Session["isAdmin"] != null) && (Convert.ToInt32(Session["isAdmin"]) == 0))
+            {
+                List<User> usersToDisplay;
+
+                if (username == "")
+                {
+                    usersToDisplay = LoadUsers();
+                }
+                else
+                {
+                    usersToDisplay = SearchUserByUsername(username);
                 }
 
                 return View(usersToDisplay);
@@ -218,13 +230,8 @@ namespace XOVO.Controllers
                     Session["isAdmin"] = 0;
                     Session["UserID"] = u.ID;
                     Session["ProfilPic"] = u.Profilpicture;
-<<<<<<< HEAD
-                    Session["Username"] = u.Username;
-                    Session["Email"] = u.Email;
-=======
-                    Session["isAdmin"] = 0;
->>>>>>> b502e078303c750693b26913da8d527f466f6888
                     Session["User"] = u;
+                    
 
                     HttpCookie layout_Color = new HttpCookie("layout_color");
                     layout_Color.Value = u.Layout_color;
@@ -245,12 +252,6 @@ namespace XOVO.Controllers
                     Session["User"] = u;
                     Session["UserID"] = u.ID;
                     Session["ProfilPic"] = u.Profilpicture;
-<<<<<<< HEAD
-                    Session["Username"] = u.Username;
-                    Session["Email"] = u.Email;
-                    Session["User"] = u;
-=======
->>>>>>> b502e078303c750693b26913da8d527f466f6888
 
                     HttpCookie layout_Color = new HttpCookie("layout_color");
                     layout_Color.Value = u.Layout_color;
@@ -295,13 +296,22 @@ namespace XOVO.Controllers
             return View(u);
         }
         [HttpPost]
-        public ActionResult Registration(User user)
+        public ActionResult Registration(HttpPostedFileBase profImg, User user)
         {
             if (user == null)
             {
                 return View(user);
             }
 
+<<<<<<< HEAD
+=======
+            if (profImg != null)
+            {
+                profImg.SaveAs(Server.MapPath("~/Content/img/UserImg/" + profImg.FileName));
+                user.Profilpicture = "/Content/img/UserImg/" + profImg.FileName;
+            }
+
+>>>>>>> 617f4a877a2985f2221281f73d20eab4578ba47f
             ValidateRegistrationForm(user);
 
             if (ModelState.IsValid)
@@ -333,6 +343,12 @@ namespace XOVO.Controllers
 
             return View(user);
         }
+        [HttpGet]
+        public ActionResult UserProfile()
+        {
+            User u = (User) Session["User"];
+            return View(u);
+        }
 
         private List<User> LoadUsers()
         {
@@ -353,6 +369,14 @@ namespace XOVO.Controllers
 
             return ur.SearchUser(firstname, lastname);
 
+        }
+
+        private List<User> SearchUserByUsername(string username)
+        {
+            UserRepositiory ur = new UserRepositiory();
+            ur.Open();
+
+            return ur.SearchUserByUsername(username);
         }
 
         private void ValidateChangeDataForm(User userToChange)
