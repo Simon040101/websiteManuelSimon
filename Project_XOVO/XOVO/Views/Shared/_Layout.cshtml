@@ -3,6 +3,7 @@
     string color = Request.Cookies["layout_color"] != null ? Request.Cookies["layout_color"].Value.ToString() : "cyan";
 
     User user = (User)Session["User"];
+    string ProfilPic = Convert.ToString(Session["ProfilPic"]);
 }
 <!DOCTYPE html>
 <html>
@@ -23,9 +24,16 @@
             </div>
             @if (Convert.ToInt32(Session["isAdmin"]) != 2)
             {
-                    <img class="circle" src="@user.Profilpicture">
-                    <span class="white-text name">@user.Username</span>
-                    <span class="white-text email">@user.Email</span> 
+                if(Convert.ToString(Session["ProfilPic"]) == "")
+                {
+                    <img class="circle" src="/Content/img/UserImg/placeholder.png">
+                }
+                else
+                {
+                    <img class="circle" src="@ProfilPic">
+                }
+                <span class="white-text name">@user.Username</span>
+                <span class="white-text email">@user.Email</span> 
             }
             @if (Convert.ToInt32(Session["isAdmin"]) == 0)
             {
@@ -98,15 +106,11 @@
     <div class="row">
         <div class="col l3 hide-on-med-and-down">
             <div class="card">
-                <div class="card-tabs">
-                    <ul class="tabs tabs-fixed-width">
-                        <li class="tab"><a class="active white-text @color darken-1" href="#friends">Freunde</a></li>
-                        <li class="tab"><a class="@color white-text darken-1" href="#searchPerson">Nach Personen suchen</a></li>
-                    </ul>
-                </div>
                 <div class="card-content">
-                    <div id="friends"></div>
-                    <div id="searchPerson"></div>
+                    <p>
+                        Hey @user.Username! Willkommen bei XOVO. Du kannst hier deine Beiträge mit Leuten teilen und die Beiträge
+                        von anderen Benutzern liken und kommentieren. Viel Spaß!
+                    </p>
                 </div>
             </div>
         </div>

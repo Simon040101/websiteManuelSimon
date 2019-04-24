@@ -83,7 +83,9 @@ namespace XOVO.Controllers
                     user.ID = Convert.ToInt32(Session["UserID"]);
 
                     bool ChangeSuccess = ur.ChangeData(user);
-                    if(ChangeSuccess == true)
+                    User newUser = ur.GetUser(user.Email, user.Password);
+                    Session["ProfilPic"] = newUser.Profilpicture;
+                    if (ChangeSuccess == true)
                     {
                         return View("Message", new Message("Daten ändern", "", "Ihre Daten wurden erfolgreich geändert", ""));
                     }
