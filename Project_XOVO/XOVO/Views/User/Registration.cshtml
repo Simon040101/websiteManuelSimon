@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/Layout_login_registration.cshtml";
 }
 
-@using (Html.BeginForm("Registration", "User", FormMethod.Post))
+@using (Html.BeginForm("Registration", "User", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <div class="card hoverable">
         <div class="card-content">
@@ -33,7 +33,7 @@
                     <div class="input-field">
                         <i class="material-icons prefix">insert_invitation</i>
                         <input type="text" id="birthdate" name="Birthdate" class="datepicker">
-                        <label for="birthdate">Geburtstdatum  *</label>
+                        <label for="birthdate">Geburtstdatum</label>
                     </div>
                     <div class="input-field">
                         <i class="material-icons prefix">email</i>

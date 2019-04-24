@@ -2,7 +2,6 @@
 drop table if exists UserCommentFeed;
 drop table if exists UsersLikeFeed;
 drop table if exists feed;
-drop table if exists friends;
 drop table if exists users;
 
 
@@ -57,10 +56,4 @@ create table UserCommentFeed(
     primary key (comment_id	)
 )engine = InnoDB;
 
-select * from users;
-select * from feed;
-select * from userslikefeed;
-select * from usercommentfeed;
-
-
-insert into users values (2, "Simon", "Raass", "2001-04-01" , 0, "Simon", "Simon@swp.at", sha2("123456789", 256), 0, "blue", "/Content/img/background_login_registration.jpg", "/Content/img/placeholder.png");
+insert into users values (1, "Simon", "Raass", "2001-04-01" , 0, "Simon", "Simon@swp.at", sha2("123456789", 256), 0, "blue", "/Content/img/background_login_registration.jpg", "/Content/img/placeholder.png");

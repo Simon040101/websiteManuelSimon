@@ -11,7 +11,7 @@ namespace XOVO.Models.db
 {
     public class FeedRepository : IFeedRepository
     {
-        private string _connectionString = "Server=localhost;Database=XOVO;Uid=root;Pwd=alpine;SslMode=none";
+        private string _connectionString = "Server=localhost;Database=XOVO;Uid=root;Password=alpine;SslMode=none";
         private MySqlConnection _connection;
 
         public void Open()
@@ -67,7 +67,7 @@ namespace XOVO.Models.db
             try
             {
                 MySqlCommand cmdGetAllItems = this._connection.CreateCommand();
-                cmdGetAllItems.CommandText = "SELECT * FROM Feed order by feed_id desc";
+                cmdGetAllItems.CommandText = "SELECT * FROM Feed";
 
                 using (MySqlDataReader reader = cmdGetAllItems.ExecuteReader())
                 {
