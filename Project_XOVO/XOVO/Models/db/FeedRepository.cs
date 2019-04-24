@@ -11,7 +11,7 @@ namespace XOVO.Models.db
 {
     public class FeedRepository : IFeedRepository
     {
-        private string _connectionString = "Server=localhost;Database=XOVO;Uid=root;SslMode=none";
+        private string _connectionString = "Server=localhost;Database=XOVO;Uid=root;Pwd=alpine;SslMode=none";
         private MySqlConnection _connection;
 
         public void Open()
