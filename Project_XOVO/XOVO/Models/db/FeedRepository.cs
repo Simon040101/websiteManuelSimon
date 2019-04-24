@@ -67,7 +67,7 @@ namespace XOVO.Models.db
             try
             {
                 MySqlCommand cmdGetAllItems = this._connection.CreateCommand();
-                cmdGetAllItems.CommandText = "SELECT * FROM Feed order by feed_id desc";
+                cmdGetAllItems.CommandText = "SELECT * FROM Feed";
 
                 using (MySqlDataReader reader = cmdGetAllItems.ExecuteReader())
                 {
