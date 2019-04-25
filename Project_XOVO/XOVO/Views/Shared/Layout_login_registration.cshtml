@@ -30,7 +30,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
 <body style="background-image:url('@background')">
-<div class="navbar-fixed">
+<div class="navbar">
     <ul class="sidenav" id="mobile_sidenav">
         <li><a href="#">Über uns</a></li>
         <li><a href="#">AGB</a></li>
@@ -49,16 +49,19 @@
                         <li><a href="#">AGB</a></li>
                         <li><a href="#">Kontakt</a></li>
                         <li><a href="#">Kundenbewertungen</a></li>
-     
                     </ul>
                 </div>
             </div>
         </div>
     </nav>
 </div>
-    <div class="container">
+
+<div class="row">
+    <div class="container col s12 m12 l12" style="padding-top: 30%;">
         @RenderBody()
     </div>
+</div>
+
 
 @Scripts.Render("~/bundles/jquery")
 @Scripts.Render("~/bundles/materialize")

@@ -4,89 +4,90 @@
     Layout = "~/Views/Shared/Layout_login_registration.cshtml";
 }
 
-@using (Html.BeginForm("Registration", "User", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
-    <div class="card hoverable">
-        <div class="card-content">
-            <div>
-                @Html.ValidationSummary()
-                <span class="card-title">Registrierung</span>
-                <form>
-                    <div class="input-field">
-                        <select class="icons" name="Gender">
-                            <option value="" disabled selected>Wählen Sie Ihr Geschlecht</option>
-                            <option value="male" data-icon="" class="left">Herr</option>
-                            <option value="female" data-icon="" class="left">Frau</option>
-                            <option value="notSpecified" data-icon="" class="left">Sonstiges</option>
-                        </select>
-                    </div>
-                    <div class="input-field">
-                        <i class="material-icons prefix">person_pin</i>
-                        <input type="text" id="firstname" name="Firstname"/>
-                        <label for="firstname">Vorname *</label>
-                    </div>
-                    <div class="input-field">
-                        <i class="material-icons prefix">person_pin</i>
-                        <input type="text" id="Lastname" name="Lastname"/>
-                        <label for="Lastname">Nachname *</label>
-                    </div>
-                    <div class="input-field">
-                        <i class="material-icons prefix">insert_invitation</i>
-                        <input type="text" id="birthdate" name="Birthdate" class="datepicker">
-                        <label for="birthdate">Geburtstdatum</label>
-                    </div>
-                    <div class="input-field">
-                        <i class="material-icons prefix">email</i>
-                        <input type="text" id="Email" name="Email" />
-                        <label for="Email">Email *</label>
-                    </div>
-                    <div class="input-field">
-                        <i class="material-icons prefix">mood</i>
-                        <input type="text" id="Username" name="Username"/>
-                        <label for="Username">Benutzername *</label>
-                    </div>
-                    <div class="input-field">
-                        <i class="material-icons prefix">lock</i>
-                        <input type="password" id="Password" name="Password" />
-                        <label for="Password">Passwort *</label>
-                    </div>
-                    <div class="input-field">
-                        <i class="material-icons prefix">lock</i>
-                        <input type="password" id="PasswordWH" name="PasswordWH" />
-                        <label for="Password">Passwort erneut eingeben *</label>
-                    </div>
-                    <div class="file-field input-field">
-                        <div class="btn">
-                            <span>Datei</span>
-                            <input type="file" id="profImg" name="profImg"/>
+    @using (Html.BeginForm("Registration", "User", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <div class="card hoverable">
+            <div class="card-content">
+                <div>
+                    @Html.ValidationSummary()
+                    <span class="card-title">Registrierung</span>
+                    <form>
+                        <div class="input-field">
+                            <select class="icons" name="Gender">
+                                <option value="" disabled selected>Wählen Sie Ihr Geschlecht</option>
+                                <option value="male" data-icon="" class="left">Herr</option>
+                                <option value="female" data-icon="" class="left">Frau</option>
+                                <option value="notSpecified" data-icon="" class="left">Sonstiges</option>
+                            </select>
                         </div>
-                        <div class="file-path-wrapper">
-                            <input class="file-path validate" type="text" placeholder="Profilbild">
+                        <div class="input-field">
+                            <i class="material-icons prefix">person_pin</i>
+                            <input type="text" id="firstname" name="Firstname" />
+                            <label for="firstname">Vorname *</label>
                         </div>
-                    </div>
+                        <div class="input-field">
+                            <i class="material-icons prefix">person_pin</i>
+                            <input type="text" id="Lastname" name="Lastname" />
+                            <label for="Lastname">Nachname *</label>
+                        </div>
+                        <div class="input-field">
+                            <i class="material-icons prefix">insert_invitation</i>
+                            <input type="text" id="birthdate" name="Birthdate" class="datepicker">
+                            <label for="birthdate">Geburtstdatum</label>
+                        </div>
+                        <div class="input-field">
+                            <i class="material-icons prefix">email</i>
+                            <input type="text" id="Email" name="Email" />
+                            <label for="Email">Email *</label>
+                        </div>
+                        <div class="input-field">
+                            <i class="material-icons prefix">mood</i>
+                            <input type="text" id="Username" name="Username" />
+                            <label for="Username">Benutzername *</label>
+                        </div>
+                        <div class="input-field">
+                            <i class="material-icons prefix">lock</i>
+                            <input type="password" id="Password" name="Password" />
+                            <label for="Password">Passwort *</label>
+                        </div>
+                        <div class="input-field">
+                            <i class="material-icons prefix">lock</i>
+                            <input type="password" id="PasswordWH" name="PasswordWH" />
+                            <label for="Password">Passwort erneut eingeben *</label>
+                        </div>
+                        <div class="file-field input-field">
+                            <div class="btn">
+                                <span>Datei</span>
+                                <input type="file" id="profImg" name="profImg" />
+                            </div>
+                            <div class="file-path-wrapper">
+                                <input class="file-path validate" type="text" placeholder="Profilbild">
+                            </div>
+                        </div>
                         <p>
-                           <label>
-                                <input type="checkbox" required/>
+                            <label>
+                                <input type="checkbox" required />
                                 <span>Ich habe die AGBs gelesen und akzeptiere sie!</span>
                             </label>
                         </p>
                     </form>
-            </div>
-            <div class="card-action">
-                <button class="btn waves-effect waves-light" type="submit" name="action">
-                    Registrieren
-                    <i class="material-icons right">send</i>
-                </button>
+                </div>
+                <div class="card-action">
+                    <button class="btn waves-effect waves-light" type="submit" name="action">
+                        Registrieren
+                        <i class="material-icons right">send</i>
+                    </button>
 
+                </div>
             </div>
         </div>
-    </div>
 
-    <script>
-        $(document).ready(function () {
-            $('.datepicker').datepicker();
-            $('select').formSelect();
-        });
-    </script>
+        <script>
+            $(document).ready(function () {
+                $('.datepicker').datepicker();
+                $('select').formSelect();
+            });
+        </script>
 
-}
+    }
+
